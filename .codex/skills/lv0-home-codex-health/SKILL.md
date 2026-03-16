@@ -26,6 +26,7 @@ Do not auto-export during the audit. Only inspect the export workflow or the mir
 
 - For home audits, start with `~/AGENTS.md`, `~/.codex/.local-work/current.md`, [../../knowledge/setup-prd/INDEX.md](../../knowledge/setup-prd/INDEX.md), and [../../knowledge/setup-prd/home-setup.md](../../knowledge/setup-prd/home-setup.md), then load only the matching skill PRDs.
 - For this machine's home audits, use the current remote state of `https://github.com/jcl2018/home-setup.git` as the comparison target. Prefer direct remote inspection and use a local checkout only as a convenience cache after confirming it matches the remote head. Compare only the tracked home-control roots rather than repo-local noise.
+- When the mirror is portability-normalized, normalize the live home content the same way before comparing it to the remote. At minimum, rewrite the live home root to `~` in text files and ignore top-level OS-specific tables in `.codex/config.toml`.
 - For repo audits, start with the nearest repo or umbrella-root `AGENTS.md` and `.local-work/current.md`.
 - If that root declares `Child Repos`, audit the root contract first, then traverse only the listed child repos. Do not auto-discover additional repos once the explicit list exists.
 - For each audited scope, identify the knowledge root from that contract, then read `<repo-knowledge-root>/setup-prd/INDEX.md` and the matching PRDs when the scope has `lv2` skills or repo-local workflow contracts.
@@ -71,7 +72,7 @@ Read [references/claude-to-codex.md](references/claude-to-codex.md) before audit
 - For umbrella roots, check whether the root tracking doc stays umbrella-level and whether the listed child repos keep their own local tracking docs.
 - For repos that use feature PRDs, check whether each feature PRD has a matching feature tracker note using the default slug mapping or the repo's documented equivalent.
 - Check whether home automations or PRDs still match the current home setup and skill layout.
-- For this machine, check whether the live home control layer is consistent with the current remote state of the canonical mirror `jcl2018/home-setup`. Flag tracked-file drift or an unverifiable remote comparison, and keep export as a separate explicit workflow.
+- For this machine, check whether the normalized live home control layer is consistent with the current remote state of the canonical mirror `jcl2018/home-setup`. Flag tracked-file drift or an unverifiable remote comparison, and keep export as a separate explicit workflow.
 
 ### 5. Verification
 

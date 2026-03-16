@@ -13,7 +13,7 @@ Use this skill to mirror the current Codex home setup into a local git repo for 
 
 ## Workflow
 
-1. Choose a repo path outside the managed home trees such as `~/.codex/skills` or `~/.codex/knowledge`.
+1. Choose a repo path outside the managed home trees such as `~/Documents/projects/home-setup`.
 2. Run the export script:
 
 ```bash
@@ -41,7 +41,9 @@ python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home
 
 ## Mirror rules
 
-- Copy managed files as they exist in the current home tree.
+- Copy the managed home control layer into the mirror, but normalize machine-specific text values for portability.
+- Rewrite the source home root to `~` inside exported text files so the mirror does not hard-code one machine's absolute paths.
+- Omit top-level OS-specific tables such as `[windows]`, `[macos]`, and `[linux]` from exported `.codex/config.toml`.
 - Regenerate `codex-home-manifest.toml` and `README.md` on each export.
 - Treat the managed mirror roots in the repo as authoritative and prune stale files there on refresh.
 - Do not add install or restore scripts to the exported repo.
@@ -55,6 +57,6 @@ python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home
 ## Boundaries
 
 - Do not export secrets or volatile runtime state.
-- Do not rewrite managed file contents for portability.
+- Do not mutate the live home files while normalizing the exported mirror.
 - Do not run `git push` unless the user asks.
 - If the target repo already contains unrelated files outside the managed mirror roots, leave them alone.

@@ -8,6 +8,7 @@ Define the expected behavior for auditing Codex home, repo, or umbrella-workspac
 
 - The audit reads the smallest relevant contracts before judging the setup.
 - Home audits compare the observed state against `setup-prd/home-setup.md`, `~/.codex/.local-work/current.md`, and any relevant `lv0`/`lv1` PRDs in the live home control layer.
+- Home audits compare the observed state against `setup-prd/home-setup.md`, `~/.codex/.local-work/current.md`, and any relevant `lv0`/`lv1` PRDs in the live home control layer.
 - Repo audits read the nearest repo or umbrella-root `AGENTS.md`, `.local-work/current.md`, the repo knowledge root when defined, and any repo-local `setup-prd/` entries for `lv2` skills.
 - When a repo uses feature PRDs, the audit also reads the feature PRDs and the matching feature tracker notes.
 - Umbrella repo audits use the explicit `Child Repos` list as the traversal source of truth and then apply the normal repo-audit checks to each listed child repo.
@@ -25,6 +26,7 @@ Define the expected behavior for auditing Codex home, repo, or umbrella-workspac
 - Check whether repos with `lv2` skills also have a repo knowledge root and matching repo-local PRDs.
 - Check whether repos that use feature PRDs also keep a matching feature tracker note for each PRD.
 - When the canonical home mirror is reachable, verify the live tracked home-control files are consistent with the current remote state of `jcl2018/home-setup` or explain why the remote comparison could not run.
+- When the canonical home mirror is portability-normalized, apply the same normalization to the live home snapshot before deciding whether drift exists.
 - Verify done-conditions and verification guidance map to real commands.
 
 ## Success Criteria

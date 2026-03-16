@@ -10,7 +10,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-SNAPSHOT_VERSION = 2
+SNAPSHOT_VERSION = 3
 MANAGED_ROOTS = [
     "AGENTS.md",
     ".codex/.local-work/current.md",
@@ -44,6 +44,8 @@ README_NAME = "README.md"
 TRANSIENT_NAMES = {".DS_Store"}
 TRANSIENT_SUFFIXES = {".pyc", ".pyo", ".swo", ".swp", ".swx"}
 TRANSIENT_PARTS = {"__pycache__"}
+PORTABLE_HOME = "~"
+HOST_SPECIFIC_TOP_LEVEL_TABLES = {"windows", "macos", "linux"}
 
 
 def parse_args() -> argparse.Namespace:
@@ -170,10 +172,44 @@ def is_binary_data(raw_bytes: bytes) -> bool:
     return False
 
 
-def transform_for_export(raw_bytes: bytes) -> tuple[bytes, str]:
+def strip_host_specific_toml_tables(text: str) -> str:
+    lines = text.splitlines(keepends=True)
+    kept_lines: list[str] = []
+    skipping = False
+
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("[") and stripped.endswith("]"):
+            table_name = stripped[1:-1].strip()
+            top_level_name = table_name.split(".", 1)[0]
+            skipping = top_level_name in HOST_SPECIFIC_TOP_LEVEL_TABLES
+            if skipping:
+                continue
+        if not skipping:
+            kept_lines.append(line)
+
+    return "".join(kept_lines).rstrip() + "\n"
+
+
+def replace_home_root_with_portable_marker(text: str, home_root: Path) -> str:
+    candidates = {str(home_root), home_root.as_posix()}
+    for candidate in sorted((item for item in candidates if item), key=len, reverse=True):
+        text = text.replace(candidate, PORTABLE_HOME)
+    return text
+
+
+def normalize_text_for_export(rel_path: str, text: str, home_root: Path) -> str:
+    normalized = replace_home_root_with_portable_marker(text, home_root)
+    if rel_path == ".codex/config.toml":
+        normalized = strip_host_specific_toml_tables(normalized)
+    return normalized
+
+
+def transform_for_export(raw_bytes: bytes, rel_path: str, home_root: Path) -> tuple[bytes, str]:
     if is_binary_data(raw_bytes):
         return raw_bytes, "binary"
-    return raw_bytes, "text"
+    normalized = normalize_text_for_export(rel_path, raw_bytes.decode("utf-8"), home_root)
+    return normalized.encode("utf-8"), "text"
 
 
 def sha256_hex(raw_bytes: bytes) -> str:
@@ -222,6 +258,8 @@ def render_manifest(entries: list[dict[str, object]]) -> str:
         f"generated_at = {render_toml_string(generated_at)}",
         f"managed_roots = [{', '.join(render_toml_string(item) for item in MANAGED_ROOTS)}]",
         f"excluded_paths = [{', '.join(render_toml_string(item) for item in EXCLUDED_PATHS)}]",
+        f"portable_home = {render_toml_string(PORTABLE_HOME)}",
+        f"normalized_host_tables = [{', '.join(render_toml_string(item) for item in sorted(HOST_SPECIFIC_TOP_LEVEL_TABLES))}]",
         "",
     ]
     for entry in entries:
@@ -261,7 +299,9 @@ This repo stores a static mirror of a Codex home control layer.
 
 ## Mirror behavior
 
-Managed files are copied from the current home tree as-is, within the tracked roots and exclusions listed in `codex-home-manifest.toml`.
+Managed files are exported from the current home tree within the tracked roots and exclusions listed in `codex-home-manifest.toml`.
+
+For portability, mirrored text files normalize the source home root to `{PORTABLE_HOME}`, and mirrored `.codex/config.toml` omits top-level OS-specific tables such as `[windows]`, `[macos]`, and `[linux]`.
 
 This repo intentionally does not include install or restore scripts.
 
@@ -294,7 +334,7 @@ def main() -> int:
     for source_path in source_files:
         rel_path = source_path.relative_to(home_root).as_posix()
         raw_bytes = source_path.read_bytes()
-        exported_bytes, kind = transform_for_export(raw_bytes)
+        exported_bytes, kind = transform_for_export(raw_bytes, rel_path, home_root)
         write_file(repo_root / rel_path, exported_bytes)
         next_snapshot_files.add(rel_path)
         manifest_entries.append(

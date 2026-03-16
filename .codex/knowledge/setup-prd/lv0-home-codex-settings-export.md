@@ -9,7 +9,9 @@ Define what a static home mirror must include, exclude, and regenerate when expo
 - Export includes `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `~/.codex/config.toml`, custom home skills except `.system`, home knowledge, and automation `automation.toml` files.
 - Export includes the PRD tree through `~/.codex/knowledge/` rather than any special summary file.
 - Export excludes secrets, auth, caches, sessions, sqlite state, runtime logs, and other volatile artifacts.
-- Export preserves managed file contents as-is, refreshes the manifest, and refreshes the mirror `README.md`.
+- Export normalizes machine-specific text values for portability by rewriting the source home root to `~` inside exported text files.
+- Export omits top-level OS-specific tables such as `[windows]`, `[macos]`, and `[linux]` from the mirrored `.codex/config.toml`.
+- Export refreshes the manifest and the mirror `README.md` on each run.
 - Managed mirror roots are authoritative inside the mirror repo, and stale managed files are pruned on refresh.
 
 ## Audit Checklist
@@ -22,6 +24,7 @@ Define what a static home mirror must include, exclude, and regenerate when expo
 ## Success Criteria
 
 - A fresh export produces a complete static mirror of the current home control layer.
+- A fresh export no longer hard-codes one machine's absolute home path throughout the mirrored docs and automations.
 - The mirror contains the home workflow docs and PRDs without requiring manual scavenging from the live home directory.
 
 ## Out of Scope

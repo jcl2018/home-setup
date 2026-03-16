@@ -20,7 +20,9 @@ This repo stores a static mirror of a Codex home control layer.
 
 ## Mirror behavior
 
-Managed files are copied from the current home tree as-is, within the tracked roots and exclusions listed in `codex-home-manifest.toml`.
+Managed files are exported from the current home tree within the tracked roots and exclusions listed in `codex-home-manifest.toml`.
+
+For portability, mirrored text files normalize the source home root to `~`, and mirrored `.codex/config.toml` omits top-level OS-specific tables such as `[windows]`, `[macos]`, and `[linux]`.
 
 This repo intentionally does not include install or restore scripts.
 

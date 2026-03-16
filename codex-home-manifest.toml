@@ -1,19 +1,21 @@
-version = 2
-generated_at = "2026-03-16T23:27:16Z"
+version = 3
+generated_at = "2026-03-16T23:52:01Z"
 managed_roots = ["AGENTS.md", ".codex/.local-work/current.md", ".codex/config.toml", ".codex/skills", ".codex/knowledge", ".codex/automations"]
 excluded_paths = [".codex/.codex-global-state.json", ".codex/auth.json", ".codex/logs_1.sqlite", ".codex/logs_1.sqlite-shm", ".codex/logs_1.sqlite-wal", ".codex/memories", ".codex/models_cache.json", ".codex/restore_backups", ".codex/session_index.jsonl", ".codex/sessions", ".codex/shell_snapshots", ".codex/skills/.system", ".codex/sqlite", ".codex/state_5.sqlite", ".codex/state_5.sqlite-shm", ".codex/state_5.sqlite-wal", ".codex/tmp", ".codex/vendor_imports"]
+portable_home = "~"
+normalized_host_tables = ["linux", "macos", "windows"]
 
 [[files]]
 path = ".codex/.local-work/current.md"
 kind = "text"
-sha256 = "76a05b8573a889bcdfa2c88c363dbbfcd9fedc7bd7546143a9896ac7695fa484"
-size = 4984
+sha256 = "28f603dd972bc596426235565dbcb46cf2c3c3d65f4695bd97bacf4792be445b"
+size = 4325
 
 [[files]]
 path = ".codex/automations/weekly-codex-health/automation.toml"
 kind = "text"
-sha256 = "7aa8ec63ef1e3e8414701310ba1e982e983fd1fcc0e6ac8d1116ba95043fef55"
-size = 1268
+sha256 = "521caec2a6fad9d97e70b1adde27ff2fb2688dad9425412ca769b7d79667d017"
+size = 1112
 
 [[files]]
 path = ".codex/config.toml"
@@ -36,20 +38,20 @@ size = 1484
 [[files]]
 path = ".codex/knowledge/setup-prd/home-setup.md"
 kind = "text"
-sha256 = "3f39f9067ba07c7629d76fce4084cde8504762a35ff5a914952661e09fb78a92"
-size = 3926
+sha256 = "fea003130b9e4953aba9e9411cf7215ab182eef1324b8519006704a17fcb9865"
+size = 4108
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv0-home-codex-health.md"
 kind = "text"
-sha256 = "e209a4064f2f9c9fa05a603b135a1facdbc92bf113622c1a5123fdb5f3c7c92c"
-size = 3244
+sha256 = "8a9d0051c8130e813251277ce33b08e22dd17247b09c8b8809c4e10fc3c6c58c"
+size = 3574
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv0-home-codex-settings-export.md"
 kind = "text"
-sha256 = "85fae298f907582b452d5463582bb51eb9b43baeba7c7371a9fbd0c70d061d9e"
-size = 1772
+sha256 = "a4eeeb36b60dc55e65e1a0a5538286b14a7f8d5c4ae9fe0192b104aec75140ed"
+size = 2115
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv0-home-global-knowledge-capture.md"
@@ -102,8 +104,8 @@ size = 3125
 [[files]]
 path = ".codex/skills/lv0-home-codex-health/SKILL.md"
 kind = "text"
-sha256 = "cb1189162a92915ea2ca75d9025b1f42cf1b11190cedfaf869e4279a8b1d53da"
-size = 6237
+sha256 = "58efcf33133f95c34b0db6337d915f1df0a0de4f6ef596511c7275fc508e9466"
+size = 6498
 
 [[files]]
 path = ".codex/skills/lv0-home-codex-health/agents/openai.yaml"
@@ -120,8 +122,8 @@ size = 2974
 [[files]]
 path = ".codex/skills/lv0-home-codex-settings-export/SKILL.md"
 kind = "text"
-sha256 = "f8cdffce2177d06b2c8426482c8a265cd4b276908e1b1e796ca7d5809abf1829"
-size = 2517
+sha256 = "583416b6e4d91c8b717697a2e68f122bdbf71ba36d53baa988593c46d43af7a0"
+size = 2828
 
 [[files]]
 path = ".codex/skills/lv0-home-codex-settings-export/agents/openai.yaml"
@@ -132,8 +134,8 @@ size = 279
 [[files]]
 path = ".codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py"
 kind = "text"
-sha256 = "d4706cdf6f7a4c1e073a579b1ddc75477cc9bbacc76a3b815331fa9d335f5890"
-size = 10857
+sha256 = "53fc0f63b5ed61ee89f9cddf258e20db3900fe6ebed1ebd1628aaa3f5e31bfcc"
+size = 12685
 
 [[files]]
 path = ".codex/skills/lv0-home-global-knowledge-capture/SKILL.md"
@@ -192,8 +194,8 @@ size = 2201
 [[files]]
 path = ".codex/skills/lv1-workflow-repo-bootstrap/SKILL.md"
 kind = "text"
-sha256 = "3250235575fe634e45b86e440d89b38738166b8b576c50503c16152362e9c7d8"
-size = 5653
+sha256 = "94b0dbc49a92d496188717cb66d27a37f49b0ad5c4122c748c0cfbee61dcb8e9"
+size = 5601
 
 [[files]]
 path = ".codex/skills/lv1-workflow-repo-bootstrap/agents/openai.yaml"
@@ -204,8 +206,8 @@ size = 281
 [[files]]
 path = ".codex/skills/lv1-workflow-repo-bootstrap/references/existing-repo.md"
 kind = "text"
-sha256 = "3dedf6a2b17ac184c32dcd2c8ec440306c73be5f471b9b638e75bec9f4b4cdf7"
-size = 3194
+sha256 = "3f1958bdcf650b9b461ed46aa508b5516370356fce207bbcee830096e67ea73e"
+size = 3171
 
 [[files]]
 path = ".codex/skills/lv1-workflow-repo-bootstrap/references/new-repo.md"

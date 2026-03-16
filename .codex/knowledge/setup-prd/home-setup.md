@@ -16,7 +16,7 @@ Define the desired state for the Codex home control layer so audits and future e
 - Umbrella roots may keep a lightweight root `AGENTS.md` and root tracking doc even when the parent folder is not itself a git repo, while child repos keep their own local contracts and tracking docs.
 - Repo-specific build, test, architecture, safety, and deep-dive knowledge stays in the repo, not in home files.
 - Automations are optional and used for periodic review, not as the primary way to remember workflow rules.
-- Versioned home mirrors treat the home control layer as a separate asset from normal coding repos. The canonical remote mirror `jcl2018/home-setup` is a light consistency reference during home audits, and export remains an explicit separate workflow.
+- Versioned home mirrors treat the home control layer as a separate asset from normal coding repos. The canonical remote mirror `jcl2018/home-setup` is a light consistency reference during home audits, export remains an explicit separate workflow, and the mirrored text should be normalized for portability instead of hard-coding one machine's home path.
 
 ## Audit Checklist
 
@@ -28,7 +28,7 @@ Define the desired state for the Codex home control layer so audits and future e
 - Repo and umbrella-root contracts require `.local-work/current.md` in each active scope and define the exact read and refresh triggers.
 - Any repo that introduces `lv2` skills defines a repo knowledge root and keeps matching PRDs under `<repo-knowledge-root>/setup-prd/`.
 - Export includes `~/.codex/.local-work/current.md`, `~/.codex/knowledge/`, and no longer depends on a standalone home summary file.
-- When reachable, the live tracked home-control files can be compared against the current remote state of `https://github.com/jcl2018/home-setup` to catch drift or remote mismatch without auto-exporting.
+- When reachable, the live tracked home-control files can be compared against the current remote state of `https://github.com/jcl2018/home-setup` to catch drift or remote mismatch without auto-exporting, after applying the same portability normalization used by the export workflow.
 
 ## Success Criteria
 
