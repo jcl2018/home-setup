@@ -1,13 +1,13 @@
 ---
 name: lv1-workflow-repo-bootstrap
-description: Bootstrap a local software repository for reliable future Codex work. Use when Codex needs to onboard an existing local repo, inspect its stack and verification commands, create or tighten the repo's AGENTS.md and lightweight AI docs, or scaffold a brand-new repo from scratch with an initial structure, local workflow, and validation path.
+description: Bootstrap a local software repository or umbrella workspace for reliable future Codex work. Use when Codex needs to onboard an existing local repo, scaffold a new repo, or set up a non-git workspace root that coordinates multiple child git repos with the right local contract, child-repo registry, and verification flow.
 ---
 
 # Repo Bootstrap
 
 ## Overview
 
-Use this skill to make a repo easy for future Codex sessions to understand and work in. Favor the smallest reliable setup that produces a real working contract, a clear verification path, and a short summary of what matters.
+Use this skill to make a repo or umbrella workspace easy for future Codex sessions to understand and work in. Favor the smallest reliable setup that produces a real working contract, a clear verification path, and a short summary of what matters.
 
 ## PRD
 
@@ -15,25 +15,36 @@ Use this skill to make a repo easy for future Codex sessions to understand and w
 
 ## Workflow Decision
 
-1. If the target already has source files, manifests, or a `.git` directory, treat it as an existing repo and read [references/existing-repo.md](references/existing-repo.md).
-2. If the user wants a greenfield project or the target folder is empty, treat it as a new repo and read [references/new-repo.md](references/new-repo.md).
-3. If the task is mostly about creating or tightening the repo contract, also consult [$lv1-workflow-project-contract](/Users/chjiang/.codex/skills/lv1-workflow-project-contract/SKILL.md).
-4. Also consult [$lv1-workflow-session-handoff](/Users/chjiang/.codex/skills/lv1-workflow-session-handoff/SKILL.md) when creating, repairing, or refreshing the repo tracking flow.
+1. If the user asks for an umbrella or workspace repo, or the target root is a non-git parent coordinating multiple child git repos, read [references/umbrella-repo.md](references/umbrella-repo.md).
+2. Otherwise, if the target already has source files, manifests, or a `.git` directory, treat it as an existing repo and read [references/existing-repo.md](references/existing-repo.md).
+3. If the user wants a greenfield project or the target folder is empty, treat it as a new repo and read [references/new-repo.md](references/new-repo.md).
+4. If the task is mostly about creating or tightening the local contract, also consult [$lv1-workflow-project-contract](/Users/chjiang/.codex/skills/lv1-workflow-project-contract/SKILL.md).
+5. Also consult [$lv1-workflow-session-handoff](/Users/chjiang/.codex/skills/lv1-workflow-session-handoff/SKILL.md) when creating, repairing, or refreshing the tracking flow for the active scope.
 
 ## Common Rules
 
-- Read the nearest repo `AGENTS.md` before editing if one exists.
+- Read the nearest scope `AGENTS.md` before editing if one exists.
 - Identify the smallest real verification command early and rerun it after meaningful changes.
-- Keep the repo root `AGENTS.md` short; move longer guidance into repo docs such as `docs/ai/`.
-- If the repo needs reusable deep-dive notes, keep them under a single repo knowledge root such as `docs/ai/knowledge/` and name any non-default location in the repo `AGENTS.md`.
+- Umbrella roots may keep a root `AGENTS.md` and `.local-work/current.md` even when the parent folder is not itself a git repo.
+- When an umbrella root coordinates child repos, keep an explicit `Child Repos` section with relative child paths only. After that list exists, treat it as the source of truth instead of auto-discovering repos.
+- Keep shared context only at the umbrella root. Child build, test, architecture, knowledge-root, and verification details stay in each child repo's own contract.
+- Keep the scope root `AGENTS.md` short; move longer guidance into scope docs such as `docs/ai/`.
+- If the active scope needs reusable deep-dive notes, keep them under a single knowledge root such as `docs/ai/knowledge/` and name any non-default location in the scope `AGENTS.md`.
 - If the repo introduces `lv2-<repo>-*` skills, create `<repo-knowledge-root>/setup-prd/` and add a matching PRD for each `lv2` skill.
-- Initialize a gitignored `.local-work/current.md` early in every repo and use it as the required active tracking doc for plan, progress, verification, blockers, and next steps.
+- Initialize `.local-work/current.md` early in each active scope and gitignore it anywhere that scope is tracked by git. Use it as the required active tracking doc for plan, progress, verification, blockers, and next steps.
 - Prefer official framework scaffolds or standard generators over hand-rolled boilerplate unless the user asks for a custom layout.
 - Do not create extra docs just because a template exists. Always create `.local-work/current.md`; add `docs/ai/` or architecture notes only when the repo is non-trivial or they will clearly be reused.
 - Make reasonable assumptions when the user omits details, but record them in the final summary.
 - When versions, framework commands, or templates may have changed, verify them from primary sources instead of relying on memory.
 
 ## Expected Outcomes
+
+For an umbrella workspace, aim to leave behind:
+
+- A lightweight root contract that names shared constraints and an explicit `Child Repos` list.
+- A root `.local-work/current.md` that tracks umbrella-level work only.
+- Each listed child repo bootstrapped through the normal existing-repo or new-repo flow.
+- At least one real verification command run for each touched child repo.
 
 For an existing repo, aim to leave behind:
 

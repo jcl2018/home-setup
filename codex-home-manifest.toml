@@ -1,13 +1,13 @@
 version = 2
-generated_at = "2026-03-16T15:46:49Z"
+generated_at = "2026-03-16T16:16:34Z"
 managed_roots = ["AGENTS.md", ".codex/.local-work/current.md", ".codex/config.toml", ".codex/skills", ".codex/knowledge", ".codex/automations"]
 excluded_paths = [".codex/.codex-global-state.json", ".codex/auth.json", ".codex/logs_1.sqlite", ".codex/logs_1.sqlite-shm", ".codex/logs_1.sqlite-wal", ".codex/memories", ".codex/models_cache.json", ".codex/restore_backups", ".codex/session_index.jsonl", ".codex/sessions", ".codex/shell_snapshots", ".codex/skills/.system", ".codex/sqlite", ".codex/state_5.sqlite", ".codex/state_5.sqlite-shm", ".codex/state_5.sqlite-wal", ".codex/tmp", ".codex/vendor_imports"]
 
 [[files]]
 path = ".codex/.local-work/current.md"
 kind = "text"
-sha256 = "02dae73be38e702d91a7137a598ae30f2f98c429eff8b57f01889b2e89c0ecad"
-size = 5019
+sha256 = "5b97ba164857d05b500df096e9ab211927b31ee4b9a1a38f2acfa4df56a315dd"
+size = 3172
 
 [[files]]
 path = ".codex/automations/weekly-codex-health/automation.toml"
@@ -36,14 +36,14 @@ size = 1426
 [[files]]
 path = ".codex/knowledge/setup-prd/home-setup.md"
 kind = "text"
-sha256 = "4ed210df8c14b44bfa905ecac301fee7b8bb3300fe0bd75962d50db4b4dad75d"
-size = 3531
+sha256 = "3f39f9067ba07c7629d76fce4084cde8504762a35ff5a914952661e09fb78a92"
+size = 3926
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv0-home-codex-health.md"
 kind = "text"
-sha256 = "63606ca58ca995ad2365bd6881de18a73e117ea38e3f0fbbfdbae99aa3ae8c19"
-size = 2579
+sha256 = "a016ea8960a2b45c83c2eaf690e5f7cb8b3acb8206c537dee8e0f53ecc5f7bfb"
+size = 3033
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv0-home-codex-settings-export.md"
@@ -66,14 +66,14 @@ size = 1502
 [[files]]
 path = ".codex/knowledge/setup-prd/lv1-workflow-project-contract.md"
 kind = "text"
-sha256 = "a0f78d3480e9e4401c72db4b4531424112a153e993b16f4c40f03db3d56149ce"
-size = 1653
+sha256 = "977ad91d5c98270f34efc727e482282bb8fe07d01de914e6b7bda7f482d3bfc1"
+size = 2123
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv1-workflow-repo-bootstrap.md"
 kind = "text"
-sha256 = "ad22a9bad87c521e6537118068fecdfbc28bfff276d5d3a4bd58a41d43d22242"
-size = 1721
+sha256 = "c64465e38f970fcbf48eb165c0cef31bf121b4dfd7783b7139cfb7a108d3ad1c"
+size = 2565
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv1-workflow-repo-knowledge-capture.md"
@@ -84,8 +84,8 @@ size = 1524
 [[files]]
 path = ".codex/knowledge/setup-prd/lv1-workflow-session-handoff.md"
 kind = "text"
-sha256 = "d5ec3a318aa1fd967552169d0ef1f96188b8707206445b323e1d29bedd3d7c8f"
-size = 1506
+sha256 = "6e3b4d1e60b50b9608736c3a234a4f468b9eaa3f5bb0c26a7fa03f68ea5aa6ef"
+size = 1846
 
 [[files]]
 path = ".codex/knowledge/work-start-checklist.md"
@@ -96,14 +96,14 @@ size = 3125
 [[files]]
 path = ".codex/skills/lv0-home-codex-health/SKILL.md"
 kind = "text"
-sha256 = "04ae675a4d145e5df099b0001e76e1bc0afb6cf6701e6ac21a9d02fbeb0d6f4e"
-size = 4879
+sha256 = "698ee6d32ce29aef36720e2727c182dff73b19961f9dd512f27b8592013093bb"
+size = 5763
 
 [[files]]
 path = ".codex/skills/lv0-home-codex-health/agents/openai.yaml"
 kind = "text"
-sha256 = "ec3d556c250c606ffb9fb20deed7eea286a7cd4e81425ba9b70cc770afc86cc5"
-size = 255
+sha256 = "0221383d7e57cbc53fce88af04bcbc3cbf898ad83b4aabb8f73c00d7e0dbccc7"
+size = 282
 
 [[files]]
 path = ".codex/skills/lv0-home-codex-health/references/claude-to-codex.md"
@@ -144,32 +144,32 @@ size = 2663
 [[files]]
 path = ".codex/skills/lv1-workflow-project-contract/SKILL.md"
 kind = "text"
-sha256 = "59c9fcc5a9c448e920bb6039a5224fc84ae6ec5faee13aff6eb9097449d7236e"
-size = 2643
+sha256 = "850f7322d8c46e1d866b06e238c144256606a42b9130fdd0b46f49c276b7a5d8"
+size = 3091
 
 [[files]]
 path = ".codex/skills/lv1-workflow-project-contract/agents/openai.yaml"
 kind = "text"
-sha256 = "d2896d723fa5ba6850367834b075b69bbbdd83f0942d9f2f061bde6dfe507ad3"
-size = 284
+sha256 = "e771dd82ad44b19e8e6268c1c52706d1cb648ff54a20965b07f94bc79663b9e8"
+size = 311
 
 [[files]]
 path = ".codex/skills/lv1-workflow-project-contract/references/agent-template.md"
 kind = "text"
-sha256 = "08fdb1cbec275827bed53e082b44c6ccd8cac042edbc440ed2d994ee060f7bc3"
-size = 1503
+sha256 = "bfa7125f11c6e5bc128394f6d18cadc6cef67ed4ab18d283bc13e376da4561e4"
+size = 2201
 
 [[files]]
 path = ".codex/skills/lv1-workflow-repo-bootstrap/SKILL.md"
 kind = "text"
-sha256 = "d2cc6af73860db70548e49f4a3bc636dd8fbbbfd3c1336f9477caa28dcc5bc26"
-size = 4489
+sha256 = "3250235575fe634e45b86e440d89b38738166b8b576c50503c16152362e9c7d8"
+size = 5653
 
 [[files]]
 path = ".codex/skills/lv1-workflow-repo-bootstrap/agents/openai.yaml"
 kind = "text"
-sha256 = "2e83909f24c1e40a23ebf3f2d72f3e720f8762dc7a762a4fae8089cd357a0061"
-size = 263
+sha256 = "2b8b8643494d83ad196fe75c7014aa9d2b123abc8b3ab8767556ac806ef66685"
+size = 281
 
 [[files]]
 path = ".codex/skills/lv1-workflow-repo-bootstrap/references/existing-repo.md"
@@ -184,6 +184,12 @@ sha256 = "b5fcbba85d4a1d4aa69fbdade2d4ad492d30eda5849d84ec6da687d3b5582a1b"
 size = 3199
 
 [[files]]
+path = ".codex/skills/lv1-workflow-repo-bootstrap/references/umbrella-repo.md"
+kind = "text"
+sha256 = "b44d357f1971a09e0b44f8d89a9d14808a2df6e560fba469ed4183a6ff5a6c1b"
+size = 2826
+
+[[files]]
 path = ".codex/skills/lv1-workflow-repo-knowledge-capture/SKILL.md"
 kind = "text"
 sha256 = "0a0b47872aa8655ddb7d94689f1ad67acf18c364c6231cfaf762973d9d5cd920"
@@ -192,17 +198,17 @@ size = 2785
 [[files]]
 path = ".codex/skills/lv1-workflow-session-handoff/SKILL.md"
 kind = "text"
-sha256 = "24b6b22bf7e6f87c764780192acf94076f2c356b652e8da722e51edcc5643097"
-size = 2096
+sha256 = "db87703e450b52d7967b8b5d5a63369ba5bc0e1338ae0367477e0ff079931e50"
+size = 2708
 
 [[files]]
 path = ".codex/skills/lv1-workflow-session-handoff/agents/openai.yaml"
 kind = "text"
-sha256 = "4794b47ba99a0b59a48ca4ff1e31ce2da54f17aeb57148cdb2e0cef43206ce84"
-size = 290
+sha256 = "e31d7ba334d56f83863505248fa171fc873b4e3747af6169193d22b3a535696c"
+size = 306
 
 [[files]]
 path = "AGENTS.md"
 kind = "text"
-sha256 = "5fc03d978abd248ba620ec976d0fae607026fea4bb263cf25a021d919735af35"
-size = 4009
+sha256 = "fa5c8816599159ad1d3666f34b83141dcdd2b5d9c02ff1a0b6c3b30830f1435e"
+size = 4098

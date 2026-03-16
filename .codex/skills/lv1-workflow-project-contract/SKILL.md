@@ -1,11 +1,11 @@
 ---
 name: lv1-workflow-project-contract
-description: Use when creating or tightening a repo AGENTS.md.
+description: Use when creating or tightening a repo or umbrella-root AGENTS.md.
 ---
 
 # Project Contract
 
-Use this when the user wants to bootstrap or clean up a repo so Codex has a reliable local contract without bloating startup context.
+Use this when the user wants to bootstrap or clean up a repo or umbrella root so Codex has a reliable local contract without bloating startup context.
 
 ## PRD
 
@@ -13,7 +13,7 @@ Use this when the user wants to bootstrap or clean up a repo so Codex has a reli
 
 ## Goal
 
-Create or update the repo's `AGENTS.md` so it contains only the rules that should always be in context for that repo.
+Create or update the repo or umbrella root `AGENTS.md` so it contains only the rules that should always be in context for that scope.
 
 ## Workflow
 
@@ -28,6 +28,7 @@ Create or update the repo's `AGENTS.md` so it contains only the rules that shoul
    - Verification rules by task type.
    - The required repo tracking doc path and exact read and refresh rules.
    - The repo knowledge root when the repo keeps durable notes.
+   - For umbrella roots, a `Child Repos` section with relative child repo paths only.
    - The local `setup-prd/` rule when the repo uses any `lv2-<repo>-*` skills.
    - Compacting or handoff priorities.
 
@@ -36,6 +37,7 @@ Create or update the repo's `AGENTS.md` so it contains only the rules that shoul
    - Put long reference material in repo docs such as `docs/ai/` or `docs/architecture/`.
    - If the repo keeps reusable deep-dive notes, define the repo knowledge root in `AGENTS.md`; default to `docs/ai/knowledge/` only when no better location exists.
    - Keep `.local-work/current.md` as the required active tracking doc and avoid storing durable reference material there.
+   - For umbrella roots, keep only shared constraints and the `Child Repos` list in the root contract. Child build, test, architecture, and verification rules stay in each child repo's contract.
    - If the repo uses `lv2` skills, keep matching PRDs under `<repo-knowledge-root>/setup-prd/` with filenames that match the skill name exactly.
    - Keep reusable cross-repo workflows in home skills, not in the repo root contract.
 
@@ -46,6 +48,7 @@ Create or update the repo's `AGENTS.md` so it contains only the rules that shoul
 5. Validate the contract.
    - Make sure every verification rule maps to a real command.
    - Make sure the required tracking doc path and refresh triggers are explicit.
+   - Make sure umbrella roots use a `Child Repos` section with relative paths only and no child command duplication.
    - Make sure the repo knowledge root and `lv2` PRD rule are explicit when the repo uses durable local workflow contracts.
    - Make sure each rule is short enough to survive context pressure.
 

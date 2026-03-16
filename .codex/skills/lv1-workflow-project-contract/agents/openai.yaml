@@ -1,4 +1,4 @@
 interface:
   display_name: "Lv1 Workflow: Project Contract"
-  short_description: "Create or tighten a repo AGENTS contract"
-  default_prompt: "Use $lv1-workflow-project-contract to set up or clean up this repo's AGENTS.md so it stays short, actionable, and easy for Codex to follow."
+  short_description: "Create or tighten a repo or umbrella AGENTS contract"
+  default_prompt: "Use $lv1-workflow-project-contract to set up or clean up this repo or umbrella root AGENTS.md so it stays short, actionable, and easy for Codex to follow."

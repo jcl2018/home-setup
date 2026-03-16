@@ -1,4 +1,4 @@
 interface:
   display_name: "Lv1 Workflow: Session Handoff"
-  short_description: "Refresh the required home or repo tracking doc"
-  default_prompt: "Use $lv1-workflow-session-handoff to create or refresh the required tracking doc with the current state, verification, risks, and next step."
+  short_description: "Refresh the required tracking doc"
+  default_prompt: "Use $lv1-workflow-session-handoff to create or refresh the required home, repo, or umbrella-root tracking doc with the current state, verification, risks, and next step."

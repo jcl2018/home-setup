@@ -6,9 +6,9 @@ This file holds global preferences only. Keep repo-specific build, test, archite
 
 - Read the nearest `AGENTS.md` before editing, then inspect the code before deciding on a change.
 - For home-control work under `~/AGENTS.md` or `~/.codex`, read `~/.codex/.local-work/current.md` immediately after `~/AGENTS.md`. If it is missing, create it before substantive edits.
-- For repo work, read `.local-work/current.md` immediately after the nearest repo `AGENTS.md`. If it is missing, create it before substantive edits.
+- For repo or umbrella-root work, read `.local-work/current.md` immediately after the nearest scope `AGENTS.md`. If it is missing, create it before substantive edits.
 - Refresh the active tracking doc after any material change to goal, plan, constraints, files touched, verification status, blockers, or next steps, and always before pausing, handing off, compacting, or ending the session.
-- At the start of substantial work, give a 1-2 line context snapshot naming only the active sources in play and the current verification plan. Typical sources include `~/AGENTS.md`, the nearest repo `AGENTS.md`, the active tracking doc, triggered skills, and any knowledge notes or supporting docs actually consulted.
+- At the start of substantial work, give a 1-2 line context snapshot naming only the active sources in play and the current verification plan. Typical sources include `~/AGENTS.md`, the nearest scope `AGENTS.md`, the active tracking doc, triggered skills, and any knowledge notes or supporting docs actually consulted.
 - Keep always-loaded instructions short. Move repeatable workflows and long references into skills or linked docs.
 - Private home knowledge may live under `~/.codex/knowledge/` if it is loaded on demand, kept concise, and limited to global or cross-repo context. Repo-specific deep dives belong in the repo's own docs.
 - Home and workflow PRDs live under `~/.codex/knowledge/setup-prd/`. Repo-specific `lv2` skill PRDs belong under the repo knowledge root's `setup-prd/`.
@@ -39,10 +39,10 @@ When compressing or handing work off, preserve in this order:
 ## Skill Routing
 
 - Skill names use `lv0-home-*`, `lv1-workflow-*`, and `lv2-<repo>-*`.
-- Use `lv0-home-codex-health` to audit home or repo Codex setup for context, safety, and verification drift.
+- Use `lv0-home-codex-health` to audit home, repo, or umbrella-root Codex setup for context, safety, and verification drift.
 - Use `lv0-home-shared-context` to consult the smallest matching private note under `~/.codex/knowledge`, starting with `setup-prd/` for home/workflow contracts or the repo knowledge root for repo-local notes.
 - Use `lv0-home-global-knowledge-capture` to save or refresh cross-repo knowledge under `~/.codex/knowledge` while keeping `setup-prd/` reserved for home/workflow PRDs.
-- Use `lv1-workflow-project-contract` to create or tighten a repo `AGENTS.md`, name the repo knowledge root, and define the local `setup-prd/` rule when `lv2` skills exist.
+- Use `lv1-workflow-project-contract` to create or tighten a repo or umbrella-root `AGENTS.md`, name the repo knowledge root, and define the local `setup-prd/` rule when `lv2` skills exist.
 - Use `lv1-workflow-repo-knowledge-capture` to save or refresh repo-specific deep-dive notes inside the current repo, defaulting to `docs/ai/knowledge/` unless the repo contract says otherwise, and to maintain repo-local `setup-prd/` entries for any `lv2` skills.
-- Use `lv1-workflow-repo-bootstrap` to onboard an existing repo or scaffold a new local repo with a reliable contract and verification flow.
-- Use `lv1-workflow-session-handoff` to create or refresh the required home or repo tracking doc, especially when pausing or resuming work.
+- Use `lv1-workflow-repo-bootstrap` to onboard an existing repo, umbrella workspace, or scaffold a new local repo with a reliable contract and verification flow.
+- Use `lv1-workflow-session-handoff` to create or refresh the required home, repo, or umbrella-root tracking doc, especially when pausing or resuming work.
