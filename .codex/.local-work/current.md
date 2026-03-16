@@ -4,15 +4,15 @@
 
 ## Goal
 
-- Export the live Codex home control layer from `/Users/chjiang` into `/Users/chjiang/Documents/projects/home-setup` and keep the pushed mirror aligned with the finished export session.
+- Export the live Codex home control layer from `/Users/chjiang` into `/Users/chjiang/Documents/projects/home-setup` and leave the pushed mirror aligned with the completed export session.
 
 ## Current state
 
 - Read `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `$lv0-home-codex-settings-export`, the matching PRD, and the export script before acting.
 - Confirmed the local mirror repo at `/Users/chjiang/Documents/projects/home-setup` is on `main` with `origin` set to `https://github.com/jcl2018/home-setup.git`.
-- Ran the export script against the mirror repo, reviewed the managed diff summary, and committed only managed mirror changes while leaving the untracked local `.gitignore` and swap file untouched.
-- Pushed the refreshed mirror to `origin/main`.
-- Refreshing this handoff note and re-exporting once more so the mirror also captures the completed home-session state.
+- Ran the export script, reviewed the managed diff, committed only managed mirror changes, and pushed the refreshed mirror to `origin/main`.
+- Left the untracked local `.gitignore` and `.codex/knowledge/setup-prd/.lv0-home-codex-health.md.swp` in the mirror checkout untouched because they are not part of the managed export.
+- The remaining expected follow-up is none; the mirror refresh is complete.
 
 ## Decisions / constraints
 
@@ -48,15 +48,18 @@
 - `git -C /Users/chjiang/Documents/projects/home-setup diff --cached --name-status` -> pass
 - `git -C /Users/chjiang/Documents/projects/home-setup commit -m "Refresh Codex home mirror"` -> pass
 - `git -C /Users/chjiang/Documents/projects/home-setup push origin main` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup add -fu .codex/.local-work/current.md codex-home-manifest.toml` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup commit -m "Refresh home export handoff"` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup push origin main` -> pass
 
 ## Next steps
 
-- Re-run the export once more after this handoff refresh, then push the final sync commit if the mirror changes.
+- None for this export task.
 
 ## Blockers / risks
 
-- Untracked local mirror-repo noise still exists as `.gitignore` and `.codex/knowledge/setup-prd/.lv0-home-codex-health.md.swp`, but both were intentionally left out of the export commit.
-- The only expected post-push drift should now be the refreshed home handoff note plus regenerated manifest metadata.
+- Untracked local mirror-repo noise still exists as `.gitignore` and `.codex/knowledge/setup-prd/.lv0-home-codex-health.md.swp`, but both were intentionally left out of the export commits.
+- Any future home edits will need a new export before the mirror matches live state again.
 
 ## Rollback notes
 
