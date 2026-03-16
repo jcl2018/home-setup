@@ -4,25 +4,27 @@
 
 ## Goal
 
-- Export the live Codex home control layer from `/Users/chjiang` into the local mirror repo `/Users/chjiang/Documents/projects/home-setup`, then commit and push the managed mirror update to `origin`.
+- Export the live Codex home control layer from `/Users/chjiang` into `/Users/chjiang/Documents/projects/home-setup` and keep the pushed mirror aligned with the finished export session.
 
 ## Current state
 
 - Read `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `$lv0-home-codex-settings-export`, the matching PRD, and the export script before acting.
-- Confirmed the mirror repo is `/Users/chjiang/Documents/projects/home-setup` on branch `main` with remote `origin` set to `https://github.com/jcl2018/home-setup.git`.
-- Found pre-existing local repo noise before export: a timestamp-only modification in `codex-home-manifest.toml` plus untracked `.gitignore` and `.codex/knowledge/setup-prd/.lv0-home-codex-health.md.swp`.
-- Intend to run the export script, review the mirror diff, commit only managed mirror changes, and leave unrelated untracked local files alone.
+- Confirmed the local mirror repo at `/Users/chjiang/Documents/projects/home-setup` is on `main` with `origin` set to `https://github.com/jcl2018/home-setup.git`.
+- Ran the export script against the mirror repo, reviewed the managed diff summary, and committed only managed mirror changes while leaving the untracked local `.gitignore` and swap file untouched.
+- Pushed the refreshed mirror to `origin/main`.
+- Refreshing this handoff note and re-exporting once more so the mirror also captures the completed home-session state.
 
 ## Decisions / constraints
 
 - Use `lv0-home-codex-settings-export` as the workflow source of truth for the mirror refresh.
-- Export only the managed home-control roots and do not include secrets, auth, runtime state, `.system` skills, or other excluded transient data.
-- Show the mirror diff summary and call out any riskier files before committing, per `~/AGENTS.md`.
-- Do not add unrelated untracked repo files to the commit unless the export workflow itself starts tracking them.
+- Export only the managed home-control roots and exclude secrets, auth, runtime state, `.system` skills, and other transient data.
+- Keep unrelated untracked mirror-repo files out of the export commits.
+- Regenerated mirror metadata such as `codex-home-manifest.toml` should stay in sync with the exported file set.
 
 ## Files touched
 
 - `~/.codex/.local-work/current.md`
+- `/Users/chjiang/Documents/projects/home-setup`
 
 ## Verification
 
@@ -37,18 +39,25 @@
 - `git -C /Users/chjiang/Documents/projects/home-setup diff -- codex-home-manifest.toml` -> pass
 - `sed -n '1,200p' /Users/chjiang/Documents/projects/home-setup/.gitignore` -> pass
 - `ls -la /Users/chjiang/Documents/projects/home-setup/.codex/knowledge/setup-prd/.lv0-home-codex-health.md.swp` -> pass
+- `python3 /Users/chjiang/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo /Users/chjiang/Documents/projects/home-setup` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup diff --stat` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup diff --name-status` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup add -u` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup add .codex/skills/lv1-workflow-repo-bootstrap/references/umbrella-repo.md` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup diff --cached --stat` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup diff --cached --name-status` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup commit -m "Refresh Codex home mirror"` -> pass
+- `git -C /Users/chjiang/Documents/projects/home-setup push origin main` -> pass
 
 ## Next steps
 
-- Run the export script against `/Users/chjiang/Documents/projects/home-setup`.
-- Inspect `git status`, `git diff --stat`, and the staged file list.
-- Commit the managed export update and push `main` to `origin`.
+- Re-run the export once more after this handoff refresh, then push the final sync commit if the mirror changes.
 
 ## Blockers / risks
 
-- The mirror repo contains unrelated untracked local files; they should stay out of the export commit unless intentionally cleaned up later.
-- The export will refresh generated files such as `README.md` and `codex-home-manifest.toml`, so their diffs may include broad timestamp or inventory updates.
+- Untracked local mirror-repo noise still exists as `.gitignore` and `.codex/knowledge/setup-prd/.lv0-home-codex-health.md.swp`, but both were intentionally left out of the export commit.
+- The only expected post-push drift should now be the refreshed home handoff note plus regenerated manifest metadata.
 
 ## Rollback notes
 
-- Revert the mirror repo commit or reset the mirror worktree to `origin/main` if the export snapshot needs to be discarded after review.
+- Revert the latest mirror commit(s) in `/Users/chjiang/Documents/projects/home-setup` and push the revert if this export snapshot needs to be undone.
