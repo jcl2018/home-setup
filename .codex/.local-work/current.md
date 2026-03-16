@@ -4,58 +4,59 @@
 
 ## Goal
 
-- Keep the local `home-setup` mirror checkout out of the normal project workspace by relocating it away from `C:\Users\chang\Documents\projects`.
+- Align the live Codex home control layer with the canonical `jcl2018/home-setup` remote and leave the local mirror checkout usable as the cache for future audits.
 
 ## Current state
 
-- Updated the weekly home-health automation so its skill link, audited paths, and `cwds` target `C:/Users/chang`.
-- Replaced the repo-bootstrap skill's hardcoded sibling-skill links with relative links that work on this machine.
-- Converted `C:\Users\chang\.codex\home_setup_summary.md` into a retired redirect note so it no longer reads like an active contract source.
-- Copied the `home-setup` mirror checkout to `C:\Users\chang\.codex-mirrors\home-setup`, verified the git remote and worktree state there, and then removed the old checkout from the normal project workspace root.
-- The mirror repo now lives under a hidden root that is outside the normal project workspace, so it should stop polluting repo context under `Documents\projects`.
-- The remaining optional follow-up is publishing the refreshed mirror checkout if you want the canonical remote to match the fixed live files.
+- Audited the live home setup against the canonical remote and confirmed the drift was limited to the tracking doc, weekly home-health automation, Windows sandbox config, and two repo-bootstrap workflow files.
+- Fast-forwarded `C:\Users\chang\.codex-mirrors\home-setup` to `origin/main`, then re-exported the live home control layer into that checkout with the export script.
+- Pushed `Refresh Codex home mirror` to `origin/main`, so the canonical remote now matches the live home files that had drifted.
+- Set `user.name` and `user.email` only in the local mirror checkout so the sync could reuse the repo's existing commit identity without changing global Git config.
+- Refreshed this handoff, re-exported it into the mirror, and pushed the closing handoff update so the local home state and canonical remote end the session aligned.
 
 ## Decisions / constraints
 
-- Do not commit or push the mirror repo unless the user explicitly asks.
-- Keep `C:\Users\chang\.codex\config.toml` managed as-is, including the Windows sandbox block, so local exports preserve the real live setup.
-- Retire the legacy summary file in place rather than deleting it.
-- Keep the local mirror under `C:\Users\chang\.codex-mirrors\home-setup` instead of `C:\Users\chang\Documents\projects`.
+- Keep the local mirror at `C:\Users\chang\.codex-mirrors\home-setup`, outside the normal project workspace.
+- Use `lv0-home-codex-settings-export` as the source of truth for mirror refreshes instead of manually copying managed files.
+- Leave unrelated local mirror noise such as the untracked `.local-work/` directory untouched because it is outside the managed export roots.
+- Keep the autostash entry created during the pull in place unless the user explicitly asks to drop it.
+- Keep the Git author identity override local to `C:\Users\chang\.codex-mirrors\home-setup`.
 
 ## Files touched
 
 - `C:\Users\chang\.codex\.local-work\current.md`
 - `C:\Users\chang\.codex\automations\weekly-codex-health\automation.toml`
+- `C:\Users\chang\.codex\config.toml`
 - `C:\Users\chang\.codex\skills\lv1-workflow-repo-bootstrap\SKILL.md`
 - `C:\Users\chang\.codex\skills\lv1-workflow-repo-bootstrap\references\existing-repo.md`
-- `C:\Users\chang\.codex\home_setup_summary.md`
 - `C:\Users\chang\.codex-mirrors\home-setup`
 
 ## Verification
 
-- `Get-Content -Raw C:\Users\chang\.codex\automations\weekly-codex-health\automation.toml` -> pass
-- `Get-Content -Raw C:\Users\chang\.codex\skills\lv1-workflow-repo-bootstrap\SKILL.md` -> pass
-- `Get-Content -Raw C:\Users\chang\.codex\skills\lv1-workflow-repo-bootstrap\references\existing-repo.md` -> pass
-- `Get-Content -Raw C:\Users\chang\.codex\home_setup_summary.md` -> pass
-- `$legacy = '/' + 'Users/chjiang'; $repo = 'C:\Users\chang\AppData\Local\Temp\home-setup-audit-fa9c525d-8944-4c98-ab96-9b3c49dee298'; $manifest = Get-Content -Raw (Join-Path $repo 'codex-home-manifest.toml'); $matches = [regex]::Matches($manifest, 'path = "([^"]+)"\r?\nkind = "text"', 'Multiline'); $paths = $matches | ForEach-Object { Join-Path 'C:\Users\chang' (($_.Groups[1].Value).Replace('/', '\')) }; Select-String -Path $paths -Pattern $legacy` -> pass (no results after the handoff refresh)
+- `git -C C:\Users\chang\.codex-mirrors\home-setup fetch origin` -> pass
+- `git -C C:\Users\chang\.codex-mirrors\home-setup pull --rebase --autostash origin main` -> pass after temporarily moving the conflicting local `umbrella-repo.md`; the pre-pull snapshot remains available as `stash@{0}`
 - `C:\Users\chang\AppData\Local\Programs\Python\Python312\python.exe C:\Users\chang\.codex\skills\lv0-home-codex-settings-export\scripts\export_codex_home.py --repo C:\Users\chang\.codex-mirrors\home-setup` -> pass
-- `$old = Join-Path $env:USERPROFILE 'Documents\\projects\\home-setup'; Test-Path $old; Test-Path C:\Users\chang\.codex-mirrors\home-setup` -> pass (`False`, `True`)
-- `git -C C:\Users\chang\.codex-mirrors\home-setup remote -v` -> pass
-- `git -C C:\Users\chang\.codex-mirrors\home-setup diff --name-status` -> pass (mirror checkout retains the expected unpublished snapshot changes after relocation)
-- `$legacy = '/' + 'Users/chjiang'; Select-String -Path (Get-ChildItem C:\Users\chang\.codex-mirrors\home-setup -Recurse -File | Where-Object { $_.FullName -notmatch '\\.git\\' } | Select-Object -ExpandProperty FullName) -Pattern $legacy` -> pass (no results in the relocated local mirror checkout)
-- `cmd /c rd /s /q <old project-root mirror path>` -> pass
+- `git -C C:\Users\chang\.codex-mirrors\home-setup diff --cached --stat` -> pass
+- `git -C C:\Users\chang\.codex-mirrors\home-setup commit -m "Refresh Codex home mirror"` -> pass
+- `git -C C:\Users\chang\.codex-mirrors\home-setup push origin main` -> pass
+- `C:\Users\chang\AppData\Local\Programs\Python\Python312\python.exe C:\Users\chang\.codex\skills\lv0-home-codex-settings-export\scripts\export_codex_home.py --repo C:\Users\chang\.codex-mirrors\home-setup` -> pass (handoff refresh)
+- `git -C C:\Users\chang\.codex-mirrors\home-setup commit -m "Refresh home export handoff"` -> pass
+- `git -C C:\Users\chang\.codex-mirrors\home-setup push origin main` -> pass
+- `git -C C:\Users\chang\.codex-mirrors\home-setup rev-parse HEAD` and `git ls-remote https://github.com/jcl2018/home-setup.git HEAD` -> pass (local and remote `HEAD` match after the closing push)
 
 ## Next steps
 
-- Commit and push `C:\Users\chang\.codex-mirrors\home-setup` only if you want the canonical mirror remote updated to match the fixed live home setup.
+- None for the remote-alignment work.
+- Optional: drop `stash@{0}` and remove the untracked mirror-local `.local-work/` directory if you want a perfectly clean cache checkout.
 
 ## Blockers / risks
 
-- The canonical mirror remote still lags until the local mirror checkout is committed and pushed.
-- `git status` in `C:\Users\chang\.codex-mirrors\home-setup` is noisy in this Windows environment because line-ending normalization marks many files as modified.
+- No blocker remains for the remote alignment itself.
+- The local mirror checkout still contains an untracked `.local-work/` directory and an autostash entry, which are harmless but keep the checkout from feeling fully pristine.
+- Future live home edits will need another export before the remote mirror matches again.
 
 ## Rollback notes
 
-- Revert the edited live files above if you want to restore the previous local behavior.
-- Move the mirror repo back into `C:\Users\chang\Documents\projects` only if you intentionally want it in the normal workspace again.
-- Discard the unpublished worktree changes in `C:\Users\chang\.codex-mirrors\home-setup` only if you intentionally want the local mirror checkout to stop matching the current live home setup.
+- Revert `01e5971` in `C:\Users\chang\.codex-mirrors\home-setup` and push the revert if you want to undo the synced mirror snapshot.
+- Remove the repo-local Git identity from `C:\Users\chang\.codex-mirrors\home-setup\.git\config` if you want that checkout to stop carrying its own author settings.
+- Re-run the export workflow after any rollback so `codex-home-manifest.toml` stays in sync with the mirrored file set.
