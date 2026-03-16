@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lv0 Home: Codex Health"
+  short_description: "Audit home setup, drift, and context bloat"
+  default_prompt: "Use $lv0-home-codex-health to audit this Codex setup, rank the biggest issues, and suggest the smallest fixes first."
