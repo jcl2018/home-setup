@@ -25,6 +25,7 @@
 
 ## Lv1 Skills
 
+- [lv1-workflow-feature-dev](lv1-workflow-feature-dev.md)
 - [lv1-workflow-project-contract](lv1-workflow-project-contract.md)
 - [lv1-workflow-repo-bootstrap](lv1-workflow-repo-bootstrap.md)
 - [lv1-workflow-repo-knowledge-capture](lv1-workflow-repo-knowledge-capture.md)

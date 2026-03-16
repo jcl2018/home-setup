@@ -16,7 +16,7 @@ Use this when the user wants to review a Codex home folder, a repo's `AGENTS.md`
 First decide what is being audited:
 
 - Home setup: `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `~/.codex/config.toml`, custom skills in `~/.codex/skills`, home knowledge notes in `~/.codex/knowledge`, the PRDs under `~/.codex/knowledge/setup-prd/`, and relevant automations in `~/.codex/automations`.
-- Repo setup: the nearest repo or umbrella-root `AGENTS.md`, `.local-work/current.md`, any nested child-repo `AGENTS.md`, the repo knowledge root when defined, any repo-local `setup-prd/` entries for `lv2` skills, repo verification commands, and repo AI docs such as `docs/ai/`.
+- Repo setup: the nearest repo or umbrella-root `AGENTS.md`, `.local-work/current.md`, any nested child-repo `AGENTS.md`, the repo knowledge root when defined, any repo-local `setup-prd/` entries for `lv2` skills, feature PRDs and `.local-work/feature/` tracker notes when the repo uses a feature-doc convention, repo verification commands, and repo AI docs such as `docs/ai/`.
 - Both, when the user asks for the full picture.
 
 Exported mirror repos are not part of the default home-audit scope. Exception: for this machine's home audits, compare the live home control layer against the current remote state of the canonical mirror `jcl2018/home-setup` and treat any drift as a home-setup finding, not a full mirror-repo audit.
@@ -29,6 +29,7 @@ Do not auto-export during the audit. Only inspect the export workflow or the mir
 - For repo audits, start with the nearest repo or umbrella-root `AGENTS.md` and `.local-work/current.md`.
 - If that root declares `Child Repos`, audit the root contract first, then traverse only the listed child repos. Do not auto-discover additional repos once the explicit list exists.
 - For each audited scope, identify the knowledge root from that contract, then read `<repo-knowledge-root>/setup-prd/INDEX.md` and the matching PRDs when the scope has `lv2` skills or repo-local workflow contracts.
+- When the repo uses feature PRDs under `<repo-knowledge-root>/features/` or a documented equivalent, read those PRDs plus the matching `.local-work/feature/` tracker notes or the documented tracker path.
 
 ## Translation Layer
 
@@ -68,6 +69,7 @@ Read [references/claude-to-codex.md](references/claude-to-codex.md) before audit
 - Check for clear approval boundaries around secrets, CI, migrations, production, or destructive edits.
 - Check whether home, repo, and umbrella-root tracking docs exist, are read in the required order, and reflect the current verification and next steps.
 - For umbrella roots, check whether the root tracking doc stays umbrella-level and whether the listed child repos keep their own local tracking docs.
+- For repos that use feature PRDs, check whether each feature PRD has a matching feature tracker note using the default slug mapping or the repo's documented equivalent.
 - Check whether home automations or PRDs still match the current home setup and skill layout.
 - For this machine, check whether the live home control layer is consistent with the current remote state of the canonical mirror `jcl2018/home-setup`. Flag tracked-file drift or an unverifiable remote comparison, and keep export as a separate explicit workflow.
 

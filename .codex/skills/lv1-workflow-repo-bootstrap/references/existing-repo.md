@@ -47,7 +47,7 @@ Avoid:
 - Copying long architecture docs into `AGENTS.md`.
 - Inventing commands that do not exist in the repo.
 
-If the task is mostly contract work, use [$lv1-workflow-project-contract](../../lv1-workflow-project-contract/SKILL.md) for the template and decision rules.
+If the task is mostly contract work, use [$lv1-workflow-project-contract](/Users/chjiang/.codex/skills/lv1-workflow-project-contract/SKILL.md) for the template and decision rules.
 
 ## Add Supporting Docs Sparingly
 

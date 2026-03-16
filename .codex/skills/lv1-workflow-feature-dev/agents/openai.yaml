@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lv1 Workflow: Feature Dev"
+  short_description: "Run multi-item feature delivery with PRDs"
+  default_prompt: "Use $lv1-workflow-feature-dev to plan and deliver one or more feature items with a complete PRD for each item and a detailed progress note for each active feature."
