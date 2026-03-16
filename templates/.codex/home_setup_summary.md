@@ -2,7 +2,7 @@
 
 ## What this home folder is for
 
-This folder is not an application repo. It is the home-level Codex control layer.
+This folder is not an application repo. It is the portable shared Codex control layer.
 
 - `~/AGENTS.md` holds small, always-loaded global rules.
 - `~/.codex/config.toml` keeps runtime config minimal.
@@ -15,6 +15,8 @@ The design goal is progressive disclosure:
 2. Load specialized workflow guidance through skills.
 3. Load deeper private global knowledge through on-demand notes, not through `~/AGENTS.md`.
 4. Let each actual repo define its own build, test, architecture, safety rules, and repo-specific deep-dive docs.
+
+The same shared layer can live under `$HOME` on Unix/mac or `%USERPROFILE%` on Windows. Platform-specific shell hooks and package-manager setup stay local to each machine.
 
 ## Best practices
 

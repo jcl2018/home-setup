@@ -1,0 +1,10 @@
+# scope	kind	relative_path	note
+shared	file	AGENTS.md	global home contract
+shared	file	.codex/config.toml	Codex runtime defaults
+shared	file	.codex/home_setup_summary.md	home setup summary
+shared	dir	.codex/knowledge	portable shared knowledge notes
+shared	dir	.codex/skills	custom shared skills
+unix	file	.gitconfig	minimal shared git defaults
+unix	file	.zprofile	Homebrew shell bootstrap and local secrets hook
+unix	file	.config/home-setup/secrets.zsh.example	machine-local secrets example
+automation	dir	.codex/automations/weekly-codex-health	optional weekly Codex health automation

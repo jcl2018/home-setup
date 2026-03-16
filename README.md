@@ -1,6 +1,6 @@
-# Home Setup Reference Repo
+# Portable Codex Home Layer
 
-This repo is a documentation-first reference for a home-level Codex setup. It captures the design logic, the current shared skills and automation, and a safe compare-and-adopt path for a new machine that already has its own home folder state.
+This repo is a documentation-first reference for a portable shared Codex layer. It captures the global Codex contract, shared skills, knowledge notes, and optional automation that can be duplicated across machines without copying secrets or runtime state.
 
 ## Start Here
 
@@ -10,23 +10,26 @@ Use one of these paths depending on what you need:
    [docs/design-logic.md](docs/design-logic.md)
 2. Inspect what is currently part of the reference model:
    [docs/setup-catalog.md](docs/setup-catalog.md)
-3. Audit an existing machine against the reference:
+3. Duplicate the portable shared layer onto a Windows machine:
+   [docs/duplicate-to-windows.md](docs/duplicate-to-windows.md)
+4. Audit an existing Unix/mac machine against the reference:
    `./scripts/audit-home.sh`
-4. Adopt selected parts on an existing machine:
+5. Adopt selected parts on an existing Unix/mac machine:
    [docs/adopt-existing-machine.md](docs/adopt-existing-machine.md)
-5. Understand how this home setup supports local repo work:
+6. Understand how this home setup supports local repo work:
    [docs/local-repo-workflow.md](docs/local-repo-workflow.md)
-6. Read the product intent for local repo support:
+7. Read the product intent for local repo support:
    [docs/local-repo-prd.md](docs/local-repo-prd.md)
 
 ## What This Repo Owns
 
-- Design intent for the shared home setup
+- Design intent for the portable shared Codex layer
 - Reference templates for shared files under `templates/`
+- Install and audit inventories under `config/reference-paths.tsv`
 - Custom home skills under `templates/.codex/skills/`
 - Shared knowledge note starters under `templates/.codex/knowledge/`
 - Optional automation reference under `templates/.codex/automations/`
-- Read-only auditing and safety verification scripts under `scripts/`
+- Unix/mac and Windows install and audit scripts under `scripts/`
 
 ## What This Repo Does Not Own
 
@@ -36,10 +39,26 @@ Use one of these paths depending on what you need:
 - session snapshots and shell history
 - SSH keys and other personal credentials
 - repo-specific build, test, and architecture rules
+- full Windows shell or package-manager parity with the source machine
 
-## Default Workflow For A New Machine
+## Windows Duplication Workflow
 
-For an already-lived-in machine, start with a read-only audit:
+On a Windows machine that has cloned this repo, use the PowerShell audit and installer:
+
+```powershell
+pwsh -NoLogo -NoProfile -File .\scripts\audit-home.ps1
+pwsh -NoLogo -NoProfile -File .\scripts\install.ps1
+```
+
+Add `-WithAutomation` if you also want the weekly Codex health automation. The Windows flow copies only the portable shared Codex layer and skips `.gitconfig`, `.zprofile`, Brew/Homebrew setup, and the Unix local secrets hook.
+
+The underlying scripts are [scripts/audit-home.ps1](scripts/audit-home.ps1) and [scripts/install.ps1](scripts/install.ps1).
+
+See [docs/duplicate-to-windows.md](docs/duplicate-to-windows.md) for the full walkthrough and post-install local-only steps.
+
+## Unix/mac Workflow
+
+For an already-lived-in Unix/mac machine, start with a read-only audit:
 
 ```sh
 ./scripts/audit-home.sh
@@ -47,7 +66,7 @@ For an already-lived-in machine, start with a read-only audit:
 
 Then follow the compare-and-merge guidance in [docs/adopt-existing-machine.md](docs/adopt-existing-machine.md).
 
-## Optional Clean-Machine Bootstrap
+## Optional Unix/mac Bootstrap
 
 If you want a faster starting point on a cleaner machine, the installer is still available as a secondary convenience:
 

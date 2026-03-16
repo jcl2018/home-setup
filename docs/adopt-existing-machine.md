@@ -1,6 +1,8 @@
-# Adopt On An Existing Machine
+# Adopt On An Existing Unix/mac Machine
 
-Use this flow when the target machine already has a meaningful home folder and you want to move it toward this reference setup without overwriting everything.
+Use this flow when the target Unix/mac machine already has a meaningful home folder and you want to move it toward this reference setup without overwriting everything.
+
+If the target machine is Windows, use [duplicate-to-windows.md](duplicate-to-windows.md) instead.
 
 ## Start With A Read-Only Audit
 

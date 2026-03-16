@@ -2,14 +2,24 @@
 set -eu
 
 ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+MANIFEST="$ROOT/config/reference-paths.tsv"
 TARGET_HOME="$HOME"
 
 usage() {
   cat <<'EOF'
 Usage: ./scripts/audit-home.sh [--target-home PATH]
 
-Read-only audit of a home folder against the reference model in this repo.
+Read-only audit of a Unix/mac home folder against the reference model in this repo.
 EOF
+}
+
+manifest_entries() {
+  scope="$1"
+  awk -F '\t' -v wanted="$scope" '
+    $0 !~ /^#/ && NF >= 4 && $1 == wanted {
+      print $2 "\t" $3 "\t" $4
+    }
+  ' "$MANIFEST"
 }
 
 while [ "$#" -gt 0 ]; do
@@ -79,29 +89,59 @@ check_glob() {
   fi
 }
 
+check_manifest_scope() {
+  scope="$1"
+  manifest_tmp=$(mktemp "${TMPDIR:-/tmp}/home-setup-audit-manifest.XXXXXX")
+  manifest_entries "$scope" > "$manifest_tmp"
+
+  while IFS="$(printf '\t')" read -r kind rel_path note; do
+    [ -n "$kind" ] || continue
+
+    case "$kind" in
+      file)
+        check_path "$rel_path" "$note"
+        ;;
+      dir)
+        template_dir="$ROOT/templates/$rel_path"
+        if [ ! -d "$template_dir" ]; then
+          echo "Missing template directory: $template_dir" >&2
+          rm -f "$manifest_tmp"
+          exit 1
+        fi
+
+        tree_tmp=$(mktemp "${TMPDIR:-/tmp}/home-setup-audit-tree.XXXXXX")
+        find "$template_dir" -type f | LC_ALL=C sort > "$tree_tmp"
+        while IFS= read -r template_file; do
+          rel_file=${template_file#"$ROOT/templates/"}
+          check_path "$rel_file" "$note"
+        done < "$tree_tmp"
+        rm -f "$tree_tmp"
+        ;;
+      *)
+        echo "Unsupported manifest kind: $kind" >&2
+        rm -f "$manifest_tmp"
+        exit 1
+        ;;
+    esac
+  done < "$manifest_tmp"
+
+  rm -f "$manifest_tmp"
+}
+
 echo "Home setup audit"
 printf 'Target home: %s\n' "$TARGET_HOME"
 
 echo
-echo "Repo-managed reference items"
-check_path "AGENTS.md" "global home contract"
-check_path ".gitconfig" "minimal shared git defaults"
-check_path ".zprofile" "Homebrew shellenv and local secrets hook"
-check_path ".codex/config.toml" "Codex runtime defaults"
-check_path ".codex/home_setup_summary.md" "home setup summary"
-check_path ".codex/knowledge/work-start-checklist.md" "lightweight work-start checklist"
-check_path ".codex/knowledge/global/INDEX.md" "global knowledge index"
-check_path ".codex/knowledge/global/common-gotchas.md" "global gotchas template"
-check_path ".codex/knowledge/global/glossary.md" "global glossary template"
-check_path ".codex/knowledge/global/shared-services.md" "shared services template"
-check_path ".codex/knowledge/global/system-map.md" "system map template"
+echo "Portable shared reference items"
+check_manifest_scope shared
 
-for skill_dir in "$ROOT"/templates/.codex/skills/*; do
-  skill_name=$(basename "$skill_dir")
-  check_path ".codex/skills/$skill_name/SKILL.md" "custom shared skill"
-done
+echo
+echo "Optional automation"
+check_manifest_scope automation
 
-check_path ".codex/automations/weekly-codex-health/automation.toml" "optional weekly Codex health automation"
+echo
+echo "Unix/mac reference items"
+check_manifest_scope unix
 
 echo
 echo "Environment-provided and not managed by this repo"
@@ -121,5 +161,5 @@ check_path ".codex/shell_snapshots" "local Codex shell snapshots"
 
 echo
 printf 'Summary: %s present, %s missing\n' "$present_count" "$missing_count"
-echo "Missing repo-managed items are adoption candidates."
+echo "Missing shared or Unix/mac reference items are adoption candidates."
 echo "Missing local-only items are usually fine until that machine needs them."

@@ -1,6 +1,6 @@
 # Design Logic
 
-This repo documents the reference design for a home-level Codex setup. The goal is not to clone one machine exactly. The goal is to preserve the logic of the setup so another machine can adopt the same model selectively.
+This repo documents the reference design for a portable shared Codex layer. The goal is not to clone one machine exactly. The goal is to preserve the shared Codex logic so another machine can duplicate the same control layer without copying machine-local state.
 
 ## Core Design
 
@@ -10,7 +10,7 @@ This repo documents the reference design for a home-level Codex setup. The goal 
 - Let each actual repo own its own build, test, architecture, and safety rules.
 - Keep secrets and runtime state local to each machine.
 
-## Home-Level Layers
+## Portable Shared Codex Layer
 
 ### `~/AGENTS.md`
 
@@ -32,6 +32,27 @@ This is for compact, on-demand notes. Global notes belong here only when the inf
 
 Automation is optional. In the current reference model it is used for a weekly Codex health review, not for every day-to-day edit.
 
+These portable items are the part of the setup that should duplicate cleanly across machines, including Windows under `%USERPROFILE%`.
+
+## Platform-Specific Integration
+
+### Unix/mac reference files
+
+- `~/.gitconfig`
+  Minimal shared Git defaults.
+- `~/.zprofile`
+  Homebrew shell bootstrap plus a hook for `~/.config/home-setup/secrets.zsh`.
+- `~/.config/home-setup/secrets.zsh.example`
+  Example local secrets file for Unix-style shell setup.
+
+The Unix/mac installer and audit include these files in addition to the portable shared Codex layer.
+
+### Windows duplication flow
+
+- The Windows PowerShell installer copies only the portable shared Codex layer plus optional automation.
+- It intentionally skips `.gitconfig`, `.zprofile`, Homebrew, and the Unix `secrets.zsh` hook.
+- When the installer renders `__HOME__`, it uses a slash-normalized absolute home path such as `C:/Users/name` so Markdown links inside skills, summaries, and automation prompts still work.
+
 ### `~/.config/home-setup/secrets.zsh`
 
 This is the machine-local override point. It is where secrets, local environment variables, and host-specific shell differences belong. It is intentionally outside the shared reference model.
@@ -39,14 +60,17 @@ This is the machine-local override point. It is where secrets, local environment
 ## Docs Versus Templates
 
 - `docs/` is the authoritative explanation of the setup.
-- `templates/` is an example rendered form of the shared pieces.
-- `scripts/audit-home.sh` is the default way to compare an existing machine to the reference model.
-- `scripts/install.sh` is an optional clean-machine bootstrap helper, not the primary workflow for an already-lived-in home folder.
+- `templates/` is the source for the shared files that installers render onto target machines.
+- `config/reference-paths.tsv` is the inventory that tells the Unix/mac and Windows installers and audits which template roots are portable shared, Unix/mac-only, or optional automation.
+- `scripts/audit-home.sh` is the default way to compare an existing Unix/mac machine to the reference model.
+- `scripts/install.sh` is an optional Unix/mac bootstrap helper, not the primary workflow for an already-lived-in home folder.
+- `scripts/audit-home.ps1` and `scripts/install.ps1` are the Windows duplication tools for the portable shared layer.
 
 ## Boundaries
 
 - This repo owns shared home-level intent.
 - This repo does not own machine-local auth, logs, caches, sessions, or secrets.
+- This repo does not promise full shell or package-manager parity across operating systems.
 - This repo does not own repo-specific commands or architecture.
 - If a repo has its own `AGENTS.md` or local AI docs, that repo remains the source of truth for local work.
 

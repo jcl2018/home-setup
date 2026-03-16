@@ -1,21 +1,17 @@
 # Setup Catalog
 
-This is the current reference snapshot of the home setup. It mixes repo-managed shared pieces with a few visible environment-provided pieces so a new machine can understand what is part of the design and what is merely present in the current environment.
+This is the current reference snapshot of the portable shared Codex layer plus the Unix/mac-specific helpers that still live in this repo. The installer and audit scripts read `config/reference-paths.tsv` so the Windows and Unix/mac flows stay aligned.
 
-## Repo-Managed Shared Files
+## Portable Shared Codex Files
 
 - `AGENTS.md`
   The small global Codex contract for all repos.
-- `.gitconfig`
-  Minimal shared Git defaults.
-- `.zprofile`
-  Homebrew shell bootstrap plus a hook for `~/.config/home-setup/secrets.zsh`.
 - `.codex/config.toml`
   Minimal Codex runtime defaults.
 - `.codex/home_setup_summary.md`
   Short explanation of the home setup philosophy.
 
-## Knowledge Notes
+## Portable Knowledge Notes
 
 - `.codex/knowledge/work-start-checklist.md`
   Lightweight reminder for how to begin substantial work.
@@ -32,7 +28,7 @@ This is the current reference snapshot of the home setup. It mixes repo-managed 
 
 The global note files are currently mostly starter templates. That is intentional: they are part of the structure even when lightly populated.
 
-## Custom Shared Skills
+## Portable Custom Skills
 
 - `lv0-home-codex-health`
   Audits home or repo Codex setup for drift, context cost, and verification gaps.
@@ -49,7 +45,25 @@ The global note files are currently mostly starter templates. That is intentiona
 - `lv1-workflow-session-handoff`
   Writes short handoff notes for unfinished work.
 
-These live in `templates/.codex/skills/` and are treated as part of the shared reference model.
+These live in `templates/.codex/skills/` and are treated as part of the shared reference model. The skill directories also include supporting `references/` and `agents/` files that the installers carry along with each skill.
+
+## Optional Portable Automation
+
+- `weekly-codex-health`
+  A weekly Sunday 9:00 local-time automation that runs the home Codex health audit against the home setup.
+
+The automation lives at `templates/.codex/automations/weekly-codex-health/automation.toml`. It is part of the reference model, but optional on each machine.
+
+## Unix/mac Reference-Only Files
+
+- `.gitconfig`
+  Minimal shared Git defaults for Unix/mac machines.
+- `.zprofile`
+  Homebrew shell bootstrap plus a hook for `~/.config/home-setup/secrets.zsh`.
+- `.config/home-setup/secrets.zsh.example`
+  Example local secrets file for Unix-style shell setup.
+
+These are installed by `scripts/install.sh` and checked by `scripts/audit-home.sh`, but they are intentionally skipped by the Windows duplication flow.
 
 ## Visible Environment-Provided Skills
 
@@ -61,13 +75,6 @@ These live in `templates/.codex/skills/` and are treated as part of the shared r
   Helps install Codex skills from curated sources or repos.
 
 These are visible in the current Codex environment under `.codex/skills/.system/`, but they are not managed by this repo and should not be copied into the reference export.
-
-## Automation
-
-- `weekly-codex-health`
-  A weekly Sunday 9:00 local-time automation that runs the home Codex health audit against the home setup.
-
-The automation lives at `templates/.codex/automations/weekly-codex-health/automation.toml`. It is part of the reference model, but optional on each machine.
 
 ## Local-Only Pieces Not Owned By This Repo
 
