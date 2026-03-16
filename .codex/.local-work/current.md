@@ -13,6 +13,7 @@
 - Pushed `Refresh Codex home mirror` to `origin/main`, so the canonical remote now matches the live home files that had drifted.
 - Set `user.name` and `user.email` only in the local mirror checkout so the sync could reuse the repo's existing commit identity without changing global Git config.
 - Refreshed this handoff, re-exported it into the mirror, and pushed the closing handoff update so the local home state and canonical remote end the session aligned.
+- Verified from a fresh clone of `jcl2018/home-setup` that the live managed home files now have no normalized content drift versus the remote.
 
 ## Decisions / constraints
 
@@ -43,6 +44,7 @@
 - `git -C C:\Users\chang\.codex-mirrors\home-setup commit -m "Refresh home export handoff"` -> pass
 - `git -C C:\Users\chang\.codex-mirrors\home-setup push origin main` -> pass
 - `git -C C:\Users\chang\.codex-mirrors\home-setup rev-parse HEAD` and `git ls-remote https://github.com/jcl2018/home-setup.git HEAD` -> pass (local and remote `HEAD` match after the closing push)
+- Fresh-clone normalized comparison of tracked live home files versus `https://github.com/jcl2018/home-setup.git` -> pass (`NO_DIFFS`)
 
 ## Next steps
 
