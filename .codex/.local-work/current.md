@@ -4,62 +4,48 @@
 
 ## Goal
 
-- Normalize the canonical `jcl2018/home-setup` mirror so future home audits compare portable content instead of machine-specific paths and host-only config.
+- Audit the normalized canonical `jcl2018/home-setup` mirror and confirm the live home control layer has no remaining in-scope drift.
 
 ## Current state
 
-- Read `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `$lv0-home-codex-settings-export`, `$lv0-home-codex-health`, `$lv1-workflow-session-handoff`, and the home setup PRDs before revising the export contract.
-- Updated the export workflow so mirrored text files rewrite the source home root to `~`, mirrored `.codex/config.toml` drops top-level OS-specific tables such as `[windows]`, `[macos]`, and `[linux]`, and the manifest records those normalization rules.
-- Updated the home audit and home-setup PRDs so future audits compare normalized live content against the canonical mirror instead of raw local absolute paths.
-- Restored the repo-bootstrap skill links back to relative paths so they stay portable in both the live home tree and the mirror.
-- Exported the normalized snapshot into `~/Documents/projects/home-setup`; the mirror diff now shows portable automation paths plus the new normalization-aware manifest and README.
+- Read `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `$lv0-home-codex-health`, and `~/.codex/knowledge/setup-prd/home-setup.md` before re-running the home audit.
+- Re-fetched `origin/main` for `~/Documents/projects/home-setup` and confirmed the local mirror checkout, `origin/main`, and the current remote `HEAD` all resolve to `cf6334a5a0325ca5bcd9dc41d0301045bc29419d`.
+- Compared every managed home file by applying the export normalization rules to the live `~` content and matching the result against the mirror manifest entries; the normalized comparison returned `NO_DIFFS`.
+- Searched the canonical mirror managed roots for hard-coded `/Users/...` or `C:/Users/...` paths and found none after the portability cleanup.
+- Re-checked live home skill and PRD coverage; every current `lv0` and `lv1` skill still has a matching home PRD.
+- No in-scope audit findings remain after the portability cleanup.
 
 ## Decisions / constraints
 
-- Use `$lv0-home-codex-settings-export` as the only export path into the canonical mirror.
-- Leave unrelated mirror-local files outside the managed export roots untouched.
-- Compare remote and live state using the managed roots from the mirror manifest, not volatile runtime files under `~/.codex`.
-- Treat `codex-home-manifest.toml` timestamp churn as mirror-local noise unless one of the managed roots actually differs.
-- Normalize only the exported mirror; do not rewrite the live home files just to make the mirror portable.
-- Use `~` as the portable home marker in exported text and treat top-level OS-specific config tables as host-local, not canonical mirror state.
+- Audit the live home against the canonical mirror by applying the same normalization rules the export workflow uses.
+- Keep exported mirror repos out of the default audit scope except for the narrow managed-root consistency check against the canonical remote.
+- Ignore mirror-local untracked noise outside the managed roots when deciding whether the home control layer itself is healthy.
 
 ## Files touched
 
 - `~/.codex/.local-work/current.md`
-- `~/.codex/skills/lv0-home-codex-settings-export/SKILL.md`
-- `~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py`
-- `~/.codex/knowledge/setup-prd/lv0-home-codex-settings-export.md`
-- `~/.codex/skills/lv0-home-codex-health/SKILL.md`
-- `~/.codex/knowledge/setup-prd/lv0-home-codex-health.md`
-- `~/.codex/knowledge/setup-prd/home-setup.md`
-- `~/.codex/skills/lv1-workflow-repo-bootstrap/SKILL.md`
-- `~/.codex/skills/lv1-workflow-repo-bootstrap/references/existing-repo.md`
 
 ## Verification
 
 - `sed -n '1,220p' ~/AGENTS.md` -> pass
 - `sed -n '1,240p' ~/.codex/.local-work/current.md` -> pass
 - `sed -n '1,220p' ~/.codex/skills/lv0-home-codex-health/SKILL.md` -> pass
-- `sed -n '1,260p' ~/.codex/skills/lv0-home-codex-settings-export/SKILL.md` -> pass
-- `sed -n '1,260p' ~/.codex/knowledge/setup-prd/lv0-home-codex-settings-export.md` -> pass
-- `sed -n '1,240p' ~/.codex/skills/lv0-home-codex-health/SKILL.md` -> pass
 - `sed -n '1,220p' ~/.codex/knowledge/setup-prd/home-setup.md` -> pass
-- `python3 -m py_compile ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py` -> pass
-- `python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo /tmp/.../repo` -> pass
-- `python3 - <<'PY' ... normalize_text_for_export('.codex/config.toml', sample_with_windows_table, Path('~')) ... PY` -> pass
-- `python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo ~/Documents/projects/home-setup` -> pass
-- `git -C ~/Documents/projects/home-setup diff --stat` -> pass
+- `git -C ~/Documents/projects/home-setup fetch origin main && git -C ~/Documents/projects/home-setup rev-parse HEAD origin/main && git ls-remote https://github.com/jcl2018/home-setup.git HEAD` -> pass (`cf6334a5a0325ca5bcd9dc41d0301045bc29419d` for all three)
+- `python3 - <<'PY' ... transform_for_export(raw, rel, home_root) ... PY` against `codex-home-manifest.toml` entries -> pass (`NO_DIFFS`)
+- `rg -n '/Users/[^/]+|C:/Users/[^/]+' ~/Documents/projects/home-setup/AGENTS.md ~/Documents/projects/home-setup/.codex/.local-work/current.md ~/Documents/projects/home-setup/.codex/config.toml ~/Documents/projects/home-setup/.codex/skills ~/Documents/projects/home-setup/.codex/knowledge ~/Documents/projects/home-setup/.codex/automations` -> pass (no output)
+- `find ~/.codex/skills -mindepth 1 -maxdepth 1 -type d` and `find ~/.codex/knowledge/setup-prd -maxdepth 1 -type f` -> pass
 
 ## Next steps
 
 - No live home follow-up is required unless future home-control changes need another export.
-- Optional: re-run `lv0-home-codex-health` from a different machine later to validate the normalized mirror contract end-to-end.
+- Optional: clean the local mirror checkout's untracked `.swp`, `.gitignore`, `.DS_Store`, or `.local-work/` noise if you want that checkout itself to look pristine.
 
 ## Blockers / risks
 
-- Each audit-time re-export rewrites the generated `codex-home-manifest.toml` timestamp, so the mirror repo may look locally dirty even when the managed roots are otherwise in sync.
-- The exported tracker is now portability-normalized too, so mirrored shell snippets are documentation rather than guaranteed copy-paste commands.
+- The canonical remote is clean, but the local mirror checkout still has out-of-scope untracked noise that does not affect the managed export.
+- Future audit-time tracker refreshes will create fresh live drift unless they are followed by another export, because `~/.codex/.local-work/current.md` is itself part of the managed mirror.
 
 ## Rollback notes
 
-- Restore the previous export script and PRD wording, re-run `$lv0-home-codex-settings-export` into `~/Documents/projects/home-setup`, and push the resulting revert snapshot if the canonical mirror should go back to raw machine-specific exports.
+- Re-run `$lv0-home-codex-settings-export` into `~/Documents/projects/home-setup`, then revert and push the resulting mirror commit if the canonical remote needs to return to an earlier snapshot.
