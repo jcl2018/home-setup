@@ -11,7 +11,7 @@
 - Reviewed `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `~/.codex/skills/lv0-home-codex-settings-export/SKILL.md`, and `~/.codex/skills/lv1-workflow-session-handoff/SKILL.md`.
 - The destination path exists and is already a git repo with remote `https://github.com/jcl2018/home-setup.git`.
 - The export script completed and wrote 38 managed files into `__HOME__/Documents/projects/home-setup`.
-- Commit `ef8e343` has been pushed to `origin/main` for `__HOME__/Documents/projects/home-setup`.
+- The latest export snapshot has been committed and force-pushed to `origin/main` for `__HOME__/Documents/projects/home-setup`.
 
 ## Decisions / constraints
 
