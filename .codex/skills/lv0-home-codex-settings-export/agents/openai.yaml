@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lv0 Home: Codex Settings Export"
+  short_description: "Export portable Codex home settings"
+  default_prompt: "Use $lv0-home-codex-settings-export to snapshot this Codex home setup into a local git repo, excluding secrets and volatile state."

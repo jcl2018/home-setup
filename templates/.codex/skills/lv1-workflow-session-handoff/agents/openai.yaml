@@ -1,4 +1,0 @@
-interface:
-  display_name: "Lv1 Workflow: Session Handoff"
-  short_description: "Write a concise resume-ready handoff"
-  default_prompt: "Use $lv1-workflow-session-handoff to create or update a concise handoff with the current state, verification, risks, and next step."

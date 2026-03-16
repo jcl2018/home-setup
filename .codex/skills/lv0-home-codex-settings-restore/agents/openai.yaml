@@ -1,0 +1,4 @@
+interface:
+  display_name: "Lv0 Home: Codex Settings Restore"
+  short_description: "Restore or pull Codex home settings"
+  default_prompt: "Use $lv0-home-codex-settings-restore to clone or pull a Codex home settings repo, preview the changes, back up local files, and restore the managed setup."
