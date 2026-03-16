@@ -11,7 +11,7 @@
 - Reviewed `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `~/.codex/skills/lv0-home-codex-settings-export/SKILL.md`, and `~/.codex/skills/lv1-workflow-session-handoff/SKILL.md`.
 - The destination path exists and is already a git repo with remote `https://github.com/jcl2018/home-setup.git`.
 - The export script completed and wrote 38 managed files into `__HOME__/Documents/projects/home-setup`.
-- The destination diff is now the old repo contents being replaced by the managed snapshot roots and regenerated `README.md` and `codex-home-manifest.toml`.
+- Commit `ef8e343` has been pushed to `origin/main` for `__HOME__/Documents/projects/home-setup`.
 
 ## Decisions / constraints
 
@@ -43,15 +43,20 @@
 - `git -C __HOME__/Documents/projects/home-setup diff --stat` -> pass
 - `sed -n '1,220p' __HOME__/Documents/projects/home-setup/README.md` -> pass
 - `sed -n '1,220p' __HOME__/Documents/projects/home-setup/codex-home-manifest.toml` -> pass
+- `git -C __HOME__/Documents/projects/home-setup add -u -- .` -> pass
+- `git -C __HOME__/Documents/projects/home-setup add -- AGENTS.md README.md codex-home-manifest.toml .codex` -> pass
+- `git -C __HOME__/Documents/projects/home-setup diff --cached --stat` -> pass
+- `git -C __HOME__/Documents/projects/home-setup commit -m "Export current Codex home settings"` -> pass
+- `git -C __HOME__/Documents/projects/home-setup push --force origin main` -> pass
 
 ## Next steps
 
-- Re-export after refreshing this tracking doc so the snapshot captures the latest session state, then commit and force-push `main`.
+- Re-run the same export command whenever the home control layer changes and you want to refresh the portable snapshot repo.
 
 ## Blockers / risks
 
-- Force-pushing will replace the current remote history tip for `main` with the exported snapshot commit(s).
+- The target repo still has an untracked `.DS_Store` locally because it was intentionally left out of the commit.
 
 ## Rollback notes
 
-- If the new snapshot needs to be reverted, recover from the previous remote commit history before the force-push or re-run the restore/export flow from a known-good snapshot.
+- The previous `origin/main` tip before the force-push was `6da1013`; recover from that commit if you need to undo this export remotely.
