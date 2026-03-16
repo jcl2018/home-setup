@@ -1,19 +1,19 @@
 version = 2
-generated_at = "2026-03-16T07:21:23Z"
+generated_at = "2026-03-16T15:45:14Z"
 managed_roots = ["AGENTS.md", ".codex/.local-work/current.md", ".codex/config.toml", ".codex/skills", ".codex/knowledge", ".codex/automations"]
 excluded_paths = [".codex/.codex-global-state.json", ".codex/auth.json", ".codex/logs_1.sqlite", ".codex/logs_1.sqlite-shm", ".codex/logs_1.sqlite-wal", ".codex/memories", ".codex/models_cache.json", ".codex/restore_backups", ".codex/session_index.jsonl", ".codex/sessions", ".codex/shell_snapshots", ".codex/skills/.system", ".codex/sqlite", ".codex/state_5.sqlite", ".codex/state_5.sqlite-shm", ".codex/state_5.sqlite-wal", ".codex/tmp", ".codex/vendor_imports"]
 
 [[files]]
 path = ".codex/.local-work/current.md"
 kind = "text"
-sha256 = "d387823e2e73f24abc1a963c60d046c0bb473f2286e61af7d19741cd45db487c"
-size = 2252
+sha256 = "cd514bc3993356cd6ea46270aa8c3ef325c10bb8c042073a27420afc3b4972fc"
+size = 2881
 
 [[files]]
 path = ".codex/automations/weekly-codex-health/automation.toml"
 kind = "text"
-sha256 = "99fc272b768f0d650907cf82be5b423ce558cdff2a250fb0d753e8b74334b391"
-size = 1147
+sha256 = "7aa8ec63ef1e3e8414701310ba1e982e983fd1fcc0e6ac8d1116ba95043fef55"
+size = 1268
 
 [[files]]
 path = ".codex/config.toml"
@@ -36,14 +36,14 @@ size = 1426
 [[files]]
 path = ".codex/knowledge/setup-prd/home-setup.md"
 kind = "text"
-sha256 = "96f776bae0d696e0bef507c861c3899d5d64ef5e9cbf30dbfb516fbbd691dc8f"
-size = 3161
+sha256 = "4ed210df8c14b44bfa905ecac301fee7b8bb3300fe0bd75962d50db4b4dad75d"
+size = 3531
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv0-home-codex-health.md"
 kind = "text"
-sha256 = "a0b500401691ff4699e85ce6232244ef53654d9cc0905d75d6634e3a5df4e8ab"
-size = 2168
+sha256 = "63606ca58ca995ad2365bd6881de18a73e117ea38e3f0fbbfdbae99aa3ae8c19"
+size = 2579
 
 [[files]]
 path = ".codex/knowledge/setup-prd/lv0-home-codex-settings-export.md"
@@ -96,8 +96,8 @@ size = 3125
 [[files]]
 path = ".codex/skills/lv0-home-codex-health/SKILL.md"
 kind = "text"
-sha256 = "ed440c67284d72d2761e916a17a03870892722b73bbef99f36c01c3eabd2cb18"
-size = 3980
+sha256 = "04ae675a4d145e5df099b0001e76e1bc0afb6cf6701e6ac21a9d02fbeb0d6f4e"
+size = 4879
 
 [[files]]
 path = ".codex/skills/lv0-home-codex-health/agents/openai.yaml"

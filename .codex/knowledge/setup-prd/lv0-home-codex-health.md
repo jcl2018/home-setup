@@ -11,7 +11,7 @@ Define the expected behavior for auditing Codex home or repo setup for drift, co
 - Repo audits read the nearest repo `AGENTS.md`, `.local-work/current.md`, the repo knowledge root when defined, and any repo-local `setup-prd/` entries for `lv2` skills.
 - Findings are prioritized into `Critical`, `Structural`, and `Incremental`.
 - Each finding explains what is wrong, where it lives, why it matters, and the smallest fix.
-- Exported home mirror repos are only audited when the user explicitly asks for the export flow or the mirror repo itself.
+- Exported home mirror repos stay out of the default audit path, except for a narrow comparison between this machine's live home setup and the current remote state of the canonical mirror `jcl2018/home-setup`.
 
 ## Audit Checklist
 
@@ -20,6 +20,7 @@ Define the expected behavior for auditing Codex home or repo setup for drift, co
 - Check whether skill docs point to the matching PRDs instead of embedding bulky detailed rules.
 - Check whether `lv0`/`lv1` skills have matching home PRDs.
 - Check whether repos with `lv2` skills also have a repo knowledge root and matching repo-local PRDs.
+- When the canonical home mirror is reachable, verify the live tracked home-control files are consistent with the current remote state of `jcl2018/home-setup` or explain why the remote comparison could not run.
 - Verify done-conditions and verification guidance map to real commands.
 
 ## Success Criteria
@@ -31,8 +32,9 @@ Define the expected behavior for auditing Codex home or repo setup for drift, co
 ## Out of Scope
 
 - Rewriting the setup automatically without user request.
+- Auto-exporting or pushing the mirror repo as part of an audit.
 - Deep product or architecture review beyond what the local contracts claim.
-- Inspecting exported home mirror repos by default during a home audit.
+- Performing a full mirror-repo hygiene review beyond tracked home-control consistency unless the user explicitly asks.
 
 ## Related Sources
 

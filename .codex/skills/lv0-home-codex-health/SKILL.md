@@ -19,11 +19,13 @@ First decide what is being audited:
 - Repo setup: the nearest repo `AGENTS.md`, `.local-work/current.md`, any nested `AGENTS.md`, the repo knowledge root when defined, any repo-local `setup-prd/` entries for `lv2` skills, repo verification commands, and repo AI docs such as `docs/ai/`.
 - Both, when the user asks for the full picture.
 
-Exported mirror repos are not part of the default home-audit scope. Only inspect them when the user explicitly asks to audit the export flow or the mirror repo itself.
+Exported mirror repos are not part of the default home-audit scope. Exception: for this machine's home audits, compare the live home control layer against the current remote state of the canonical mirror `jcl2018/home-setup` and treat any drift as a home-setup finding, not a full mirror-repo audit.
+Do not auto-export during the audit. Only inspect the export workflow or the mirror repo itself beyond that narrow remote comparison when the user explicitly asks.
 
 ## Audit Inputs
 
 - For home audits, start with `~/AGENTS.md`, `~/.codex/.local-work/current.md`, [../../knowledge/setup-prd/INDEX.md](../../knowledge/setup-prd/INDEX.md), and [../../knowledge/setup-prd/home-setup.md](../../knowledge/setup-prd/home-setup.md), then load only the matching skill PRDs.
+- For this machine's home audits, use the current remote state of `https://github.com/jcl2018/home-setup.git` as the comparison target. Prefer direct remote inspection and use a local checkout only as a convenience cache after confirming it matches the remote head. Compare only the tracked home-control roots rather than repo-local noise.
 - For repo audits, start with the nearest repo `AGENTS.md` and `.local-work/current.md`. Identify the repo knowledge root from the repo contract, then read `<repo-knowledge-root>/setup-prd/INDEX.md` and the matching PRDs when the repo has `lv2` skills or repo-local workflow contracts.
 
 ## Translation Layer
@@ -62,6 +64,7 @@ Read [references/claude-to-codex.md](references/claude-to-codex.md) before audit
 - Check for clear approval boundaries around secrets, CI, migrations, production, or destructive edits.
 - Check whether home and repo tracking docs exist, are read in the required order, and reflect the current verification and next steps.
 - Check whether home automations or PRDs still match the current home setup and skill layout.
+- For this machine, check whether the live home control layer is consistent with the current remote state of the canonical mirror `jcl2018/home-setup`. Flag tracked-file drift or an unverifiable remote comparison, and keep export as a separate explicit workflow.
 
 ### 5. Verification
 

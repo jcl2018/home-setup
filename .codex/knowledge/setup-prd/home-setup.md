@@ -15,7 +15,7 @@ Define the desired state for the Codex home control layer so audits and future e
 - Repo work keeps a required tracking doc at `<repo>/.local-work/current.md`, read immediately after the nearest repo `AGENTS.md`.
 - Repo-specific build, test, architecture, safety, and deep-dive knowledge stays in the repo, not in home files.
 - Automations are optional and used for periodic review, not as the primary way to remember workflow rules.
-- Versioned home mirrors treat the home control layer as a separate asset from normal coding repos and are not part of the default home-audit scope.
+- Versioned home mirrors treat the home control layer as a separate asset from normal coding repos. The canonical remote mirror `jcl2018/home-setup` is a light consistency reference during home audits, and export remains an explicit separate workflow.
 
 ## Audit Checklist
 
@@ -27,6 +27,7 @@ Define the desired state for the Codex home control layer so audits and future e
 - Repo contracts require `.local-work/current.md` in every repo and define the exact read and refresh triggers.
 - Any repo that introduces `lv2` skills defines a repo knowledge root and keeps matching PRDs under `<repo-knowledge-root>/setup-prd/`.
 - Export includes `~/.codex/.local-work/current.md`, `~/.codex/knowledge/`, and no longer depends on a standalone home summary file.
+- When reachable, the live tracked home-control files can be compared against the current remote state of `https://github.com/jcl2018/home-setup` to catch drift or remote mismatch without auto-exporting.
 
 ## Success Criteria
 
@@ -37,6 +38,7 @@ Define the desired state for the Codex home control layer so audits and future e
 ## Out of Scope
 
 - Repo-specific implementation detail and project-local commands.
+- Automatic export or push of the home mirror during an audit.
 - Volatile runtime state such as sessions, caches, auth, or sqlite files.
 - Turning PRDs into full execution manuals; the skill docs remain the operational guides.
 
