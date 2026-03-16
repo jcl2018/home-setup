@@ -1,6 +1,6 @@
 # Codex Home Settings
 
-This repo stores a portable snapshot of a Codex home control layer.
+This repo stores a static mirror of a Codex home control layer.
 
 ## What it tracks
 
@@ -18,32 +18,18 @@ This repo stores a portable snapshot of a Codex home control layer.
 - automation runtime state outside `automation.toml`
 - system-managed skills under `.codex/skills/.system`
 
-## Portability
+## Mirror behavior
 
-Home-rooted absolute paths are stored as `__HOME__` in tracked text files and rebound to the active home directory during restore.
+Managed files are copied from the current home tree as-is, within the tracked roots and exclusions listed in `codex-home-manifest.toml`.
+
+This repo intentionally does not include install or restore scripts.
 
 ## Layout guidance
 
-Use this repo only for the Codex home control layer. Keep your normal coding repos outside this snapshot repo under a stable workspace root such as `~/Documents/projects` or another single parent you control. Each project repo should keep its own `AGENTS.md`, verification commands, and repo-local AI docs.
+Use this repo only for the Codex home control layer. Keep your normal coding repos outside this mirror repo under a stable workspace root such as `~/Documents/projects` or another single parent you control. Each project repo should keep its own `AGENTS.md`, verification commands, and repo-local AI docs.
 
 ## Export
 
 ```bash
 python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo /path/to/this/repo
 ```
-
-## Restore
-
-Preview before writing anything:
-
-```bash
-python3 /path/to/this/repo/.codex/skills/lv0-home-codex-settings-restore/scripts/restore_codex_home.py --source /path/to/this/repo
-```
-
-Apply the restore after reviewing the preview:
-
-```bash
-python3 /path/to/this/repo/.codex/skills/lv0-home-codex-settings-restore/scripts/restore_codex_home.py --source /path/to/this/repo --apply
-```
-
-If the repo is remote-backed, the restore script can clone or pull first.

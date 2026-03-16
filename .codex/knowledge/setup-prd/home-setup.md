@@ -15,7 +15,7 @@ Define the desired state for the Codex home control layer so audits and future e
 - Repo work keeps a required tracking doc at `<repo>/.local-work/current.md`, read immediately after the nearest repo `AGENTS.md`.
 - Repo-specific build, test, architecture, safety, and deep-dive knowledge stays in the repo, not in home files.
 - Automations are optional and used for periodic review, not as the primary way to remember workflow rules.
-- Snapshot and restore treat the home control layer as a separate portable asset from normal coding repos.
+- Versioned home mirrors treat the home control layer as a separate asset from normal coding repos and are not part of the default home-audit scope.
 
 ## Audit Checklist
 
@@ -26,13 +26,13 @@ Define the desired state for the Codex home control layer so audits and future e
 - Shared global notes outside `setup-prd/` stay concise and cross-repo.
 - Repo contracts require `.local-work/current.md` in every repo and define the exact read and refresh triggers.
 - Any repo that introduces `lv2` skills defines a repo knowledge root and keeps matching PRDs under `<repo-knowledge-root>/setup-prd/`.
-- Export and restore include `~/.codex/.local-work/current.md`, `~/.codex/knowledge/`, and no longer depend on a standalone home summary file.
+- Export includes `~/.codex/.local-work/current.md`, `~/.codex/knowledge/`, and no longer depends on a standalone home summary file.
 
 ## Success Criteria
 
 - Future sessions can discover home workflow expectations by reading the smallest relevant contract.
 - Audits can compare the current home setup against a clear checklist without relying on ad hoc summary files.
-- The home control layer remains small, composable, and portable across machines.
+- The home control layer remains small, composable, and easy to version separately from normal repos.
 
 ## Out of Scope
 
@@ -50,4 +50,4 @@ Define the desired state for the Codex home control layer so audits and future e
 
 ## Last Checked
 
-- 2026-03-15
+- 2026-03-16

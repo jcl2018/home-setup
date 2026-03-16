@@ -7,10 +7,11 @@ Define the expected behavior for auditing Codex home or repo setup for drift, co
 ## Desired State
 
 - The audit reads the smallest relevant contracts before judging the setup.
-- Home audits compare the observed state against `setup-prd/home-setup.md`, `~/.codex/.local-work/current.md`, and any relevant `lv0`/`lv1` PRDs.
+- Home audits compare the observed state against `setup-prd/home-setup.md`, `~/.codex/.local-work/current.md`, and any relevant `lv0`/`lv1` PRDs in the live home control layer.
 - Repo audits read the nearest repo `AGENTS.md`, `.local-work/current.md`, the repo knowledge root when defined, and any repo-local `setup-prd/` entries for `lv2` skills.
 - Findings are prioritized into `Critical`, `Structural`, and `Incremental`.
 - Each finding explains what is wrong, where it lives, why it matters, and the smallest fix.
+- Exported home mirror repos are only audited when the user explicitly asks for the export flow or the mirror repo itself.
 
 ## Audit Checklist
 
@@ -31,6 +32,7 @@ Define the expected behavior for auditing Codex home or repo setup for drift, co
 
 - Rewriting the setup automatically without user request.
 - Deep product or architecture review beyond what the local contracts claim.
+- Inspecting exported home mirror repos by default during a home audit.
 
 ## Related Sources
 
@@ -40,4 +42,4 @@ Define the expected behavior for auditing Codex home or repo setup for drift, co
 
 ## Last Checked
 
-- 2026-03-15
+- 2026-03-16

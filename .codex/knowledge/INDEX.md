@@ -3,7 +3,7 @@
 - Scope: private home knowledge that is stable enough to reuse across repos or home workflows.
 - When to use this note: when a task depends on shared terminology, system relationships, recurring patterns across repos, or the home workflow contract.
 - Source files or docs: add paths or doc links as notes are filled in.
-- Last checked: 2026-03-15
+- Last checked: 2026-03-16
 
 ## Notes
 

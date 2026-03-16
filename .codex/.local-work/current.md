@@ -1,62 +1,50 @@
 # Last updated
 
-- 2026-03-15
+- 2026-03-16
 
 ## Goal
 
-- Export the current Codex home settings into `__HOME__/Documents/projects/home-setup` using `lv0-home-codex-settings-export`.
+- Re-run the home audit under the narrowed live-home-only scope and confirm whether any drift remains.
 
 ## Current state
 
-- Reviewed `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `~/.codex/skills/lv0-home-codex-settings-export/SKILL.md`, and `~/.codex/skills/lv1-workflow-session-handoff/SKILL.md`.
-- The destination path exists and is already a git repo with remote `https://github.com/jcl2018/home-setup.git`.
-- The export script completed and wrote 38 managed files into `__HOME__/Documents/projects/home-setup`.
-- The latest export snapshot has been committed and force-pushed to `origin/main` for `__HOME__/Documents/projects/home-setup`.
+- Re-read `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `$lv0-home-codex-health`, `~/.codex/knowledge/setup-prd/home-setup.md`, `~/.codex/knowledge/setup-prd/lv0-home-codex-health.md`, and `~/.codex/automations/weekly-codex-health/automation.toml`.
+- Re-checked the live home indexes, work-start checklist, config, skill-to-PRD coverage, and automation inventory.
+- Audit result: no critical, structural, or incremental findings in the live home control layer under the updated scope.
 
 ## Decisions / constraints
 
-- Do not push anything unless the user explicitly asks.
-- The user explicitly approved overwriting the remote state for this repo.
-- Keep the export limited to the snapshot workflow from `export_codex_home.py`.
+- Audit only the live home control layer by default.
+- Treat exported mirror repos as out of scope unless explicitly requested.
 
 ## Files touched
 
 - `~/.codex/.local-work/current.md`
-- `__HOME__/Documents/projects/home-setup/AGENTS.md`
-- `__HOME__/Documents/projects/home-setup/README.md`
-- `__HOME__/Documents/projects/home-setup/codex-home-manifest.toml`
-- `__HOME__/Documents/projects/home-setup/.codex/`
 
 ## Verification
 
-- `sed -n '1,220p' __HOME__/AGENTS.md` -> pass
-- `sed -n '1,220p' __HOME__/.codex/.local-work/current.md` -> pass
-- `sed -n '1,220p' __HOME__/.codex/skills/lv0-home-codex-settings-export/SKILL.md` -> pass
-- `sed -n '1,220p' __HOME__/.codex/skills/lv1-workflow-session-handoff/SKILL.md` -> pass
-- `test -e __HOME__/Documents/projects/home-setup && printf 'exists\n' || printf 'missing\n'` -> pass
-- `ls -la __HOME__/Documents/projects/home-setup` -> pass
-- `git -C __HOME__/Documents/projects/home-setup status --short --branch` -> pass
-- `git -C __HOME__/Documents/projects/home-setup remote -v` -> pass
-- `git -C __HOME__/Documents/projects/home-setup rev-parse --short HEAD` -> pass
-- `python3 __HOME__/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo __HOME__/Documents/projects/home-setup` -> pass
-- `git -C __HOME__/Documents/projects/home-setup status --short --branch` -> pass
-- `git -C __HOME__/Documents/projects/home-setup diff --stat` -> pass
-- `sed -n '1,220p' __HOME__/Documents/projects/home-setup/README.md` -> pass
-- `sed -n '1,220p' __HOME__/Documents/projects/home-setup/codex-home-manifest.toml` -> pass
-- `git -C __HOME__/Documents/projects/home-setup add -u -- .` -> pass
-- `git -C __HOME__/Documents/projects/home-setup add -- AGENTS.md README.md codex-home-manifest.toml .codex` -> pass
-- `git -C __HOME__/Documents/projects/home-setup diff --cached --stat` -> pass
-- `git -C __HOME__/Documents/projects/home-setup commit -m "Export current Codex home settings"` -> pass
-- `git -C __HOME__/Documents/projects/home-setup push --force origin main` -> pass
+- `sed -n '1,220p' /Users/chjiang/AGENTS.md` -> pass
+- `sed -n '1,260p' /Users/chjiang/.codex/.local-work/current.md` -> pass
+- `sed -n '1,120p' /Users/chjiang/.codex/skills/lv0-home-codex-health/SKILL.md` -> pass
+- `sed -n '1,160p' /Users/chjiang/.codex/knowledge/setup-prd/lv0-home-codex-health.md` -> pass
+- `sed -n '1,80p' /Users/chjiang/.codex/knowledge/setup-prd/home-setup.md` -> pass
+- `sed -n '1,220p' /Users/chjiang/.codex/automations/weekly-codex-health/automation.toml` -> pass
+- `sed -n '1,220p' /Users/chjiang/.codex/knowledge/INDEX.md` -> pass
+- `sed -n '1,220p' /Users/chjiang/.codex/knowledge/setup-prd/INDEX.md` -> pass
+- `sed -n '1,240p' /Users/chjiang/.codex/knowledge/work-start-checklist.md` -> pass
+- `sed -n '1,120p' /Users/chjiang/.codex/config.toml` -> pass
+- `python3 - <<'PY' ... compare lv0/lv1 skill dirs to PRD stems ... PY` -> pass, no missing or orphaned PRDs
+- `find /Users/chjiang/.codex/automations -mindepth 1 -maxdepth 2 -name automation.toml | sort` -> pass
 
 ## Next steps
 
-- Re-run the same export command whenever the home control layer changes and you want to refresh the portable snapshot repo.
+- None required from this audit.
 
 ## Blockers / risks
 
-- The target repo still has an untracked `.DS_Store` locally because it was intentionally left out of the commit.
+- No contract drift found in the live home layer.
+- Residual gap: this audit checked the home control-layer contract and metadata, not every historical uncommitted change in other repos or mirror outputs.
 
 ## Rollback notes
 
-- The previous `origin/main` tip before the force-push was `6da1013`; recover from that commit if you need to undo this export remotely.
+- No home files changed during this audit beyond refreshing this tracking doc.

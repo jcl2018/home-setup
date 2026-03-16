@@ -3,7 +3,7 @@
 - Scope: home control-layer expectations and workflow contracts for `lv0-home-*` and `lv1-workflow-*` skills.
 - When to use this note: when auditing or revising the home setup, a home/workflow skill, or the repo-local PRD convention for future `lv2` skills.
 - Related sources: `~/AGENTS.md`, `~/.codex/knowledge/INDEX.md`, `~/.codex/skills/`
-- Last checked: 2026-03-15
+- Last checked: 2026-03-16
 
 ## Conventions
 
@@ -20,7 +20,6 @@
 
 - [lv0-home-codex-health](lv0-home-codex-health.md)
 - [lv0-home-codex-settings-export](lv0-home-codex-settings-export.md)
-- [lv0-home-codex-settings-restore](lv0-home-codex-settings-restore.md)
 - [lv0-home-global-knowledge-capture](lv0-home-global-knowledge-capture.md)
 - [lv0-home-shared-context](lv0-home-shared-context.md)
 

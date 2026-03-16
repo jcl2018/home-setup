@@ -17,8 +17,8 @@ Use this skill to make a repo easy for future Codex sessions to understand and w
 
 1. If the target already has source files, manifests, or a `.git` directory, treat it as an existing repo and read [references/existing-repo.md](references/existing-repo.md).
 2. If the user wants a greenfield project or the target folder is empty, treat it as a new repo and read [references/new-repo.md](references/new-repo.md).
-3. If the task is mostly about creating or tightening the repo contract, also consult [$lv1-workflow-project-contract](__HOME__/.codex/skills/lv1-workflow-project-contract/SKILL.md).
-4. Also consult [$lv1-workflow-session-handoff](__HOME__/.codex/skills/lv1-workflow-session-handoff/SKILL.md) when creating, repairing, or refreshing the repo tracking flow.
+3. If the task is mostly about creating or tightening the repo contract, also consult [$lv1-workflow-project-contract](/Users/chjiang/.codex/skills/lv1-workflow-project-contract/SKILL.md).
+4. Also consult [$lv1-workflow-session-handoff](/Users/chjiang/.codex/skills/lv1-workflow-session-handoff/SKILL.md) when creating, repairing, or refreshing the repo tracking flow.
 
 ## Common Rules
 

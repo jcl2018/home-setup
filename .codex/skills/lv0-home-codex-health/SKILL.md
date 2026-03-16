@@ -19,6 +19,8 @@ First decide what is being audited:
 - Repo setup: the nearest repo `AGENTS.md`, `.local-work/current.md`, any nested `AGENTS.md`, the repo knowledge root when defined, any repo-local `setup-prd/` entries for `lv2` skills, repo verification commands, and repo AI docs such as `docs/ai/`.
 - Both, when the user asks for the full picture.
 
+Exported mirror repos are not part of the default home-audit scope. Only inspect them when the user explicitly asks to audit the export flow or the mirror repo itself.
+
 ## Audit Inputs
 
 - For home audits, start with `~/AGENTS.md`, `~/.codex/.local-work/current.md`, [../../knowledge/setup-prd/INDEX.md](../../knowledge/setup-prd/INDEX.md), and [../../knowledge/setup-prd/home-setup.md](../../knowledge/setup-prd/home-setup.md), then load only the matching skill PRDs.

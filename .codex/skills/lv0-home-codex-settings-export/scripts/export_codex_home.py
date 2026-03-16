@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export the portable Codex home snapshot into a local git repo."""
+"""Export the Codex home control layer into a static local git mirror."""
 
 from __future__ import annotations
 
@@ -10,9 +10,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-PLACEHOLDER = "__" + "HOME" + "__"
-LITERAL_PLACEHOLDER = "__HOME" + "_TOKEN_LITERAL__"
-SNAPSHOT_VERSION = 1
+SNAPSHOT_VERSION = 2
 MANAGED_ROOTS = [
     "AGENTS.md",
     ".codex/.local-work/current.md",
@@ -44,13 +42,13 @@ EXCLUDED_PATHS = [
 MANIFEST_NAME = "codex-home-manifest.toml"
 README_NAME = "README.md"
 TRANSIENT_NAMES = {".DS_Store"}
-TRANSIENT_SUFFIXES = {".pyc", ".pyo"}
+TRANSIENT_SUFFIXES = {".pyc", ".pyo", ".swo", ".swp", ".swx"}
 TRANSIENT_PARTS = {"__pycache__"}
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Export a portable Codex home snapshot into a local git repo.",
+        description="Export the Codex home control layer into a static local git mirror.",
     )
     parser.add_argument("--repo", required=True, help="Target local git repo path.")
     parser.add_argument(
@@ -130,7 +128,7 @@ def walk_tree(home_root: Path, rel_root: Path) -> set[Path]:
     for path in abs_root.rglob("*"):
         rel_path = path.relative_to(home_root).as_posix()
         if path.is_symlink():
-            raise SystemExit(f"Symlinks are not supported in the managed snapshot: {rel_path}")
+            raise SystemExit(f"Symlinks are not supported in the managed mirror: {rel_path}")
         if path.is_dir():
             continue
         if is_excluded_prefix(rel_path) or is_transient_path(rel_path):
@@ -148,7 +146,7 @@ def walk_automation_toml(home_root: Path) -> set[Path]:
     for path in automations_root.rglob("automation.toml"):
         rel_path = path.relative_to(home_root).as_posix()
         if path.is_symlink():
-            raise SystemExit(f"Symlinks are not supported in the managed snapshot: {rel_path}")
+            raise SystemExit(f"Symlinks are not supported in the managed mirror: {rel_path}")
         if is_excluded_prefix(rel_path) or is_transient_path(rel_path):
             continue
         files.add(path)
@@ -172,13 +170,10 @@ def is_binary_data(raw_bytes: bytes) -> bool:
     return False
 
 
-def transform_for_export(raw_bytes: bytes, home_root: Path) -> tuple[bytes, str]:
+def transform_for_export(raw_bytes: bytes) -> tuple[bytes, str]:
     if is_binary_data(raw_bytes):
         return raw_bytes, "binary"
-    text = raw_bytes.decode("utf-8")
-    # Preserve literal placeholder documentation while still rebinding real home paths.
-    text = text.replace(PLACEHOLDER, LITERAL_PLACEHOLDER)
-    return text.replace(str(home_root), PLACEHOLDER).encode("utf-8"), "text"
+    return raw_bytes, "text"
 
 
 def sha256_hex(raw_bytes: bytes) -> str:
@@ -225,7 +220,6 @@ def render_manifest(entries: list[dict[str, object]]) -> str:
     lines = [
         f"version = {SNAPSHOT_VERSION}",
         f"generated_at = {render_toml_string(generated_at)}",
-        f"placeholder_token = {render_toml_string(PLACEHOLDER)}",
         f"managed_roots = [{', '.join(render_toml_string(item) for item in MANAGED_ROOTS)}]",
         f"excluded_paths = [{', '.join(render_toml_string(item) for item in EXCLUDED_PATHS)}]",
         "",
@@ -247,7 +241,7 @@ def render_manifest(entries: list[dict[str, object]]) -> str:
 def render_readme() -> str:
     return f"""# Codex Home Settings
 
-This repo stores a portable snapshot of a Codex home control layer.
+This repo stores a static mirror of a Codex home control layer.
 
 ## What it tracks
 
@@ -265,35 +259,21 @@ This repo stores a portable snapshot of a Codex home control layer.
 - automation runtime state outside `automation.toml`
 - system-managed skills under `.codex/skills/.system`
 
-## Portability
+## Mirror behavior
 
-Home-rooted absolute paths are stored as `{PLACEHOLDER}` in tracked text files and rebound to the active home directory during restore.
+Managed files are copied from the current home tree as-is, within the tracked roots and exclusions listed in `codex-home-manifest.toml`.
+
+This repo intentionally does not include install or restore scripts.
 
 ## Layout guidance
 
-Use this repo only for the Codex home control layer. Keep your normal coding repos outside this snapshot repo under a stable workspace root such as `~/Documents/projects` or another single parent you control. Each project repo should keep its own `AGENTS.md`, verification commands, and repo-local AI docs.
+Use this repo only for the Codex home control layer. Keep your normal coding repos outside this mirror repo under a stable workspace root such as `~/Documents/projects` or another single parent you control. Each project repo should keep its own `AGENTS.md`, verification commands, and repo-local AI docs.
 
 ## Export
 
 ```bash
 python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo /path/to/this/repo
 ```
-
-## Restore
-
-Preview before writing anything:
-
-```bash
-python3 /path/to/this/repo/.codex/skills/lv0-home-codex-settings-restore/scripts/restore_codex_home.py --source /path/to/this/repo
-```
-
-Apply the restore after reviewing the preview:
-
-```bash
-python3 /path/to/this/repo/.codex/skills/lv0-home-codex-settings-restore/scripts/restore_codex_home.py --source /path/to/this/repo --apply
-```
-
-If the repo is remote-backed, the restore script can clone or pull first.
 """
 
 
@@ -314,7 +294,7 @@ def main() -> int:
     for source_path in source_files:
         rel_path = source_path.relative_to(home_root).as_posix()
         raw_bytes = source_path.read_bytes()
-        exported_bytes, kind = transform_for_export(raw_bytes, home_root)
+        exported_bytes, kind = transform_for_export(raw_bytes)
         write_file(repo_root / rel_path, exported_bytes)
         next_snapshot_files.add(rel_path)
         manifest_entries.append(
@@ -340,15 +320,15 @@ def main() -> int:
     print(f"Exported {len(manifest_entries)} managed files into {repo_root}")
     print(f"Refreshed {MANIFEST_NAME} and {README_NAME}")
     if stale_files:
-        print(f"Removed {len(stale_files)} stale managed files from the repo snapshot")
+        print(f"Removed {len(stale_files)} stale managed files from the repo mirror")
     else:
-        print("Removed 0 stale managed files from the repo snapshot")
+        print("Removed 0 stale managed files from the repo mirror")
     if git_initialized:
         print("Initialized a git repo because the target folder did not already contain .git")
     else:
         print("Reused the existing git repo at the target path")
     if not repo_preexisted:
-        print("Created the target folder before exporting the snapshot")
+        print("Created the target folder before exporting the mirror")
     print("Next step: review README.md and git status, then commit or push only if desired")
     return 0
 

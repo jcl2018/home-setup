@@ -1,11 +1,11 @@
 ---
 name: lv0-home-codex-settings-export
-description: Export the current Codex home control layer into a portable local git repo. Use when the user wants to back up or version the current home setup, including `~/AGENTS.md`, custom home skills, home knowledge, automation TOML, and setup docs, while excluding secrets and volatile runtime state.
+description: Export the current Codex home control layer into a static local git mirror. Use when the user wants to back up or version the current home setup, including `~/AGENTS.md`, custom home skills, home knowledge, automation TOML, and setup docs, while excluding secrets and volatile runtime state.
 ---
 
 # Codex Settings Export
 
-Use this skill to snapshot the current Codex home setup into a local git repo that can later be restored with `lv0-home-codex-settings-restore`.
+Use this skill to mirror the current Codex home setup into a local git repo for backup or versioning.
 
 ## PRD
 
@@ -23,7 +23,7 @@ python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home
 3. Review the summary, `README.md`, and `git status` in the target repo.
 4. Commit or push only if the user explicitly asks.
 
-## What the snapshot includes
+## What the mirror includes
 
 - `~/AGENTS.md`
 - `~/.codex/.local-work/current.md`
@@ -39,12 +39,13 @@ python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home
 - automation runtime state outside `automation.toml`
 - `~/.codex/skills/.system`
 
-## Portability rules
+## Mirror rules
 
-- Store home-rooted absolute paths as `__HOME_TOKEN_LITERAL__` in exported text files.
+- Copy managed files as they exist in the current home tree.
 - Regenerate `codex-home-manifest.toml` and `README.md` on each export.
-- Treat the managed snapshot roots in the repo as authoritative and prune stale files there on refresh.
-- Keep the snapshot repo separate from normal project repos. Store actual project repos under a stable workspace root and keep repo-specific rules inside each repo.
+- Treat the managed mirror roots in the repo as authoritative and prune stale files there on refresh.
+- Do not add install or restore scripts to the exported repo.
+- Keep the mirror repo separate from normal project repos. Store actual project repos under a stable workspace root and keep repo-specific rules inside each repo.
 
 ## Script
 
@@ -54,5 +55,6 @@ python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home
 ## Boundaries
 
 - Do not export secrets or volatile runtime state.
+- Do not rewrite managed file contents for portability.
 - Do not run `git push` unless the user asks.
-- If the target repo already contains unrelated files outside the managed snapshot roots, leave them alone.
+- If the target repo already contains unrelated files outside the managed mirror roots, leave them alone.
