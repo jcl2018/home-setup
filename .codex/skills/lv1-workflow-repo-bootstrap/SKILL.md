@@ -18,8 +18,8 @@ Use this skill to make a repo or umbrella workspace easy for future Codex sessio
 1. If the user asks for an umbrella or workspace repo, or the target root is a non-git parent coordinating multiple child git repos, read [references/umbrella-repo.md](references/umbrella-repo.md).
 2. Otherwise, if the target already has source files, manifests, or a `.git` directory, treat it as an existing repo and read [references/existing-repo.md](references/existing-repo.md).
 3. If the user wants a greenfield project or the target folder is empty, treat it as a new repo and read [references/new-repo.md](references/new-repo.md).
-4. If the task is mostly about creating or tightening the local contract, also consult [$lv1-workflow-project-contract](/Users/chjiang/.codex/skills/lv1-workflow-project-contract/SKILL.md).
-5. Also consult [$lv1-workflow-session-handoff](/Users/chjiang/.codex/skills/lv1-workflow-session-handoff/SKILL.md) when creating, repairing, or refreshing the tracking flow for the active scope.
+4. If the task is mostly about creating or tightening the local contract, also consult [$lv1-workflow-project-contract](../lv1-workflow-project-contract/SKILL.md).
+5. Also consult [$lv1-workflow-session-handoff](../lv1-workflow-session-handoff/SKILL.md) when creating, repairing, or refreshing the tracking flow for the active scope.
 
 ## Common Rules
 

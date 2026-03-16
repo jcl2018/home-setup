@@ -1,12 +1,12 @@
 version = 1
 id = "weekly-codex-health"
 name = "Weekly Codex Health"
-prompt = "Use [$lv0-home-codex-health](/Users/chjiang/.codex/skills/lv0-home-codex-health/SKILL.md) to audit the live home Codex setup under /Users/chjiang. Review /Users/chjiang/AGENTS.md, /Users/chjiang/.codex/.local-work/current.md, /Users/chjiang/.codex/config.toml, /Users/chjiang/.codex/skills, /Users/chjiang/.codex/knowledge, /Users/chjiang/.codex/knowledge/work-start-checklist.md, /Users/chjiang/.codex/knowledge/setup-prd/INDEX.md, /Users/chjiang/.codex/knowledge/setup-prd/home-setup.md, and /Users/chjiang/.codex/automations. Compare the live home setup directly against the current remote state of https://github.com/jcl2018/home-setup to report tracked-file drift, but do not export, push, or otherwise mutate the mirror repo as part of the audit. Report drift, stale guidance, missing verification, and the smallest fix. Explicitly list the active context sources used for the audit, including rule files, skills, docs, and automations consulted."
+prompt = "Use [$lv0-home-codex-health](C:/Users/chang/.codex/skills/lv0-home-codex-health/SKILL.md) to audit the live home Codex setup under `C:/Users/chang`. Review `C:/Users/chang/AGENTS.md`, `C:/Users/chang/.codex/.local-work/current.md`, `C:/Users/chang/.codex/config.toml`, `C:/Users/chang/.codex/skills`, `C:/Users/chang/.codex/knowledge`, `C:/Users/chang/.codex/knowledge/work-start-checklist.md`, `C:/Users/chang/.codex/knowledge/setup-prd/INDEX.md`, `C:/Users/chang/.codex/knowledge/setup-prd/home-setup.md`, and `C:/Users/chang/.codex/automations`. Compare the live home setup directly against the current remote state of https://github.com/jcl2018/home-setup to report tracked-file drift, but do not export, push, or otherwise mutate the mirror repo as part of the audit. Report drift, stale guidance, missing verification, and the smallest fix. Explicitly list the active context sources used for the audit, including rule files, skills, docs, and automations consulted."
 status = "ACTIVE"
 rrule = "RRULE:FREQ=WEEKLY;BYHOUR=9;BYMINUTE=0;BYDAY=SU"
 execution_environment = "worktree"
 model = "gpt-5.4"
 reasoning_effort = "medium"
-cwds = ["/Users/chjiang"]
+cwds = ["C:/Users/chang"]
 created_at = 1773610434768
-updated_at = 1773645354120
+updated_at = 1773680727000
