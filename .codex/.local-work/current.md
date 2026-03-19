@@ -1,54 +1,57 @@
 # Last updated
 
-- 2026-03-18
+- 2026-03-19
 
 ## Goal
 
-- Audit the home control layer against the canonical `jcl2018/home-setup` mirror and identify any current drift, contract gaps, or context-setup issues.
+- Export the live home Codex control layer under `~` into the canonical `jcl2018/home-setup` mirror and verify the remote has no managed drift from this machine.
 
 ## Current state
 
-- Read `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `$lv0-home-codex-health`, the health skill translation reference, `~/.codex/knowledge/setup-prd/INDEX.md`, and `~/.codex/knowledge/setup-prd/home-setup.md` before rerunning the audit.
-- Confirmed the local mirror checkout at `~/Documents/projects/home-setup` still matches `origin/main` and the current remote `HEAD`, all at `f8dbd80dd25ecb22148dc78ab875cb64218fed1d` from 2026-03-16 16:58:24 -0700 (`Refresh home audit tracker`).
-- Compared the normalized live home control layer against that canonical mirror snapshot by reusing the export workflow's `transform_for_export(...)` rules and managed-root file collection.
-- The live home now contains a new `lv1-workflow-youtube-knowledge-capture` skill plus its PRD, but the canonical mirror does not contain those files yet.
-- The mirror's tracked `~/.codex/.local-work/current.md` and `~/.codex/knowledge/setup-prd/INDEX.md` are also stale relative to the live home, which is consistent with the missing YouTube skill export.
-- Live `lv0` and `lv1` skill-to-PRD coverage remains complete; no additional contract or context-bloat issue surfaced during this audit.
+- Read `~/AGENTS.md`, `~/.codex/.local-work/current.md`, `$lv0-home-codex-settings-export`, `$lv0-home-codex-health`, `$lv1-workflow-session-handoff`, `~/.codex/knowledge/setup-prd/INDEX.md`, `~/.codex/knowledge/setup-prd/home-setup.md`, and `~/.codex/knowledge/setup-prd/lv0-home-codex-settings-export.md` before exporting.
+- Confirmed the local mirror checkout at `~/Documents/projects/home-setup` was already synced to `origin/main` before the export, with only the mirror-local untracked `.gitignore` and swap file outside the managed roots.
+- The export added the live `lv1-workflow-youtube-knowledge-capture` skill plus its PRD and helper files, and it refreshed the mirrored home tracker and PRD index.
+- Pushed `Refresh Codex home mirror` as `2530630` to `origin/main`, then re-ran the export-based parity audit and confirmed the remote managed roots match this machine's live home-control files.
+- No live home-control files changed during the work except this tracker refresh.
 
 ## Decisions / constraints
 
-- Audit the live home against the canonical mirror by applying the same portability normalization rules the export workflow uses.
-- Treat the remote `jcl2018/home-setup` state as the audit baseline, not the local mirror checkout's untracked noise.
-- Keep exported mirror repos out of default audit scope except for the narrow managed-root consistency check against the canonical remote.
+- Use `$lv0-home-codex-settings-export` as the only export path into the canonical mirror.
+- Leave unrelated mirror-local files outside the managed export roots untouched.
+- Compare remote and live state using the managed roots from the normalized mirror manifest, not volatile runtime files under `~/.codex`.
 
 ## Files touched
 
 - `~/.codex/.local-work/current.md`
+- `~/.codex/knowledge/setup-prd/INDEX.md`
+- `~/.codex/knowledge/setup-prd/lv1-workflow-youtube-knowledge-capture.md`
+- `~/.codex/skills/lv1-workflow-youtube-knowledge-capture/`
 
 ## Verification
 
 - `sed -n '1,220p' ~/AGENTS.md` -> pass
 - `sed -n '1,260p' ~/.codex/.local-work/current.md` -> pass
+- `sed -n '1,260p' ~/.codex/skills/lv0-home-codex-settings-export/SKILL.md` -> pass
 - `sed -n '1,260p' ~/.codex/skills/lv0-home-codex-health/SKILL.md` -> pass
-- `sed -n '1,220p' ~/.codex/skills/lv0-home-codex-health/references/claude-to-codex.md` -> pass
+- `sed -n '1,240p' ~/.codex/skills/lv1-workflow-session-handoff/SKILL.md` -> pass
 - `sed -n '1,220p' ~/.codex/knowledge/setup-prd/INDEX.md` -> pass
 - `sed -n '1,260p' ~/.codex/knowledge/setup-prd/home-setup.md` -> pass
-- `git -C ~/Documents/projects/home-setup fetch origin main && git -C ~/Documents/projects/home-setup rev-parse HEAD origin/main && git ls-remote https://github.com/jcl2018/home-setup.git HEAD` -> pass (`f8dbd80dd25ecb22148dc78ab875cb64218fed1d` for all three)
-- `git -C ~/Documents/projects/home-setup status --short` -> pass (`?? .codex/knowledge/setup-prd/.lv0-home-codex-health.md.swp`, `?? .gitignore`)
-- `git -C ~/Documents/projects/home-setup diff --stat origin/main -- AGENTS.md .codex/.local-work/current.md .codex/config.toml .codex/skills .codex/knowledge .codex/automations` -> pass (no output)
-- `python3 - <<'PY' ... collect_home_files(home_root) / collect_repo_snapshot_files(repo_root) / transform_for_export(...) ... PY` -> pass (`missing_in_repo=5`, `changed=2`, `missing_in_live=0`)
-- `python3 - <<'PY' ... enumerate lv0/lv1 skills and matching PRDs ... PY` -> pass
+- `sed -n '1,240p' ~/.codex/knowledge/setup-prd/lv0-home-codex-settings-export.md` -> pass
+- `git -C ~/Documents/projects/home-setup fetch origin main` -> pass
+- `git -C ~/Documents/projects/home-setup rev-list --left-right --count origin/main...HEAD` -> pass, `0\t0`
+- `python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo ~/Documents/projects/home-setup` -> pass
+- `git -C ~/Documents/projects/home-setup diff --stat origin/main -- AGENTS.md .codex/.local-work/current.md .codex/config.toml .codex/skills .codex/knowledge .codex/automations` -> pass, no output after the mirror refresh push
+- `git -C ~/Documents/projects/home-setup diff --name-status origin/main -- AGENTS.md .codex/.local-work/current.md .codex/config.toml .codex/skills .codex/knowledge .codex/automations` -> pass, no output after the mirror refresh push
 
 ## Next steps
 
-- Re-run `$lv0-home-codex-settings-export` into `~/Documents/projects/home-setup` and push the result if you want the canonical mirror to match the current live home again.
-- Ignore the local mirror checkout's untracked `.swp` and `.gitignore` noise unless you want that checkout itself to look pristine.
+- No live home follow-up is required after the closing tracker refresh is exported and pushed unless more home-control files change again.
 
 ## Blockers / risks
 
-- The canonical mirror is stale relative to live home, so future home audits against the remote will continue to complain until the new skill export is pushed.
-- Because `~/.codex/.local-work/current.md` is part of the managed mirror, any audit-time tracker refresh also creates live-vs-remote drift until the next export.
+- Because `~/.codex/.local-work/current.md` is part of the managed mirror, any tracker refresh creates fresh live-vs-remote drift until the next export.
+- The local mirror checkout can still show unrelated untracked `.gitignore` and swap-file noise even when the managed roots are in sync.
 
 ## Rollback notes
 
-- Re-run `$lv0-home-codex-settings-export` into `~/Documents/projects/home-setup`, then revert and push the resulting mirror commit if the canonical remote needs to return to an earlier snapshot.
+- Re-run `$lv0-home-codex-settings-export` into `~/Documents/projects/home-setup`, then reset or revert the resulting mirror commit if the canonical remote needs to return to an earlier snapshot.

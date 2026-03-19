@@ -1,5 +1,5 @@
 version = 3
-generated_at = "2026-03-19T15:09:32Z"
+generated_at = "2026-03-19T15:13:26Z"
 managed_roots = ["AGENTS.md", ".codex/.local-work/current.md", ".codex/config.toml", ".codex/skills", ".codex/knowledge", ".codex/automations"]
 excluded_paths = [".codex/.codex-global-state.json", ".codex/auth.json", ".codex/logs_1.sqlite", ".codex/logs_1.sqlite-shm", ".codex/logs_1.sqlite-wal", ".codex/memories", ".codex/models_cache.json", ".codex/restore_backups", ".codex/session_index.jsonl", ".codex/sessions", ".codex/shell_snapshots", ".codex/skills/.system", ".codex/sqlite", ".codex/state_5.sqlite", ".codex/state_5.sqlite-shm", ".codex/state_5.sqlite-wal", ".codex/tmp", ".codex/vendor_imports"]
 portable_home = "~"
@@ -8,8 +8,8 @@ normalized_host_tables = ["linux", "macos", "windows"]
 [[files]]
 path = ".codex/.local-work/current.md"
 kind = "text"
-sha256 = "d9e19eec090cddc6d28a9a4b5353acfb66c46b79b22bc32dd6b6977092fcfccf"
-size = 4047
+sha256 = "85a462b3af48a2fec5bd084e4276d8fdddd33207bc578347dbcc82e7f2675e74"
+size = 3823
 
 [[files]]
 path = ".codex/automations/weekly-codex-health/automation.toml"
