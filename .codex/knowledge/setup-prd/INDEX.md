@@ -3,7 +3,7 @@
 - Scope: home control-layer expectations and workflow contracts for `lv0-home-*` and `lv1-workflow-*` skills.
 - When to use this note: when auditing or revising the home setup, a home/workflow skill, or the repo-local PRD convention for future `lv2` skills.
 - Related sources: `~/AGENTS.md`, `~/.codex/knowledge/INDEX.md`, `~/.codex/skills/`
-- Last checked: 2026-03-16
+- Last checked: 2026-03-18
 
 ## Conventions
 
@@ -30,3 +30,4 @@
 - [lv1-workflow-repo-bootstrap](lv1-workflow-repo-bootstrap.md)
 - [lv1-workflow-repo-knowledge-capture](lv1-workflow-repo-knowledge-capture.md)
 - [lv1-workflow-session-handoff](lv1-workflow-session-handoff.md)
+- [lv1-workflow-youtube-knowledge-capture](lv1-workflow-youtube-knowledge-capture.md)

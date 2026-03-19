@@ -1,5 +1,5 @@
 version = 3
-generated_at = "2026-03-16T23:58:04Z"
+generated_at = "2026-03-19T15:09:32Z"
 managed_roots = ["AGENTS.md", ".codex/.local-work/current.md", ".codex/config.toml", ".codex/skills", ".codex/knowledge", ".codex/automations"]
 excluded_paths = [".codex/.codex-global-state.json", ".codex/auth.json", ".codex/logs_1.sqlite", ".codex/logs_1.sqlite-shm", ".codex/logs_1.sqlite-wal", ".codex/memories", ".codex/models_cache.json", ".codex/restore_backups", ".codex/session_index.jsonl", ".codex/sessions", ".codex/shell_snapshots", ".codex/skills/.system", ".codex/sqlite", ".codex/state_5.sqlite", ".codex/state_5.sqlite-shm", ".codex/state_5.sqlite-wal", ".codex/tmp", ".codex/vendor_imports"]
 portable_home = "~"
@@ -8,8 +8,8 @@ normalized_host_tables = ["linux", "macos", "windows"]
 [[files]]
 path = ".codex/.local-work/current.md"
 kind = "text"
-sha256 = "0fda38b8d5db68068d453b0b6dc5afbbe8dd180c42b2a8cccd43a1785b6e6c66"
-size = 3572
+sha256 = "d9e19eec090cddc6d28a9a4b5353acfb66c46b79b22bc32dd6b6977092fcfccf"
+size = 4047
 
 [[files]]
 path = ".codex/automations/weekly-codex-health/automation.toml"
@@ -32,8 +32,8 @@ size = 1135
 [[files]]
 path = ".codex/knowledge/setup-prd/INDEX.md"
 kind = "text"
-sha256 = "6c998284e44b4c6d7e9ce0da41db53346db57b8552673cb2be75d0116486878c"
-size = 1484
+sha256 = "9a34f4592c8467b82abc06a65b2386294b6f9a688967df4299303589aa25b4e7"
+size = 1570
 
 [[files]]
 path = ".codex/knowledge/setup-prd/home-setup.md"
@@ -94,6 +94,12 @@ path = ".codex/knowledge/setup-prd/lv1-workflow-session-handoff.md"
 kind = "text"
 sha256 = "6e3b4d1e60b50b9608736c3a234a4f468b9eaa3f5bb0c26a7fa03f68ea5aa6ef"
 size = 1846
+
+[[files]]
+path = ".codex/knowledge/setup-prd/lv1-workflow-youtube-knowledge-capture.md"
+kind = "text"
+sha256 = "57eb0674bf2e4829789c5071e913c9c24283f027f54ddde6ab03cb685992bb06"
+size = 2397
 
 [[files]]
 path = ".codex/knowledge/work-start-checklist.md"
@@ -238,6 +244,30 @@ path = ".codex/skills/lv1-workflow-session-handoff/agents/openai.yaml"
 kind = "text"
 sha256 = "e31d7ba334d56f83863505248fa171fc873b4e3747af6169193d22b3a535696c"
 size = 306
+
+[[files]]
+path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/SKILL.md"
+kind = "text"
+sha256 = "6bea8d7d524347957fb6ec0abeae33bc95ff2c89b9dd7049b61f98415e512ae0"
+size = 3826
+
+[[files]]
+path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/agents/openai.yaml"
+kind = "text"
+sha256 = "6d791e3561a8a909231faec8a0c4b93f0b839b6b0137d1ab8016fa428a45e813"
+size = 264
+
+[[files]]
+path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/references/summary-template.md"
+kind = "text"
+sha256 = "90ac67bd2586b1d5a73826455c110ed3eaaab561f7da8fe01a343f140839d4f8"
+size = 1245
+
+[[files]]
+path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/scripts/fetch_youtube_transcript.py"
+kind = "text"
+sha256 = "f35e43197f65f3faedf88b57b7113b966214addd1fdd53b7eb8b50af4f74fc7d"
+size = 12111
 
 [[files]]
 path = "AGENTS.md"
