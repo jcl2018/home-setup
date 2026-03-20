@@ -1,0 +1,4 @@
+interface:
+  display_name: "Document Release"
+  short_description: "Conservatively sync docs after shipping"
+  default_prompt: "Use $document-release to review the shipped diff, conservatively sync release-facing docs without clobbering history, and record the doc changes in the project store."

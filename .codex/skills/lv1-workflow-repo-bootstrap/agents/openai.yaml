@@ -1,4 +1,0 @@
-interface:
-  display_name: "Lv1 Workflow: Repo Bootstrap"
-  short_description: "Onboard a repo or umbrella workspace"
-  default_prompt: "Use $lv1-workflow-repo-bootstrap to onboard this repo, umbrella workspace, or new project with the right local contract and verification flow."

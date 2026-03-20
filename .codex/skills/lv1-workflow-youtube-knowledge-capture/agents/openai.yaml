@@ -1,4 +1,0 @@
-interface:
-  display_name: "Lv1 Workflow: YouTube Knowledge"
-  short_description: "Summarize YouTube videos into knowledge"
-  default_prompt: "Use $lv1-workflow-youtube-knowledge-capture to summarize the knowledge in this YouTube video and extract the key ideas."

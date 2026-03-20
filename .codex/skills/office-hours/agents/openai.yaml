@@ -1,0 +1,4 @@
+interface:
+  display_name: "Office Hours"
+  short_description: "Run YC-style design-first office hours"
+  default_prompt: "Use $office-hours to run a YC-style design-first diagnostic, choose startup or builder mode, generate alternatives, write the approved design note into the Codex project store, and recommend the next plan-review stage."

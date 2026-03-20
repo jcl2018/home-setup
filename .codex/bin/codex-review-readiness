@@ -1,0 +1,307 @@
+#!/usr/bin/env python3
+"""Track plan, review, QA, and ship readiness in the project store."""
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import re
+import subprocess
+from pathlib import Path
+
+
+PROJECTS_ROOT = Path.home() / ".codex" / "projects"
+READINESS_FILE = Path("reviews/review-readiness.jsonl")
+DEFAULT_SKILLS = (
+    "plan-ceo-review",
+    "plan-eng-review",
+    "plan-design-review",
+    "design-review",
+    "review",
+    "qa",
+    "ship",
+)
+DISPLAY_NAMES = {
+    "plan-ceo-review": "Plan CEO",
+    "plan-eng-review": "Plan Eng",
+    "plan-design-review": "Plan Design",
+    "design-review": "Design Review",
+    "review": "Code Review",
+    "qa": "QA",
+    "ship": "Ship",
+}
+REQUIRED_SKILLS = {
+    "plan-eng-review": "yes",
+    "review": "yes",
+    "qa": "yes",
+}
+CLEAR_STATUSES = {"CLEAR", "READY", "DONE"}
+QA_CLEAR_STATUSES = {"CLEAR", "DONE", "DONE_WITH_CONCERNS"}
+
+
+def run_git(args: list[str], cwd: Path) -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", *args],
+            cwd=cwd,
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            text=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+    return result.stdout.strip() or None
+
+
+def sanitize(value: str) -> str:
+    value = value.lower()
+    value = re.sub(r"[^a-z0-9]+", "-", value)
+    value = re.sub(r"-{2,}", "-", value)
+    return value.strip("-") or "project"
+
+
+def detect_root(start: Path) -> Path:
+    git_root = run_git(["rev-parse", "--show-toplevel"], start)
+    if git_root:
+        return Path(git_root).resolve()
+    return start.resolve()
+
+
+def detect_slug(start: Path, explicit_slug: str | None) -> str:
+    if explicit_slug:
+        return sanitize(explicit_slug)
+
+    home = Path.home().resolve()
+    root = detect_root(start)
+    if root == home or str(root).startswith(str(home / ".codex")):
+        return "home-control"
+
+    remote = run_git(["remote", "get-url", "origin"], root)
+    if remote:
+        cleaned = remote.removesuffix(".git").replace("git@github.com:", "github.com/")
+        match = re.search(r"github\.com/([^/]+)/([^/]+)$", cleaned)
+        if match:
+            return sanitize(f"{match.group(1)}-{match.group(2)}")
+
+    return sanitize(root.name)
+
+
+def ensure_project(cwd: Path, slug: str | None) -> tuple[Path, Path]:
+    root = detect_root(cwd)
+    project_root = PROJECTS_ROOT / detect_slug(cwd, slug)
+    project_root.mkdir(parents=True, exist_ok=True)
+    (project_root / "reviews").mkdir(exist_ok=True)
+    return root, project_root
+
+
+def load_entries(path: Path) -> list[dict[str, object]]:
+    if not path.exists():
+        return []
+    entries: list[dict[str, object]] = []
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        entries.append(json.loads(line))
+    return entries
+
+
+def short_commit(value: str | None) -> str:
+    if not value:
+        return ""
+    return value[:7]
+
+
+def commits_since(repo_root: Path, previous_commit: str | None) -> int | None:
+    if not previous_commit:
+        return None
+    count = run_git(["rev-list", "--count", f"{previous_commit}..HEAD"], repo_root)
+    if count is None:
+        return None
+    try:
+        return int(count)
+    except ValueError:
+        return None
+
+
+def latest_by_skill(entries: list[dict[str, object]]) -> dict[str, dict[str, object]]:
+    latest: dict[str, dict[str, object]] = {}
+    for entry in entries:
+        latest[str(entry["skill"])] = entry
+    return latest
+
+
+def format_timestamp(value: str | None) -> str:
+    if not value:
+        return "-"
+    cleaned = value.replace("T", " ").replace("Z", "")
+    return cleaned[:16]
+
+
+def entry_is_stale(repo_root: Path, current_commit: str | None, entry: dict[str, object]) -> tuple[bool, str]:
+    entry_commit = str(entry.get("commit") or "")
+    if not current_commit or not entry_commit:
+        return False, "-"
+    if entry_commit == current_commit:
+        return False, "no"
+    count = commits_since(repo_root, entry_commit)
+    if count is None:
+        return True, "yes"
+    return True, f"{count}c"
+
+
+def dashboard_verdict(
+    repo_root: Path,
+    current_commit: str | None,
+    latest: dict[str, dict[str, object]],
+) -> str:
+    required = (
+        ("plan-eng-review", CLEAR_STATUSES),
+        ("review", CLEAR_STATUSES),
+        ("qa", QA_CLEAR_STATUSES),
+    )
+    missing: list[str] = []
+    stale: list[str] = []
+    bad_status: list[str] = []
+
+    for skill, good_statuses in required:
+        entry = latest.get(skill)
+        if entry is None:
+            missing.append(skill)
+            continue
+        if str(entry.get("status") or "") not in good_statuses:
+            bad_status.append(skill)
+        is_stale, _ = entry_is_stale(repo_root, current_commit, entry)
+        if is_stale:
+            stale.append(skill)
+
+    if not missing and not bad_status and not stale:
+        return "CLEARED"
+    reasons = []
+    if missing:
+        reasons.append("missing required stages")
+    if bad_status:
+        reasons.append("open required stages")
+    if stale:
+        reasons.append("stale required stages")
+    return "PENDING (" + ", ".join(reasons) + ")"
+
+
+def cmd_mark(args: argparse.Namespace) -> int:
+    cwd = Path(args.cwd).expanduser().resolve()
+    repo_root, project_root = ensure_project(cwd, args.slug)
+    branch = run_git(["rev-parse", "--abbrev-ref", "HEAD"], repo_root) or "no-branch"
+    commit = run_git(["rev-parse", "HEAD"], repo_root) or ""
+    payload = {
+        "timestamp": dt.datetime.utcnow().replace(microsecond=0).isoformat() + "Z",
+        "skill": args.skill,
+        "status": args.status,
+        "branch": branch,
+        "commit": commit,
+        "commit_short": short_commit(commit),
+        "details": args.details or "",
+        "artifact": args.artifact or "",
+    }
+    path = project_root / READINESS_FILE
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(json.dumps(payload, sort_keys=True) + "\n")
+    print(path)
+    return 0
+
+
+def cmd_show(args: argparse.Namespace) -> int:
+    cwd = Path(args.cwd).expanduser().resolve()
+    _, project_root = ensure_project(cwd, args.slug)
+    path = project_root / READINESS_FILE
+    entries = load_entries(path)
+    if not entries:
+        print("No readiness entries found")
+        return 0
+
+    latest = latest_by_skill(entries)
+
+    for skill in sorted(latest):
+        entry = latest[skill]
+        print(
+            f"{skill}\t{entry['status']}\t{entry['branch']}\t{entry['timestamp']}\t{entry.get('commit_short', '')}\t{entry.get('artifact', '')}"
+        )
+    return 0
+
+
+def cmd_dashboard(args: argparse.Namespace) -> int:
+    cwd = Path(args.cwd).expanduser().resolve()
+    repo_root, project_root = ensure_project(cwd, args.slug)
+    path = project_root / READINESS_FILE
+    entries = load_entries(path)
+    latest = latest_by_skill(entries)
+    counts: dict[str, int] = {}
+    for entry in entries:
+        skill = str(entry["skill"])
+        counts[skill] = counts.get(skill, 0) + 1
+
+    current_commit = run_git(["rev-parse", "HEAD"], repo_root) or None
+
+    print("+============================================================================+")
+    print("|                         CODEX READINESS DASHBOARD                          |")
+    print("+============================================================================+")
+    print("| Stage             | Runs | Last Run         | Status           | Required |")
+    print("|-------------------|------|------------------|------------------|----------|")
+    for skill in DEFAULT_SKILLS:
+        entry = latest.get(skill)
+        runs = counts.get(skill, 0)
+        if entry is None:
+            last_run = "-"
+            status = "-"
+        else:
+            last_run = format_timestamp(str(entry.get("timestamp") or ""))
+            status = str(entry.get("status") or "-")
+            is_stale, stale_label = entry_is_stale(repo_root, current_commit, entry)
+            if is_stale:
+                status = f"{status} (stale {stale_label})"
+        print(
+            f"| {DISPLAY_NAMES.get(skill, skill):17} | {str(runs).rjust(4)} | "
+            f"{last_run.ljust(16)} | {status[:16].ljust(16)} | "
+            f"{REQUIRED_SKILLS.get(skill, 'no').ljust(8)} |"
+        )
+    print("+----------------------------------------------------------------------------+")
+    print(f"| VERDICT: {dashboard_verdict(repo_root, current_commit, latest).ljust(67)}|")
+    print("+============================================================================+")
+    return 0
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    mark = subparsers.add_parser("mark")
+    mark.add_argument("skill")
+    mark.add_argument("status")
+    mark.add_argument("--cwd", default=os.getcwd())
+    mark.add_argument("--slug")
+    mark.add_argument("--details")
+    mark.add_argument("--artifact")
+    mark.set_defaults(func=cmd_mark)
+
+    show = subparsers.add_parser("show")
+    show.add_argument("--cwd", default=os.getcwd())
+    show.add_argument("--slug")
+    show.set_defaults(func=cmd_show)
+
+    dashboard = subparsers.add_parser("dashboard")
+    dashboard.add_argument("--cwd", default=os.getcwd())
+    dashboard.add_argument("--slug")
+    dashboard.set_defaults(func=cmd_dashboard)
+
+    return parser
+
+
+def main() -> int:
+    parser = build_parser()
+    args = parser.parse_args()
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

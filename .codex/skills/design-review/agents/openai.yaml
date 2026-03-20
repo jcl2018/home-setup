@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Review"
+  short_description: "Rendered-state visual audit with optional fixes"
+  default_prompt: "Use $design-review to inspect rendered UI evidence, audit the implementation across visual and interaction-state passes, optionally fix obvious issues, and record design-review readiness."

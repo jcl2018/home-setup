@@ -1,0 +1,4 @@
+interface:
+  display_name: "Home Export"
+  short_description: "Export the active Codex home layout"
+  default_prompt: "Use $home-export to snapshot the active Codex home layout into the local mirror repo without touching ~/.claude."

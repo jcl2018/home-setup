@@ -1,21 +1,57 @@
-version = 3
-generated_at = "2026-03-19T15:13:26Z"
-managed_roots = ["AGENTS.md", ".codex/.local-work/current.md", ".codex/config.toml", ".codex/skills", ".codex/knowledge", ".codex/automations"]
-excluded_paths = [".codex/.codex-global-state.json", ".codex/auth.json", ".codex/logs_1.sqlite", ".codex/logs_1.sqlite-shm", ".codex/logs_1.sqlite-wal", ".codex/memories", ".codex/models_cache.json", ".codex/restore_backups", ".codex/session_index.jsonl", ".codex/sessions", ".codex/shell_snapshots", ".codex/skills/.system", ".codex/sqlite", ".codex/state_5.sqlite", ".codex/state_5.sqlite-shm", ".codex/state_5.sqlite-wal", ".codex/tmp", ".codex/vendor_imports"]
+version = 4
+generated_at = "2026-03-19T20:08:10Z"
+managed_roots = ["AGENTS.md", ".codex/config.toml", ".codex/skills", ".codex/docs", ".codex/bin", ".codex/projects", ".codex/guardrails", ".codex/automations"]
+excluded_paths = [".codex/.codex-global-state.json", ".codex/.local-work", ".codex/auth.json", ".codex/logs_1.sqlite", ".codex/logs_1.sqlite-shm", ".codex/logs_1.sqlite-wal", ".codex/memories", ".codex/models_cache.json", ".codex/restore_backups", ".codex/session_index.jsonl", ".codex/sessions", ".codex/shell_snapshots", ".codex/skills/.system", ".codex/sqlite", ".codex/state_5.sqlite", ".codex/state_5.sqlite-shm", ".codex/state_5.sqlite-wal", ".codex/tmp", ".codex/vendor_imports", ".codex/worktrees"]
 portable_home = "~"
 normalized_host_tables = ["linux", "macos", "windows"]
 
 [[files]]
-path = ".codex/.local-work/current.md"
-kind = "text"
-sha256 = "85a462b3af48a2fec5bd084e4276d8fdddd33207bc578347dbcc82e7f2675e74"
-size = 3823
-
-[[files]]
 path = ".codex/automations/weekly-codex-health/automation.toml"
 kind = "text"
-sha256 = "521caec2a6fad9d97e70b1adde27ff2fb2688dad9425412ca769b7d79667d017"
-size = 1112
+sha256 = "585256402505e227de51fb692c551a9b0b8979380258dade8e9898cc322aa424"
+size = 726
+
+[[files]]
+path = ".codex/bin/codex-guardrails"
+kind = "text"
+sha256 = "f9b3790dcc934ba64fca0c22b567cd2a941ab589b8f6a0abb736ea60cb644eec"
+size = 5170
+
+[[files]]
+path = ".codex/bin/codex-home-export"
+kind = "text"
+sha256 = "5006c89b93d5f3d7522a1e16078c55f2b31702055a60094d5674885636e5c2e2"
+size = 12404
+
+[[files]]
+path = ".codex/bin/codex-home-health"
+kind = "text"
+sha256 = "01b7ec7d901168fb6cda9b0437cae25816830bd94b2c9b6413422cf66ba0f34e"
+size = 3359
+
+[[files]]
+path = ".codex/bin/codex-project-log"
+kind = "text"
+sha256 = "71241c29e28271cbe609f8fa31a82d5bdce328fcddeb19af74339d79913a6cc1"
+size = 5087
+
+[[files]]
+path = ".codex/bin/codex-project-slug"
+kind = "text"
+sha256 = "2bdde2363f790be05d6d249c994ace600a1b2fdbfd85966059494097aa890e70"
+size = 2076
+
+[[files]]
+path = ".codex/bin/codex-review-readiness"
+kind = "text"
+sha256 = "41b03c49c830795b326bf83090b521060f81be90836602464f6c1f251cb4c8ca"
+size = 9675
+
+[[files]]
+path = ".codex/bin/codex-skill-check"
+kind = "text"
+sha256 = "d4149c2efa52acacdf097146f1aa6c8a64bbf0c95cec4de964819f937ae277b0"
+size = 1585
 
 [[files]]
 path = ".codex/config.toml"
@@ -24,253 +60,355 @@ sha256 = "61bcc0f10f6dac97a152dd7c9927e5e0fafdab2261318fe56eb4c0649223b079"
 size = 82
 
 [[files]]
-path = ".codex/knowledge/INDEX.md"
+path = ".codex/docs/architecture.md"
 kind = "text"
-sha256 = "90d6d71d4991bb3e5791cce3eba1fbb0ab90ee6f72da519dc7d99f0d825a12ca"
-size = 1135
+sha256 = "931b6e4f580a053c3626be571874f1702cb22b35b4a51bd7fb7dfea9f3210237"
+size = 2199
 
 [[files]]
-path = ".codex/knowledge/setup-prd/INDEX.md"
+path = ".codex/docs/skills.md"
 kind = "text"
-sha256 = "9a34f4592c8467b82abc06a65b2386294b6f9a688967df4299303589aa25b4e7"
-size = 1570
+sha256 = "aaed16a83c8879779a9a00baee7481ea147127823365ed3f75e49d6831e2c54c"
+size = 2949
 
 [[files]]
-path = ".codex/knowledge/setup-prd/home-setup.md"
+path = ".codex/guardrails/current.toml"
 kind = "text"
-sha256 = "fea003130b9e4953aba9e9411cf7215ab182eef1324b8519006704a17fcb9865"
-size = 4108
+sha256 = "d2ebbc7f4d709249894eee19aa50ae1643759905399e3f2333c06ce3270289f1"
+size = 93
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv0-home-codex-health.md"
+path = ".codex/projects/INDEX.md"
 kind = "text"
-sha256 = "8a9d0051c8130e813251277ce33b08e22dd17247b09c8b8809c4e10fc3c6c58c"
-size = 3574
+sha256 = "2fc9950f107a3b4840eb11252c327d212fe8da18cfc8010d4b2167716b4c7410"
+size = 329
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv0-home-codex-settings-export.md"
+path = ".codex/projects/home-control/designs/20260319-190744-office-hours.md"
 kind = "text"
-sha256 = "a4eeeb36b60dc55e65e1a0a5538286b14a7f8d5c4ae9fe0192b104aec75140ed"
-size = 2115
+sha256 = "c7b29306f9e5cd82e9685c2c6d435b0970c3982c09fd45436cc46d9b59aacbe3"
+size = 175
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv0-home-global-knowledge-capture.md"
+path = ".codex/projects/home-control/designs/20260319-190744-plan-eng-review.md"
 kind = "text"
-sha256 = "7c426ff6599d0dc7397786f2e6eb50d9016df727e7a03de15d4f809687465f8f"
-size = 1385
+sha256 = "13b1b7c34c1b8e3c3572e92759a2b924ea563ba52126f57480bb14fd6f145462"
+size = 179
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv0-home-shared-context.md"
+path = ".codex/projects/home-control/designs/20260319-191533-codex-setup-review.md"
 kind = "text"
-sha256 = "593512f5eb7900131dc986e7cfb18f4f5ec0d713499b7cf955c27ca28d67e1ef"
-size = 1502
+sha256 = "87e441994e82a476258d7f02b0d9948691d593c82439a3840f4c232bcb31485a"
+size = 3264
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv1-workflow-feature-dev.md"
+path = ".codex/projects/home-control/project.md"
 kind = "text"
-sha256 = "fe45d062f27fddfe31e89f569933fa08475839a20e3df196429f4113216735f9"
-size = 2482
+sha256 = "064cde1db88bc7efc3a6585bdb14cefd284fb6ca9c9bd0bb5ea90011f98006b3"
+size = 1462
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv1-workflow-project-contract.md"
+path = ".codex/projects/home-control/qa/20260319-190744-qa.md"
 kind = "text"
-sha256 = "977ad91d5c98270f34efc727e482282bb8fe07d01de914e6b7bda7f482d3bfc1"
-size = 2123
+sha256 = "b798b544e43c4307f7b82131452dc8e7b47fab16875a70ab28baa2d6cb3bb717"
+size = 144
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv1-workflow-repo-bootstrap.md"
+path = ".codex/projects/home-control/reviews/20260319-190744-review.md"
 kind = "text"
-sha256 = "c64465e38f970fcbf48eb165c0cef31bf121b4dfd7783b7139cfb7a108d3ad1c"
-size = 2565
+sha256 = "1a00598b20a2471034315956096f41e5d4aa50d45fbdd9529782e6a643de8274"
+size = 149
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv1-workflow-repo-knowledge-capture.md"
+path = ".codex/projects/home-control/reviews/review-readiness.jsonl"
 kind = "text"
-sha256 = "e4ad961b1de4b4101e5e2f9c7ed67bfc66884e1e76106cfcfa83f2a0ab0baf7f"
-size = 1524
+sha256 = "571add355dbe8399d5ade1351a993ab50635ef88ef756de7a4b9ff742e2f7fbb"
+size = 414
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv1-workflow-session-handoff.md"
+path = ".codex/projects/home-control/ship/20260319-190744-ship.md"
 kind = "text"
-sha256 = "6e3b4d1e60b50b9608736c3a234a4f468b9eaa3f5bb0c26a7fa03f68ea5aa6ef"
-size = 1846
+sha256 = "3ad0f94c6270a2321fdb3cf0377f4c5916a893372433eeabb02791e650573568"
+size = 138
 
 [[files]]
-path = ".codex/knowledge/setup-prd/lv1-workflow-youtube-knowledge-capture.md"
+path = ".codex/skills/careful/SKILL.md"
 kind = "text"
-sha256 = "57eb0674bf2e4829789c5071e913c9c24283f027f54ddde6ab03cb685992bb06"
-size = 2397
+sha256 = "49f38d23f7a363c77db8bb07874591597b77abfe1f8bcb17446ea78ad9fd5258"
+size = 744
 
 [[files]]
-path = ".codex/knowledge/work-start-checklist.md"
+path = ".codex/skills/careful/agents/openai.yaml"
 kind = "text"
-sha256 = "e7954fb450567fbaa6e210e0125cbff1e94bfdaaa269272eac4f4351267b5650"
-size = 3125
+sha256 = "ef117f7dfd11f5904427be3f410d312002c321167129fcb021919b2604816f84"
+size = 268
 
 [[files]]
-path = ".codex/skills/lv0-home-codex-health/SKILL.md"
+path = ".codex/skills/design-consultation/SKILL.md"
 kind = "text"
-sha256 = "58efcf33133f95c34b0db6337d915f1df0a0de4f6ef596511c7275fc508e9466"
-size = 6498
+sha256 = "d0e1dc4637f287269de942a61f771440278692d39b0e6e4eb9ea4f97b560a118"
+size = 2305
 
 [[files]]
-path = ".codex/skills/lv0-home-codex-health/agents/openai.yaml"
+path = ".codex/skills/design-consultation/agents/openai.yaml"
 kind = "text"
-sha256 = "0221383d7e57cbc53fce88af04bcbc3cbf898ad83b4aabb8f73c00d7e0dbccc7"
-size = 282
+sha256 = "3e940fb0bb8e976fe8101e76f879208c487364f0ceb257097ddcf7c846eb459d"
+size = 345
 
 [[files]]
-path = ".codex/skills/lv0-home-codex-health/references/claude-to-codex.md"
+path = ".codex/skills/design-review/SKILL.md"
 kind = "text"
-sha256 = "a59e573510c0a56c44550017105e3ee6f2e37ade6ee98530d6918fc10c59bac7"
-size = 2974
+sha256 = "a49f0e5ddf5149f63ab8b3eb51bbc6ca4b3caa7516e23d557f5d3e8e344a0334"
+size = 1981
 
 [[files]]
-path = ".codex/skills/lv0-home-codex-settings-export/SKILL.md"
+path = ".codex/skills/design-review/agents/openai.yaml"
 kind = "text"
-sha256 = "583416b6e4d91c8b717697a2e68f122bdbf71ba36d53baa988593c46d43af7a0"
-size = 2828
+sha256 = "4da2ceaca2e2e2df7e3df90ce3cdce58dd5bcef772980c7a85943346932b82ee"
+size = 322
 
 [[files]]
-path = ".codex/skills/lv0-home-codex-settings-export/agents/openai.yaml"
+path = ".codex/skills/document-release/SKILL.md"
 kind = "text"
-sha256 = "a521e60f27a91833b39feb8da7e8bf95ae229362ad3ce2e9524a2e5e5b4a40c5"
-size = 279
+sha256 = "73c250d218a9d34a174f2a809624fd48becfc5636da138e7343877c64789e590"
+size = 1241
 
 [[files]]
-path = ".codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py"
+path = ".codex/skills/document-release/agents/openai.yaml"
 kind = "text"
-sha256 = "53fc0f63b5ed61ee89f9cddf258e20db3900fe6ebed1ebd1628aaa3f5e31bfcc"
-size = 12685
+sha256 = "d055f2694cd2c8d22d9914c3d4e5a77918e04e9be368a34e31edd31b3d032b55"
+size = 296
 
 [[files]]
-path = ".codex/skills/lv0-home-global-knowledge-capture/SKILL.md"
+path = ".codex/skills/document-release/references/doc-release-template.md"
 kind = "text"
-sha256 = "de95b2733d11f791bbdabdf057e23a26a8dc714ff50f638a55b677f623d98bd5"
-size = 2223
+sha256 = "7f996d4fd7be8ff6d1e901344724a0dba983db31e5d37c19ab40a7850a6a186b"
+size = 182
 
 [[files]]
-path = ".codex/skills/lv0-home-shared-context/SKILL.md"
+path = ".codex/skills/freeze/SKILL.md"
 kind = "text"
-sha256 = "abd58bcd27d20cd71163d533535415b201c24c34438073bb3e803da06889a43d"
-size = 2663
+sha256 = "9427d079bd53129820242989a48b1c6a1f771ff5a2c97348ec9b877954a6d1f1"
+size = 541
 
 [[files]]
-path = ".codex/skills/lv1-workflow-feature-dev/SKILL.md"
+path = ".codex/skills/freeze/agents/openai.yaml"
 kind = "text"
-sha256 = "a6afe32c187f50cf64bac77d430eba39f197482f07d413196fba6d0204955424"
-size = 4730
+sha256 = "798c59122c17c2dfd02cc9de7452219ad0cd30561be5ded81fc536624bca1e06"
+size = 270
 
 [[files]]
-path = ".codex/skills/lv1-workflow-feature-dev/agents/openai.yaml"
+path = ".codex/skills/guard/SKILL.md"
 kind = "text"
-sha256 = "f2a503d1a99b7c79515bd6a42e43a72aec942f0a19af60f7b435afec541c3908"
-size = 304
+sha256 = "f1d6053b9550db80ce6f2fa4af834b54ce7fb7787ba10a4eef29307dd2acf1b8"
+size = 586
 
 [[files]]
-path = ".codex/skills/lv1-workflow-feature-dev/references/feature-prd-template.md"
+path = ".codex/skills/guard/agents/openai.yaml"
 kind = "text"
-sha256 = "022fc433496333474bbe36f76edbec86f551167cd1f4a2f8503043f03abb5e24"
-size = 1573
+sha256 = "b30318b05760e01035fbe3c5cca2665dd2f0aa7df43388b558c5d208a5303911"
+size = 277
 
 [[files]]
-path = ".codex/skills/lv1-workflow-feature-dev/references/feature-progress-template.md"
+path = ".codex/skills/home-export/SKILL.md"
 kind = "text"
-sha256 = "38e61e36267f7ea4f8c24638576a08d67253a0c74f8c326fa80769fe748c330a"
-size = 959
+sha256 = "321b358f9be6ffad266e398837b9b4fc69e5dea46055475d98061ff44b582406"
+size = 418
 
 [[files]]
-path = ".codex/skills/lv1-workflow-project-contract/SKILL.md"
+path = ".codex/skills/home-export/agents/openai.yaml"
 kind = "text"
-sha256 = "850f7322d8c46e1d866b06e238c144256606a42b9130fdd0b46f49c276b7a5d8"
-size = 3091
+sha256 = "aa24fa47ef6199843aee76074c5147fed6e6c481c244ff00e850ddd9734cb4e1"
+size = 233
 
 [[files]]
-path = ".codex/skills/lv1-workflow-project-contract/agents/openai.yaml"
+path = ".codex/skills/home-health/SKILL.md"
 kind = "text"
-sha256 = "e771dd82ad44b19e8e6268c1c52706d1cb648ff54a20965b07f94bc79663b9e8"
-size = 311
+sha256 = "c1bdbe1d0756df4963794a174d65892e4c5e34a3f042dc6fa4a7bdd2640561c5"
+size = 376
 
 [[files]]
-path = ".codex/skills/lv1-workflow-project-contract/references/agent-template.md"
+path = ".codex/skills/home-health/agents/openai.yaml"
 kind = "text"
-sha256 = "bfa7125f11c6e5bc128394f6d18cadc6cef67ed4ab18d283bc13e376da4561e4"
-size = 2201
+sha256 = "8b8a9e2e31a26e7d0f1000636414ba0e1d2841add6b3b19757303777857e7db8"
+size = 251
 
 [[files]]
-path = ".codex/skills/lv1-workflow-repo-bootstrap/SKILL.md"
+path = ".codex/skills/investigate/SKILL.md"
 kind = "text"
-sha256 = "94b0dbc49a92d496188717cb66d27a37f49b0ad5c4122c748c0cfbee61dcb8e9"
-size = 5601
+sha256 = "a6b186987f896618934fc77c7755e1e275649ebb45dcafec32e06d4e9cdb562f"
+size = 2408
 
 [[files]]
-path = ".codex/skills/lv1-workflow-repo-bootstrap/agents/openai.yaml"
+path = ".codex/skills/investigate/agents/openai.yaml"
 kind = "text"
-sha256 = "2b8b8643494d83ad196fe75c7014aa9d2b123abc8b3ab8767556ac806ef66685"
-size = 281
+sha256 = "4d6cd73be0869d797bebdcdfdd0bc6339ec03a54f4ae4bc4c2c11e1fe838ea72"
+size = 310
 
 [[files]]
-path = ".codex/skills/lv1-workflow-repo-bootstrap/references/existing-repo.md"
+path = ".codex/skills/investigate/references/investigation-template.md"
 kind = "text"
-sha256 = "3f1958bdcf650b9b461ed46aa508b5516370356fce207bbcee830096e67ea73e"
-size = 3171
+sha256 = "a8b3b8c3b04de6b6a1c3e04499aab39190457919cbb3b7bb65b431362b8c820d"
+size = 245
 
 [[files]]
-path = ".codex/skills/lv1-workflow-repo-bootstrap/references/new-repo.md"
+path = ".codex/skills/office-hours/SKILL.md"
 kind = "text"
-sha256 = "b5fcbba85d4a1d4aa69fbdade2d4ad492d30eda5849d84ec6da687d3b5582a1b"
-size = 3199
+sha256 = "ec7d6c340e3acf9130a2501b7b751aa8c6c204e2e2806a11061cda0aadfffe49"
+size = 5645
 
 [[files]]
-path = ".codex/skills/lv1-workflow-repo-bootstrap/references/umbrella-repo.md"
+path = ".codex/skills/office-hours/agents/openai.yaml"
 kind = "text"
-sha256 = "b44d357f1971a09e0b44f8d89a9d14808a2df6e560fba469ed4183a6ff5a6c1b"
-size = 2826
+sha256 = "142d8b46dbe833940e2bf02de51677ccca629abc586fc66050b54f92e55bee62"
+size = 343
 
 [[files]]
-path = ".codex/skills/lv1-workflow-repo-knowledge-capture/SKILL.md"
+path = ".codex/skills/office-hours/references/builder-design-template.md"
 kind = "text"
-sha256 = "0a0b47872aa8655ddb7d94689f1ad67acf18c364c6231cfaf762973d9d5cd920"
-size = 2785
+sha256 = "f8ba2fc9e690de772d89e34692f8ef68cb94dbaa461bebfe485768077badd3cf"
+size = 474
 
 [[files]]
-path = ".codex/skills/lv1-workflow-session-handoff/SKILL.md"
+path = ".codex/skills/office-hours/references/startup-design-template.md"
 kind = "text"
-sha256 = "db87703e450b52d7967b8b5d5a63369ba5bc0e1338ae0367477e0ff079931e50"
-size = 2708
+sha256 = "3cbb04cdc89fa5afd3c5466d882ef2b49a4f4083955892c9c52b40eb2365413f"
+size = 541
 
 [[files]]
-path = ".codex/skills/lv1-workflow-session-handoff/agents/openai.yaml"
+path = ".codex/skills/plan-ceo-review/SKILL.md"
 kind = "text"
-sha256 = "e31d7ba334d56f83863505248fa171fc873b4e3747af6169193d22b3a535696c"
-size = 306
+sha256 = "19cf54b043cb155378a275719e22b1ad10679dba87bfcd9534c7e1db5c3b2295"
+size = 1558
 
 [[files]]
-path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/SKILL.md"
+path = ".codex/skills/plan-ceo-review/agents/openai.yaml"
 kind = "text"
-sha256 = "6bea8d7d524347957fb6ec0abeae33bc95ff2c89b9dd7049b61f98415e512ae0"
-size = 3826
+sha256 = "f2736a0d58110ad9e1ba3de836621e338300c5794a6b13e55a9a5ffddfb4d3bb"
+size = 337
 
 [[files]]
-path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/agents/openai.yaml"
+path = ".codex/skills/plan-design-review/SKILL.md"
 kind = "text"
-sha256 = "6d791e3561a8a909231faec8a0c4b93f0b839b6b0137d1ab8016fa428a45e813"
-size = 264
+sha256 = "23609494459982288b9e150663a4800c5ce2d9e3416b17a30376e94a1fb73404"
+size = 1769
 
 [[files]]
-path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/references/summary-template.md"
+path = ".codex/skills/plan-design-review/agents/openai.yaml"
 kind = "text"
-sha256 = "90ac67bd2586b1d5a73826455c110ed3eaaab561f7da8fe01a343f140839d4f8"
-size = 1245
+sha256 = "67e4a68458eaf15caf2ace47fbc86c12d64a60fb0a46099eb67aa1c33fb8448d"
+size = 319
 
 [[files]]
-path = ".codex/skills/lv1-workflow-youtube-knowledge-capture/scripts/fetch_youtube_transcript.py"
+path = ".codex/skills/plan-eng-review/SKILL.md"
 kind = "text"
-sha256 = "f35e43197f65f3faedf88b57b7113b966214addd1fdd53b7eb8b50af4f74fc7d"
-size = 12111
+sha256 = "1f136ea4598cba2be144652b095f9ad3291485a2abf64a51f720db842ff2bc04"
+size = 1736
+
+[[files]]
+path = ".codex/skills/plan-eng-review/agents/openai.yaml"
+kind = "text"
+sha256 = "210d66476117e1a07d509077d2981a28372a5f7add7cfa16b907579c7784e974"
+size = 329
+
+[[files]]
+path = ".codex/skills/qa-only/SKILL.md"
+kind = "text"
+sha256 = "30cbb1e4c005f4c65017bb2cdd0c9f078aa104bcde199cada84bb8d07733e14f"
+size = 599
+
+[[files]]
+path = ".codex/skills/qa-only/agents/openai.yaml"
+kind = "text"
+sha256 = "2c08e274cd3837a2db9f81b894533ba403ad3b98652df2a97f05b522a39bdfdc"
+size = 220
+
+[[files]]
+path = ".codex/skills/qa/SKILL.md"
+kind = "text"
+sha256 = "fbd6af3eeb4b29ac7adfea56e07351dd42c3272efeea23d0e269eafda3269ba1"
+size = 2065
+
+[[files]]
+path = ".codex/skills/qa/agents/openai.yaml"
+kind = "text"
+sha256 = "d3f569bca6b38edada8432c4ada144f2b33253ec755ee429feaa175efad925c0"
+size = 293
+
+[[files]]
+path = ".codex/skills/qa/references/qa-report-template.md"
+kind = "text"
+sha256 = "b95b6309b05d9df9492ee13b633e50ad01c4e6996faee19beaff792bc191161b"
+size = 215
+
+[[files]]
+path = ".codex/skills/retro/SKILL.md"
+kind = "text"
+sha256 = "f9d9f0973ba66d6132229f23ea1a4aba5a9298c497982f934719cb1ee159bee6"
+size = 1520
+
+[[files]]
+path = ".codex/skills/retro/agents/openai.yaml"
+kind = "text"
+sha256 = "e7c09ad5db14e5128e70e611c67ee82e4d93a63de1376d3b47f682af949c5b13"
+size = 318
+
+[[files]]
+path = ".codex/skills/retro/references/retro-template.md"
+kind = "text"
+sha256 = "09cb1337e36cfd7dfab648bb274e43c9d2ef3c21e239768e8a98ccd0979de247"
+size = 190
+
+[[files]]
+path = ".codex/skills/review/SKILL.md"
+kind = "text"
+sha256 = "a3fb02f64b49cf996614514aadc09a7602320be059fe8f921e371af714ad7ced"
+size = 2451
+
+[[files]]
+path = ".codex/skills/review/agents/openai.yaml"
+kind = "text"
+sha256 = "d6ff854b7f4eb44dc16f0edd90abd511b62613d78b58b719abd0bd4eb63effd9"
+size = 318
+
+[[files]]
+path = ".codex/skills/review/references/review-template.md"
+kind = "text"
+sha256 = "1671ac7493ad144b44f7bff6a5fc1867a2b19aced16bbb01a1cfcac2b307a616"
+size = 210
+
+[[files]]
+path = ".codex/skills/ship/SKILL.md"
+kind = "text"
+sha256 = "1495e20f9f5f0b891bc5b6e78ad0c16bc55f1f155d3182fa07a558f3344ca2aa"
+size = 2439
+
+[[files]]
+path = ".codex/skills/ship/agents/openai.yaml"
+kind = "text"
+sha256 = "4f471adaa996f46fd1d71ef91ea1b049567de74d533422bc07f190b984671ac2"
+size = 275
+
+[[files]]
+path = ".codex/skills/ship/references/ship-template.md"
+kind = "text"
+sha256 = "d8be1c480f736965c04d6cc1a7f4b1af05ea85fe34ea0c584870ddf43897b0b8"
+size = 211
+
+[[files]]
+path = ".codex/skills/unfreeze/SKILL.md"
+kind = "text"
+sha256 = "775979f7aababe91ebe9966a7fa85080f4a67439e8b6bd9499e96d0c7cc8ab87"
+size = 364
+
+[[files]]
+path = ".codex/skills/unfreeze/agents/openai.yaml"
+kind = "text"
+sha256 = "92347977f23e51a5bb54734625ba669123c2b074503974460950afe612bf651b"
+size = 248
 
 [[files]]
 path = "AGENTS.md"
 kind = "text"
-sha256 = "fa5c8816599159ad1d3666f34b83141dcdd2b5d9c02ff1a0b6c3b30830f1435e"
-size = 4098
+sha256 = "ce675a098a54e8d1442da7fb0334bf51b2a0d30196eb8856dc17d1649b2ea299"
+size = 2366

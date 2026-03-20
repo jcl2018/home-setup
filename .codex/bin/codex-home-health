@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+"""Audit the active Codex home layout."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+
+HOME = Path.home()
+CODEX = HOME / ".codex"
+EXPECTED_SKILLS = {
+    "office-hours",
+    "plan-ceo-review",
+    "plan-eng-review",
+    "plan-design-review",
+    "design-consultation",
+    "investigate",
+    "design-review",
+    "review",
+    "qa",
+    "qa-only",
+    "ship",
+    "document-release",
+    "retro",
+    "careful",
+    "freeze",
+    "guard",
+    "unfreeze",
+    "home-health",
+    "home-export",
+}
+EXPECTED_BINS = {
+    "codex-project-slug",
+    "codex-project-log",
+    "codex-review-readiness",
+    "codex-guardrails",
+    "codex-skill-check",
+    "codex-home-health",
+    "codex-home-export",
+}
+
+
+def list_dirs(root: Path) -> set[str]:
+    if not root.exists():
+        return set()
+    return {path.name for path in root.iterdir() if path.is_dir() and not path.name.startswith(".")}
+
+
+def main() -> int:
+    critical: list[str] = []
+    structural: list[str] = []
+    incremental: list[str] = []
+
+    required_paths = [
+        HOME / "AGENTS.md",
+        CODEX / "config.toml",
+        CODEX / "docs" / "skills.md",
+        CODEX / "docs" / "architecture.md",
+        CODEX / "projects",
+        CODEX / "guardrails" / "current.toml",
+    ]
+    for path in required_paths:
+        if not path.exists():
+            critical.append(f"Missing required path: {path}")
+
+    skill_dirs = list_dirs(CODEX / "skills")
+    missing_skills = sorted(EXPECTED_SKILLS - skill_dirs)
+    unexpected_skills = sorted(skill_dirs - EXPECTED_SKILLS)
+    for name in missing_skills:
+        critical.append(f"Missing skill dir: {name}")
+    for name in unexpected_skills:
+        structural.append(f"Unexpected active skill dir: {name}")
+
+    for name in sorted(EXPECTED_SKILLS):
+        skill_dir = CODEX / "skills" / name
+        if skill_dir.exists():
+            if not (skill_dir / "SKILL.md").exists():
+                critical.append(f"Missing SKILL.md in {skill_dir}")
+            if not (skill_dir / "agents" / "openai.yaml").exists():
+                critical.append(f"Missing agents/openai.yaml in {skill_dir}")
+
+    bin_root = CODEX / "bin"
+    actual_bins = {path.name for path in bin_root.iterdir()} if bin_root.exists() else set()
+    missing_bins = sorted(EXPECTED_BINS - actual_bins)
+    for name in missing_bins:
+        structural.append(f"Missing helper script: {name}")
+
+    if (CODEX / "knowledge" / "setup-prd").exists():
+        structural.append("Retired control plane still present: ~/.codex/knowledge/setup-prd")
+    if any((CODEX / "skills").glob("lv*-*")):
+        structural.append("Legacy lv0/lv1 skill dirs still exist")
+    if (CODEX / ".local-work" / "current.md").exists():
+        incremental.append("Legacy ~/.codex/.local-work/current.md still exists as a breadcrumb")
+
+    print("Critical")
+    if critical:
+        for item in critical:
+            print(f"- {item}")
+    else:
+        print("- none")
+
+    print("\nStructural")
+    if structural:
+        for item in structural:
+            print(f"- {item}")
+    else:
+        print("- none")
+
+    print("\nIncremental")
+    if incremental:
+        for item in incremental:
+            print(f"- {item}")
+    else:
+        print("- none")
+
+    return 1 if critical or structural else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

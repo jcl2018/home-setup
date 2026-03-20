@@ -1,37 +1,81 @@
-# Codex Home Settings
+# AI Workflow Config Backup
 
-This repo stores a static mirror of a Codex home control layer.
+Backup of AI tool configs and workflows for Claude Code + Codex. This repo stores settings, skills, project memory, and workflow definitions so they can be restored, shared, or customized.
 
-## What it tracks
+## Layout
 
-- `AGENTS.md`
-- `.codex/.local-work/current.md`
-- `.codex/config.toml`
-- custom home skills under `.codex/skills/` except `.system`
-- home knowledge under `.codex/knowledge/`, including workflow PRDs under `.codex/knowledge/setup-prd/`
-- automation definitions at `.codex/automations/*/automation.toml`
+```
+home-setup/
+├── claude/                          ← Claude Code configs
+│   ├── settings.json                ← global Claude Code settings
+│   ├── skills/gstack/               ← gstack skill suite (21 skills)
+│   └── projects/                    ← project-specific memory + configs
+│
+├── .codex/                          ← Codex configs
+│   ├── config.toml
+│   ├── skills/                      ← Codex skills
+│   ├── docs/                        ← helper docs
+│   ├── bin/                         ← helper scripts
+│   ├── projects/                    ← project artifacts
+│   ├── guardrails/                  ← guardrail state
+│   └── automations/                 ← automation definitions
+│
+├── AGENTS.md                        ← Codex home contract
+├── codex-home-manifest.toml         ← Codex export manifest
+└── README.md                        ← this file
+```
 
-## What it excludes
+## Claude Code
 
-- auth and secret files such as `.codex/auth.json`
-- sqlite state, logs, sessions, memories, caches, shell snapshots, and vendor imports
-- automation runtime state outside `automation.toml`
-- system-managed skills under `.codex/skills/.system`
+### What's backed up
 
-## Mirror behavior
+| Item | Source | Description |
+|------|--------|-------------|
+| `claude/settings.json` | `~/.claude/settings.json` | Global settings (permissions, model, theme) |
+| `claude/skills/gstack/` | `~/.claude/skills/gstack/` | 21 gstack skills (office-hours, ship, review, qa, etc.) |
+| `claude/projects/*/memory/` | `~/.claude/projects/*/memory/` | Per-project memory (user identity, feedback, preferences) |
 
-Managed files are exported from the current home tree within the tracked roots and exclusions listed in `codex-home-manifest.toml`.
+### What's excluded
 
-For portability, mirrored text files normalize the source home root to `~`, and mirrored `.codex/config.toml` omits top-level OS-specific tables such as `[windows]`, `[macos]`, and `[linux]`.
+- Build artifacts (`dist/`, `node_modules/`, `.deploy/`)
+- Session data (subagent meta, tool results, SQLite state)
+- Auth/secrets
 
-This repo intentionally does not include install or restore scripts.
-
-## Layout guidance
-
-Use this repo only for the Codex home control layer. Keep your normal coding repos outside this mirror repo under a stable workspace root such as `~/Documents/projects` or another single parent you control. Each project repo should keep its own `AGENTS.md`, verification commands, and repo-local AI docs.
-
-## Export
+### Refresh Claude backup
 
 ```bash
-python3 ~/.codex/skills/lv0-home-codex-settings-export/scripts/export_codex_home.py --repo /path/to/this/repo
+cd /path/to/home-setup
+
+# Copy settings
+cp ~/.claude/settings.json claude/
+
+# Copy gstack skills (exclude build artifacts)
+rsync -av --exclude='.git' --exclude='node_modules' --exclude='dist' --exclude='.deploy' \
+  --exclude='*.sqlite*' --exclude='__pycache__' \
+  ~/.claude/skills/gstack/ claude/skills/gstack/
+
+# Copy project memory (exclude session data)
+rsync -av --exclude='subagents' --exclude='tool-results' \
+  --include='*/memory/**' --include='*/' --exclude='*' \
+  ~/.claude/projects/ claude/projects/
 ```
+
+## Codex
+
+### Refresh Codex backup
+
+```bash
+~/.codex/bin/codex-home-export --repo /path/to/home-setup
+```
+
+See `codex-home-manifest.toml` for managed files and exclusions.
+
+## Customization (future)
+
+This repo is also a place to experiment with custom workflows:
+- Custom SKILL.md files (your own skills beyond gstack)
+- Modified gstack skills (fork + edit)
+- Workflow templates (reusable CLAUDE.md patterns)
+- Custom hooks (pre/post tool execution)
+
+Add custom skills under `claude/skills/custom/` to keep them separate from gstack upstream.

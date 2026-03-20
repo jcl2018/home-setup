@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Consultation"
+  short_description: "Invent or reset the visual system before implementation"
+  default_prompt: "Use $design-consultation to create or refine the active design artifact, compare at least two visual directions, recommend one, and leave the team with concrete design-system guidance before code."

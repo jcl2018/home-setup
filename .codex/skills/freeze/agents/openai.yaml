@@ -1,0 +1,4 @@
+interface:
+  display_name: "Freeze"
+  short_description: "Restrict edits to one directory"
+  default_prompt: "Use $freeze to set an edit boundary in ~/.codex/guardrails/current.toml for the path the user names and honor that boundary with codex-guardrails path checks."

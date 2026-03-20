@@ -1,0 +1,3 @@
+{"artifact": "smoke-review", "branch": "no-branch", "details": "", "skill": "review", "status": "CLEAR", "timestamp": "2026-03-19T19:08:14Z"}
+{"artifact": "smoke-qa", "branch": "no-branch", "details": "", "skill": "qa", "status": "CLEAR", "timestamp": "2026-03-19T19:08:14Z"}
+{"artifact": "smoke-ship", "branch": "no-branch", "details": "", "skill": "ship", "status": "READY", "timestamp": "2026-03-19T19:08:15Z"}

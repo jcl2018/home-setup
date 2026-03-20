@@ -1,0 +1,13 @@
+.DS_Store
+.local-work/
+
+# Claude Code build artifacts
+claude/skills/gstack/browse/dist/
+claude/skills/gstack/browse/node_modules/
+claude/skills/gstack/.deploy/
+claude/skills/gstack/*.sqlite*
+__pycache__/
+
+# Session ephemera (subagent meta, tool results)
+claude/projects/*/subagents/
+claude/projects/*/tool-results/

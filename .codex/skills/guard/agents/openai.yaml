@@ -1,0 +1,4 @@
+interface:
+  display_name: "Guard"
+  short_description: "Enable warning mode and an edit boundary"
+  default_prompt: "Use $guard to enable both careful mode and a freeze boundary in ~/.codex/guardrails/current.toml, then honor both command and path checks during the session."
