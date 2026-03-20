@@ -11,3 +11,4 @@ __pycache__/
 # Session ephemera (subagent meta, tool results)
 claude/projects/*/subagents/
 claude/projects/*/tool-results/
+.claude/settings.local.json
