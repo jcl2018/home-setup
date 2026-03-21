@@ -1,7 +1,4 @@
 {
-  "env": {
-    "OPENAI_API_KEY": "sk-p...<REDACTED>"
-  },
   "permissions": {
     "allow": [
       "Bash(pnpm:*)",

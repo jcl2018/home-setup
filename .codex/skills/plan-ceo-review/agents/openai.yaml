@@ -1,4 +1,0 @@
-interface:
-  display_name: "Plan CEO Review"
-  short_description: "Founder-mode review of the design"
-  default_prompt: "Use $plan-ceo-review to review the latest design artifact in founder mode, challenge product framing and scope one decision at a time, update the same design artifact, and decide if it is ready for plan-eng-review."

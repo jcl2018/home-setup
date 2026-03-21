@@ -6,6 +6,10 @@ claude/skills/gstack/browse/dist/
 claude/skills/gstack/browse/node_modules/
 claude/skills/gstack/.deploy/
 claude/skills/gstack/*.sqlite*
+codex/skills/gstack/browse/dist/
+codex/skills/gstack/node_modules/
+codex/skills/gstack/.deploy/
+codex/skills/gstack/*.sqlite*
 __pycache__/
 
 # Session ephemera (subagent meta, tool results)

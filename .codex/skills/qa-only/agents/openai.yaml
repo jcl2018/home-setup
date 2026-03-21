@@ -1,4 +1,0 @@
-interface:
-  display_name: "QA Only"
-  short_description: "Report bugs without fixing"
-  default_prompt: "Use $qa-only to run repo-native QA, produce a report-only artifact in the project store, and avoid code changes."

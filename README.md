@@ -1,124 +1,111 @@
-# AI Workflow Lab
+# home-setup
 
-Backup, audit, extend, and sync your AI tool configurations across machines. This repo is the control center for Claude Code + Codex workflows — managing settings, skills, project memory, templates, and more.
+Static backup plus curated sync for Claude Code and Codex home setup. One repo, one script, one drift check. `gstack` on both hosts is snapshot-only here, not push-managed.
 
 ## Layout
 
-```
+```text
 home-setup/
-├── claude/                              ← Claude Code configs
+├── .agents/
+│   └── skills/
+│       └── audit/                       ← project-local Codex /audit skill
+├── .claude/
+│   └── skills/
+│       └── audit/                       ← project-local Claude /audit skill
+├── claude/
 │   ├── settings.json                    ← global settings (redacted secrets)
+│   ├── CLAUDE.md                        ← global CLAUDE.md archive
 │   ├── skills/
-│   │   ├── gstack/                      ← upstream gstack backup (don't edit)
-│   │   ├── custom/                      ← your custom skills (edit freely)
-│   │   │   └── audit/                   ← /audit — scan & suggest improvements
-│   │   └── community/                   ← skills from others (try before adopting)
+│   │   └── gstack/                      ← upstream gstack snapshot (don't edit)
 │   ├── templates/                       ← reusable CLAUDE.md templates
 │   │   ├── python-project.md
 │   │   └── terraform-project.md
 │   └── projects/                        ← per-project memory backup
-│
-├── .codex/                              ← Codex configs
-│   ├── config.toml
-│   ├── skills/
-│   ├── docs/
-│   ├── bin/
-│   ├── projects/
-│   ├── guardrails/
-│   └── automations/
-│
+├── codex/
+│   ├── config.toml                      ← curated Codex config
+│   ├── AGENTS.md                        ← curated Codex home contract
+│   └── skills/
+│       ├── custom/
+│       │   └── cross-retro/             ← repo-backed Codex custom skill source
+│       └── gstack/                      ← upstream Codex gstack snapshot (don't edit)
 ├── sync.sh                              ← push / pull / status
-├── CLAUDE.md                            ← instructions for Claude Code in this repo
-├── AGENTS.md                            ← Codex home contract
-├── codex-home-manifest.toml             ← Codex export manifest
+├── CLAUDE.md                            ← repo instructions
 └── README.md                            ← this file
 ```
 
 ## Quick Start
 
 ```bash
-# Clone on a new machine
 git clone <your-remote> ~/Documents/projects/home-setup
 cd ~/Documents/projects/home-setup
-
-# Deploy custom skills + templates to ~/.claude/
+./sync.sh status
 ./sync.sh push
-
-# Run the audit skill to check your setup
-# (inside any Claude Code session)
-/audit
 ```
 
 ## Sync Workflow
 
-The `sync.sh` script keeps your repo and `~/.claude/` in sync.
-
 | Command | What it does |
 |---------|-------------|
-| `./sync.sh push` | Symlinks custom + community skills into `~/.claude/skills/`, copies templates to `~/.claude/templates/` |
-| `./sync.sh pull` | Backs up `settings.json` (secrets redacted), gstack snapshot, and project memory into this repo |
-| `./sync.sh status` | Shows gstack version sync, skill deployment status, settings diff, template + memory counts |
+| `./sync.sh push` | Mirrors Claude templates, pushes `codex/config.toml` and `codex/AGENTS.md`, never touches live gstack |
+| `./sync.sh pull` | Backs up Claude settings/CLAUDE/gstack/memory plus Codex config/AGENTS/gstack |
+| `./sync.sh status` | Shows Claude and Codex drift, including repo-local audit entrypoints and gstack snapshot age |
 
-**Typical workflow:**
-1. `./sync.sh pull` — capture current state before committing
-2. `git add . && git commit` — snapshot your configs
-3. On another machine: `git pull && ./sync.sh push` — deploy everything
+**Weekly ritual:**
+1. `./sync.sh status` — check for drift
+2. `./sync.sh pull` — capture current state
+3. `git add . && git commit` — snapshot your configs
 
-## Adding Custom Skills
-
-1. Create a directory under `claude/skills/custom/` with a `SKILL.md`:
-   ```
-   claude/skills/custom/my-skill/
-   └── SKILL.md
-   ```
-2. Run `./sync.sh push` to symlink it into `~/.claude/skills/`
-3. Use `/my-skill` in any Claude Code session
-
-Custom skills are symlinked, so edits in this repo take effect immediately.
-
-## Trying Community Skills
-
-1. Drop a skill directory into `claude/skills/community/`:
-   ```
-   claude/skills/community/some-skill/
-   └── SKILL.md
-   ```
-2. Run `./sync.sh push` to deploy
-3. Test it out — if you like it, move it to `custom/`
-
-## Creating Templates
-
-Templates are reusable CLAUDE.md patterns for bootstrapping new projects. Add `.md` files to `claude/templates/`:
-
-```
-claude/templates/
-├── python-project.md        ← Python project template
-└── terraform-project.md     ← Terraform/IaC template
-```
-
-Use `{{project_name}}` and `{{one-line description}}` as placeholders. When starting a new project, copy a template and fill in the blanks.
+**New machine:**
+1. `git clone && cd home-setup`
+2. Install Claude, Codex, and gstack normally
+3. `./sync.sh push` — deploy only the repo-owned curated layer
 
 ## What Gets Backed Up
 
 | Item | Source | Notes |
 |------|--------|-------|
 | `claude/settings.json` | `~/.claude/settings.json` | API keys and secrets are redacted |
-| `claude/skills/gstack/` | `~/.claude/skills/gstack/` | Full gstack snapshot (excludes build artifacts) |
-| `claude/projects/*/memory/` | `~/.claude/projects/*/memory/` | Per-project memory only (no session data) |
-| `.codex/` | `~/.codex/` | Codex configs, skills, automations |
+| `claude/CLAUDE.md` | `~/.claude/CLAUDE.md` | Global Claude Code instructions |
+| `claude/skills/gstack/` | `~/.claude/skills/gstack/` | Full Claude gstack snapshot |
+| `claude/projects/*/memory/` | `~/.claude/projects/*/memory/` | Per-project memory only |
+| `codex/config.toml` | `~/.codex/config.toml` | Current Codex config surface |
+| `codex/AGENTS.md` | `~/AGENTS.md` | Global Codex home contract |
+| `codex/skills/gstack/` | `~/.codex/skills/gstack/` | Full Codex gstack snapshot |
 
-### What's Excluded
+## What Push Manages
+
+| Item | Destination | Notes |
+|------|-------------|-------|
+| `claude/templates/` | `~/.claude/templates/` | Exact mirror via `rsync --delete` |
+| `codex/config.toml` | `~/.codex/config.toml` | Repo is the desired state |
+| `codex/AGENTS.md` | `~/AGENTS.md` | Repo is the desired state |
+
+`gstack` is intentionally excluded from `push` on both hosts. Keep the live installs current with their native upgrade flow, then snapshot them back into this repo with `./sync.sh pull`.
+
+## What's Excluded
 
 - Build artifacts (`dist/`, `node_modules/`, `.deploy/`)
 - Session data (subagent meta, tool results, SQLite state)
-- Auth tokens and secrets (redacted in settings.json)
+- Auth tokens and secrets (redacted in Claude settings)
+- Live Codex runtime state (`auth.json`, history, logs, SQLite, caches)
 
-## Codex
+## Creating Templates
 
-Codex configs live in `.codex/`. To refresh:
+Templates are reusable CLAUDE.md patterns for bootstrapping new projects. Add `.md` files to `claude/templates/`:
 
-```bash
-~/.codex/bin/codex-home-export --repo /path/to/home-setup
+```text
+claude/templates/
+├── python-project.md
+└── terraform-project.md
 ```
 
-See `codex-home-manifest.toml` for managed files and exclusions.
+Use `{{project_name}}` and `{{one-line description}}` as placeholders. Templates are pushed as an exact mirror, so removing a template from the repo removes it from `~/.claude/templates/` on the next push.
+
+## Audit Skills
+
+The repo keeps matching project-local audit entrypoints:
+
+- Claude: `.claude/skills/audit/SKILL.md`
+- Codex: `.agents/skills/audit/SKILL.md`
+
+They are meant to report on the same workflow surface from either host: gstack status, config drift, repo contract coverage, Claude memory, Codex config, and skill-usage health.

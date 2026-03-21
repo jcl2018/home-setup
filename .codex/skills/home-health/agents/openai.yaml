@@ -1,4 +1,0 @@
-interface:
-  display_name: "Home Health"
-  short_description: "Audit the active Codex home layout"
-  default_prompt: "Use $home-health to audit the active Codex home layout, report missing or stale pieces, and keep the audit isolated from ~/.claude."

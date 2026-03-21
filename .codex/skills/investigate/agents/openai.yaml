@@ -1,4 +1,0 @@
-interface:
-  display_name: "Investigate"
-  short_description: "Systematic debugging with root-cause discipline"
-  default_prompt: "Use $investigate to follow a root-cause-first debugging flow, write the investigation artifact in the project store, and avoid proposing fixes until the hypothesis is confirmed."

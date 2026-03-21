@@ -1,4 +1,0 @@
-interface:
-  display_name: "Plan Eng Review"
-  short_description: "Engineering-manager review of the design"
-  default_prompt: "Use $plan-eng-review to review the latest design artifact section by section, tighten the architecture, failure modes, diagrams, and tests, update the same design artifact, and decide the next stage."

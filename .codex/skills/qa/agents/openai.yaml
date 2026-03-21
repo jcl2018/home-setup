@@ -1,4 +1,0 @@
-interface:
-  display_name: "QA"
-  short_description: "Test, fix, and re-verify with tiers and modes"
-  default_prompt: "Use $qa to choose the right QA mode and tier, run a test-fix-verify loop with repo-native tooling, write the QA artifact in the project store, and update readiness status."

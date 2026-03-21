@@ -1,4 +1,0 @@
-interface:
-  display_name: "Review"
-  short_description: "Pre-landing diff review with readiness status"
-  default_prompt: "Use $review to detect scope drift, run a two-pass diff review, write the artifact in the project store, and record review readiness. Keep findings first unless the user explicitly wants fixes."

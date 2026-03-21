@@ -1,4 +1,0 @@
-interface:
-  display_name: "Plan Design Review"
-  short_description: "Design-review the plan before code"
-  default_prompt: "Use $plan-design-review to review the latest design artifact in passes, rate the design, fill in interaction states and UI decisions, and update the same design artifact before implementation."

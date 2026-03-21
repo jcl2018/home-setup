@@ -1,4 +1,0 @@
-interface:
-  display_name: "Ship"
-  short_description: "Run the final release workflow with gates"
-  default_prompt: "Use $ship to check release readiness, run the pre-flight and final verification flow, write the ship artifact in the project store, and update ship status."

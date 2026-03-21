@@ -1,4 +1,0 @@
-interface:
-  display_name: "Careful"
-  short_description: "Enable destructive-command warning mode"
-  default_prompt: "Use $careful to enable Codex guardrail warning mode, explain the protected command patterns, and use codex-guardrails checks before risky commands."

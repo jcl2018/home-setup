@@ -1,34 +1,37 @@
-# CLAUDE.md — home-setup (AI Workflow Lab)
+# CLAUDE.md — home-setup
 
-This is a meta-repo for managing AI tool configurations across machines. It's NOT a software project — it's the control center for Claude Code + Codex workflows.
-
-## What this repo does
-
-- **Backup**: Mirrors Claude Code settings, gstack skills, project memory, and Codex configs
-- **Audit**: Scans your AI config surface and suggests improvements
-- **Extend**: Custom skills in `claude/skills/custom/`, community skills in `claude/skills/community/`
-- **Sync**: `./sync.sh push` deploys to any machine, `./sync.sh pull` backs up
+Static backup plus curated sync for Claude Code and Codex home setup. `gstack` on both sides is snapshot-only here; upgrade and manage the live installs separately.
 
 ## Commands
 
 ```bash
-./sync.sh status   # show what's in sync vs out of sync
-./sync.sh push     # deploy custom skills + templates to ~/.claude/
-./sync.sh pull     # backup settings + gstack + memory from ~/.claude/
+./sync.sh status   # compare repo vs live Claude/Codex homes
+./sync.sh push     # deploy curated repo-owned files
+./sync.sh pull     # back up live Claude/Codex state into this repo
 ```
 
 ## Layout
 
-- `claude/skills/gstack/` — upstream gstack backup (DON'T edit, managed by gstack-upgrade)
-- `claude/skills/custom/` — YOUR skills (edit freely, synced by push)
-- `claude/skills/community/` — skills from others (try before adopting)
+- `claude/settings.json` — global settings (redacted secrets)
+- `claude/CLAUDE.md` — global CLAUDE.md archive (pulled from `~/.claude/CLAUDE.md`)
+- `claude/skills/gstack/` — upstream gstack snapshot (DON'T edit, never pushed)
 - `claude/templates/` — reusable CLAUDE.md templates for new projects
 - `claude/projects/` — per-project memory backup
-- `.codex/` — Codex home configs
+- `codex/config.toml` — curated Codex config
+- `codex/AGENTS.md` — curated Codex home contract backup
+- `codex/skills/gstack/` — upstream Codex gstack snapshot (DON'T edit, never pushed)
+- `codex/skills/custom/` — repo-backed Codex custom skill sources
+- `.claude/skills/audit/` — project-local Claude `/audit` skill
+- `.agents/skills/audit/` — project-local Codex `/audit` skill
 
 ## Rules
 
-- Never edit `claude/skills/gstack/` directly — it's a snapshot of upstream
-- Custom skills go in `claude/skills/custom/`
-- Run `./sync.sh pull` before committing to get the latest state
-- Run `./sync.sh push` after cloning on a new machine
+- Never edit either `*/skills/gstack/` snapshot directly.
+- Run `./sync.sh pull` before committing to get the latest state.
+- Run `./sync.sh push` after cloning on a new machine.
+- Run `./sync.sh status` weekly to catch drift.
+- `gstack` snapshots are backup-only. `push` does not install or overwrite them.
+
+## /audit
+
+The repo ships matching project-local `/audit` skills for Claude and Codex in `.claude/skills/audit/SKILL.md` and `.agents/skills/audit/SKILL.md`. They scan the dual-host workflow surface and report on config drift, gstack snapshots, repo contracts, memory, and skill usage.

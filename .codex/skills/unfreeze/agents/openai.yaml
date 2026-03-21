@@ -1,4 +1,0 @@
-interface:
-  display_name: "Unfreeze"
-  short_description: "Clear the active guardrail state"
-  default_prompt: "Use $unfreeze to clear the active guardrail boundary in ~/.codex/guardrails/current.toml so command and path checks return to normal."

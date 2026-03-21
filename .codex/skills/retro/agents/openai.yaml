@@ -1,4 +1,0 @@
-interface:
-  display_name: "Retro"
-  short_description: "Run a team-aware engineering retrospective"
-  default_prompt: "Use $retro to gather repo history for the chosen window, compute meaningful retrospective metrics, write concrete praise and growth opportunities, and save the retro artifact in the project store."
