@@ -4,20 +4,22 @@
 - OS: macOS
 - Hosts: Claude Code, Codex
 - Network: unrestricted
-
-## Upstreams
-- gstack: available (git install, auto-upgrade enabled)
-
-## Custom Skills & Knowledge
-- /home-retro: project-local skill wrapping home_health.py for both Claude and Codex
-- Templates: python-project.md, terraform-project.md (repo-owned, pushed to ~/.claude/templates/)
-- /audit: project-local skill for scanning dual-host workflow surface
-
-## Sync Strategy
-- Full sync.sh push/pull/status
-- Push deploys repo-owned surfaces (templates, config.toml, AGENTS.md)
-- Pull refreshes backup-only surfaces (gstack snapshots, settings.json, project memory)
-- Status compares repo vs live state in JSON or text format
+- gstack: installed (git clone, auto-upgrade enabled)
+- Browse daemon: available
 
 ## Reference Machine
-This IS the reference machine. The inventory file (home-inventory.json) describes this machine's setup directly. All other profiles document their differences relative to this one.
+
+This is the reference machine. All skills in the catalog are available here.
+
+## Available Skills
+
+**All 28 skills** in `skills-catalog.json` are available on this machine:
+
+- **Standalone (5):** careful, freeze, guard, home-retro, unfreeze
+- **Adaptable (11):** codex, cso, design-consultation, document-release, investigate, office-hours, plan-ceo-review, plan-design-review, plan-eng-review, retro, setup-deploy
+- **Needs-gstack (5):** autoplan, gstack-upgrade, land-and-deploy, review, ship
+- **Needs-browse (7):** benchmark, browse, canary, design-review, qa, qa-only, setup-browser-cookies
+
+## Maintenance
+
+After gstack upgrades, run `/home-retro` to check whether `gstack_version` in the catalog still matches the live install. If not, re-audit and update `skills-catalog.json`.

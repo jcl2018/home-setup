@@ -1,31 +1,33 @@
 ---
 name: home-retro
-description: Repo-local Claude home retro. Runs the normal rich gstack /retro for this repo, then appends a detailed Claude-only home-health section with drift reconcile results.
+description: Reports on the skill catalog — counts by portability, checks profile match, verifies gstack version.
 ---
 
-# Claude Home Retro
+# /home-retro — Skill Catalog Status Report
 
-When `/home-retro` is invoked from this repo in Claude:
+When `/home-retro` is invoked, produce a status report by reading the repo files and checking the live environment.
 
-1. First run the normal upstream gstack retro workflow for this repo from `~/.claude/skills/gstack/retro/SKILL.md`.
-2. Keep the full original retro output: engineering summary, trends, hotspots, and whatever else the upstream retro would normally report for this repo.
-3. After the normal retro, run `python3 ./home_health.py --host claude`.
-4. Append a dedicated `Home Health (Claude)` section after the normal retro output.
-5. In that home-health section, report only Claude-side tracked upstreams and Claude home customizations.
-6. Do not scan or reconcile Codex-side state in this run.
-7. Be detailed for each checked item:
-   - what repo path was checked
-   - what live path it was compared against
-   - what status was found
-   - what action was taken or skipped
-8. Distinguish:
-   - fixed automatically
-   - blocked because repo-owned push was unsafe
-   - reported only, like upstream freshness
+## Steps
 
-Manual escape hatch:
+1. **Read the catalog.** Read `skills-catalog.json` from the repo root. Parse the JSON.
 
-- `./sync.sh status --host claude`
-- `./sync.sh pull --host claude --scope backup-only`
-- `./sync.sh push --host claude --scope repo-owned`
-- `python3 ./home_health.py --host claude`
+2. **Report skill totals.**
+   - Total number of skills in the catalog
+   - Count per portability level: standalone, adaptable, needs-gstack, needs-browse
+   - Count per source: gstack vs custom
+
+3. **Identify the current machine's profile.** Read each file in `profiles/` (excluding `setup-guide.md`). Determine which profile matches the current machine based on OS and environment. Report the matching profile name and a one-line summary of its constraints.
+
+4. **Report available skills for this profile.**
+   - If the profile has gstack + browse: all skills are available
+   - If the profile has gstack but no browse: exclude needs-browse skills
+   - If the profile has no gstack: only standalone and adaptable skills are available
+   - List the count of available vs total skills
+
+5. **Check gstack version alignment.** If gstack is installed locally:
+   ```bash
+   cat ~/.claude/skills/gstack/VERSION 2>/dev/null || echo "not installed"
+   ```
+   Compare the live version against `gstack_version` in the catalog. Report whether they match. If they do not match, note that the catalog needs updating.
+
+6. **Format the report.** Output a clean markdown report with sections for each of the above. Keep it concise — this is a status check, not an audit.

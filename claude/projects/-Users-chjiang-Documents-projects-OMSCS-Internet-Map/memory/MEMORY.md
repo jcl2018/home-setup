@@ -1,2 +1,0 @@
-- [user_identity.md](user_identity.md) — Charlie Jiang's name, role, and project area
-- [feedback_no_ai_files_remote.md](feedback_no_ai_files_remote.md) — Never push AI config files (CLAUDE.md, AGENTS.md) to remotes

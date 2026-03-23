@@ -4,31 +4,25 @@
 - OS: Windows
 - Hosts: Codex only (no Claude Code)
 - Network: restricted (GitHub HTTPS read-only, no upstream git clones)
+- gstack: not installed (banned software policy)
+- Browse daemon: not available
 
-## Upstreams
-- gstack: unavailable (banned software policy prevents installation of upstream repos)
+## Available Skills
 
-## Custom Skills & Knowledge
-- Work-specific custom skills tailored to internal tooling
-- Domain knowledge for internal APIs and services
-- Work-specific AGENTS.md with rules for internal codebases
+**16 of 28 skills** in `skills-catalog.json` are available on this machine:
 
-## Sync Strategy
-- Manual reference from GitHub (no automated push/pull)
-- Read profiles and inventory on GitHub to understand what the setup should look like
-- Apply configuration manually based on profile documentation
+- **Standalone (5):** careful, freeze, guard, home-retro, unfreeze
+- **Adaptable (11):** codex, cso, design-consultation, document-release, investigate, office-hours, plan-ceo-review, plan-design-review, plan-eng-review, retro, setup-deploy
 
-## Shared with Reference Machine
-- Same philosophy and principles (PHILOSOPHY.md)
-- Same repo as single source of truth (read from GitHub)
+Adaptable skills work because their gstack preamble fails harmlessly — the AI agent skips it and proceeds to the core skill logic.
 
-## Differences from Reference Machine
-- Codex only (no Claude Code)
-- No gstack upstream (banned software policy)
-- No automated sync.sh workflow (restricted network)
-- Different AGENTS.md with work-specific rules and domain knowledge
-- Windows OS instead of macOS
-- Domain-specific knowledge base not present in personal setup
+## Not Available
 
-## Workarounds for Missing Upstreams
-- gstack: work-specific custom skills fill the gap for workflow automation. The skills available through gstack (like /retro, /ship, /browse) are replaced by manual processes or work-specific alternatives where needed. Vendoring gstack into the repo for manual deployment is a future design problem — for now, the constraint is documented and accepted.
+- **Needs-gstack (5):** autoplan, gstack-upgrade, land-and-deploy, review, ship
+- **Needs-browse (7):** benchmark, browse, canary, design-review, qa, qa-only, setup-browser-cookies
+
+These require gstack infrastructure or the browse daemon, which cannot be installed under the current software policy.
+
+## How to Use
+
+Read the catalog on GitHub. For each standalone or adaptable skill you want, find its SKILL.md in the upstream gstack repo or live install on another machine, and copy it to your local Codex skills directory. The skill logic works without gstack.
