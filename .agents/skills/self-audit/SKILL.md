@@ -15,7 +15,7 @@ This repo supports both Claude Code and Codex. You will see references to `~/.cl
 
 1. **Read the goal.** Read `PHILOSOPHY.md` — specifically the Goal and Non-Goals sections. This is the standard everything else is measured against.
 
-2. **Consistency check.** Read doc files that exist: README.md, PHILOSOPHY.md, profiles/*.md. **Skip CLAUDE.md** — it is a Claude Code project file and may not exist on Codex machines. Do NOT flag its absence as an issue. Check:
+2. **Consistency check.** Read doc files that exist: README.md, PHILOSOPHY.md, profiles/*.md, and CLAUDE.md **if present**. CLAUDE.md is a Claude Code project file — if it doesn't exist on this machine, skip it silently. Do NOT flag its absence as an issue. Check:
    - Do skill counts match across the files that exist? (catalog says X, README says Y, profiles say Z)
    - Do portability levels referenced in docs match what's in the catalog?
    - Does any doc reference deleted features (sync.sh, home_health.py, tests/, browse skills)?

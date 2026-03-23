@@ -2,7 +2,7 @@
 
 ## Environment
 - OS: Windows
-- Hosts: Codex only (no Claude Code)
+- Hosts: Claude Code, Codex, or both (depends on what's available)
 - Network: restricted (GitHub HTTPS read-only, no upstream git clones)
 - gstack: not installed (banned software policy)
 - Browse daemon: not available
@@ -29,16 +29,20 @@ git clone https://github.com/jcl2018/home-setup.git
 # 2. Create persistence dirs (cross-session memory for design docs, analytics)
 mkdir -p ~/.gstack/projects ~/.gstack/analytics ~/.gstack/sessions
 
-# 3. Copy all skills to Codex skills directory
+# 3. Copy all skills to your AI host's skills directory
+#    For Claude Code:
+cp -r home-setup/skills/* ~/.claude/skills/
+cp -r home-setup/.claude/skills/skill-status ~/.claude/skills/
+cp -r home-setup/.claude/skills/self-audit ~/.claude/skills/
+#    For Codex:
 cp -r home-setup/skills/* ~/.codex/skills/
-
-# 4. Copy custom skill
 cp -r home-setup/.agents/skills/skill-status ~/.codex/skills/
+cp -r home-setup/.agents/skills/self-audit ~/.codex/skills/
 
-# 5. Put shell scripts on PATH (add to your shell profile to persist)
-export PATH="$HOME/.codex/skills/bin:$PATH"
+# 4. Put shell scripts on PATH (add to your shell profile to persist)
+export PATH="$HOME/.claude/skills/bin:$PATH"  # or ~/.codex/skills/bin
 
-# 6. Verify — type /skill-status in Codex to confirm everything loaded
+# 5. Verify — type /skill-status to confirm everything loaded
 ```
 
 All 21 skills work after this. No gstack, no bun, no upstream repo access needed.
