@@ -20,6 +20,25 @@ Adaptable skills work because their gstack preamble fails harmlessly — the AI 
 
 The catalog no longer tracks browse-dependent or gstack-internal skills (benchmark, browse, canary, design-review, gstack-upgrade, qa, qa-only, setup-browser-cookies). These exist in gstack but are not portable and are not shipped here.
 
-## How to Use
+## Setup (copy-paste)
 
-Clone this repo (or read it on GitHub). For each skill you want, copy its SKILL.md from the `skills/` directory to your local Codex skills directory. Also copy `skills/bin/` to a location on your PATH. The skill logic works without gstack — no upstream repo access needed.
+```bash
+# 1. Clone
+git clone https://github.com/jcl2018/home-setup.git
+
+# 2. Create persistence dirs (cross-session memory for design docs, analytics)
+mkdir -p ~/.gstack/projects ~/.gstack/analytics ~/.gstack/sessions
+
+# 3. Copy all skills to Codex skills directory
+cp -r home-setup/skills/* ~/.codex/skills/
+
+# 4. Copy custom skill
+cp -r home-setup/.agents/skills/skill-status ~/.codex/skills/
+
+# 5. Put shell scripts on PATH (add to your shell profile to persist)
+export PATH="$HOME/.codex/skills/bin:$PATH"
+
+# 6. Verify — type /skill-status in Codex to confirm everything loaded
+```
+
+All 20 skills work after this. No gstack, no bun, no upstream repo access needed.
