@@ -25,8 +25,8 @@ home-setup/
 
 ## Rules
 
-- **Keep skills/ current.** After every gstack upgrade, re-copy the 16 portable SKILL.md files from `~/.claude/skills/gstack/` and update `skills-catalog.json` (including `gstack_version`). `/skill-status` flags version mismatches.
-- **skills/ are copies, not forks.** Don't edit the upstream SKILL.md files in skills/. They should match the live gstack install exactly. Custom skills live in `.claude/skills/` and `.agents/skills/`.
+- **Keep skills/ current.** After any upstream upgrade, re-copy portable SKILL.md files and update `skills-catalog.json` (bump the version in `upstreams`). `/skill-status` flags version mismatches.
+- **skills/ are copies, not forks.** Don't edit upstream SKILL.md files in skills/. They should match the live upstream install exactly. Custom skills live in `.claude/skills/` and `.agents/skills/`.
 - **Profiles describe machines.** Each profile lists what skills are available. Update when constraints change.
 
 ## Remote Machine Setup
@@ -39,4 +39,4 @@ On a machine that can't install gstack:
 
 ## /skill-status
 
-The only skill invocation relevant to this repo. It reads `skills-catalog.json`, reports skill counts by portability, identifies the current machine's profile, and checks whether the live gstack version matches the catalog.
+The only skill invocation relevant to this repo. It reads `skills-catalog.json`, reports skill counts by portability, identifies the current machine's profile, and checks whether live upstream versions match the catalog.

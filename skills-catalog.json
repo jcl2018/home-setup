@@ -1,6 +1,15 @@
 {
-  "gstack_version": "0.11.10.0",
-  "upstream_repo": "https://github.com/garrytan/gstack",
+  "upstreams": {
+    "gstack": {
+      "version": "0.11.10.0",
+      "repo": "https://github.com/garrytan/gstack",
+      "version_file": "VERSION",
+      "install_path": {
+        "claude": "~/.claude/skills/gstack",
+        "codex": "~/.codex/skills/gstack"
+      }
+    }
+  },
   "skills": [
     {
       "name": "autoplan",
@@ -220,7 +229,7 @@
     },
     {
       "name": "skill-status",
-      "description": "Reports on the skill catalog — counts by portability, checks profile match, verifies gstack version",
+      "description": "Reports on the skill catalog — counts by portability, checks profile match, verifies upstream versions",
       "source": "custom",
       "portability": "standalone",
       "dependencies": [],
