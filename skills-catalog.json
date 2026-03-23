@@ -193,6 +193,14 @@
       "portability": "standalone",
       "dependencies": [],
       "notes": "Project-local skill. Reads skills-catalog.json and profiles/. No external dependencies."
+    },
+    {
+      "name": "self-audit",
+      "description": "Audits this repo for gaps, staleness, and consistency — suggests actionable improvements",
+      "source": "custom",
+      "portability": "standalone",
+      "dependencies": [],
+      "notes": "Project-local skill. Reads all repo files against PHILOSOPHY.md goal. Checks catalog freshness, doc consistency, upstream gaps, shell script orphans, profile accuracy."
     }
   ]
 }
