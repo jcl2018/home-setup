@@ -7,6 +7,10 @@ description: Audits this repo for gaps, staleness, and consistency — then sugg
 
 When `/self-audit` is invoked, audit this repo against its own stated goal and produce a report with actionable suggestions.
 
+## Important: Multi-Host Repo
+
+This repo supports both Claude Code and Codex. You will see references to `~/.claude/skills/`, `.claude/skills/`, and "Claude Code" alongside `~/.codex/skills/`, `.agents/skills/`, and "Codex." **These are NOT inconsistencies.** Both hosts are supported by design. Do NOT flag cross-host references as errors. Only flag actual inconsistencies: wrong counts, stale versions, missing files, or docs that contradict each other.
+
 ## Steps
 
 1. **Read the goal.** Read `PHILOSOPHY.md` — specifically the Goal and Non-Goals sections. This is the standard everything else is measured against.

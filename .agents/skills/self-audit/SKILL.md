@@ -7,6 +7,10 @@ description: Audits this repo for gaps, staleness, and consistency — then sugg
 
 When `/self-audit` is invoked, audit this repo against its own stated goal and produce a report with actionable suggestions.
 
+## Important: Multi-Host Repo
+
+This repo supports both Claude Code and Codex. You will see references to `~/.claude/skills/`, `.claude/skills/`, and "Claude Code" alongside `~/.codex/skills/`, `.agents/skills/`, and "Codex." **These are NOT inconsistencies.** Both hosts are supported by design. Do NOT flag cross-host references as errors. Only flag actual inconsistencies: wrong counts, stale versions, missing files, or docs that contradict each other.
+
 ## Steps
 
 1. **Read the goal.** Read `PHILOSOPHY.md` — specifically the Goal and Non-Goals sections. This is the standard everything else is measured against.
@@ -28,9 +32,11 @@ When `/self-audit` is invoked, audit this repo against its own stated goal and p
    - Check if any SKILL.md files exist in `skills/` that aren't in the catalog (orphans).
    - Check if any catalog entries point to SKILL.md files that don't exist (missing files).
 
-4. **Gap analysis.** If an upstream is installed locally, compare what's available vs what's in the catalog:
+4. **Gap analysis.** If an upstream is installed locally, compare what's available vs what's in the catalog. Use the `install_path` from the catalog for the current host (codex if running in Codex, claude if running in Claude Code):
    ```bash
-   ls ~/.claude/skills/gstack/*/SKILL.md 2>/dev/null | sed 's|.*/gstack/||;s|/SKILL.md||' | sort
+   # For Codex: use the codex install path
+   ls ~/.codex/skills/gstack/*/SKILL.md 2>/dev/null | sed 's|.*/gstack/||;s|/SKILL.md||' | sort
+   # For Claude: use ~/.claude/skills/gstack/ instead
    ```
    Compare against catalog skill names. Report:
    - Skills available upstream but not in catalog — are any of them portable? Should they be added?
