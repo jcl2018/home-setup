@@ -1,0 +1,63 @@
+{
+  "host": "claude",
+  "scope": "all",
+  "format": "json",
+  "items": [
+    {
+      "id": "settings.json",
+      "label": "settings.json",
+      "host": "claude",
+      "scope": "backup-only",
+      "kind": "json",
+      "status": "in_sync",
+      "recommended_action": "none",
+      "repo_path": "<repo_root>/claude/settings.json",
+      "live_path": "<claude_home>/settings.json",
+      "repo_version": null,
+      "live_version": null,
+      "backup_age_days": null
+    },
+    {
+      "id": "gstack",
+      "label": "gstack",
+      "host": "claude",
+      "scope": "backup-only",
+      "kind": "snapshot",
+      "status": "in_sync",
+      "recommended_action": "none",
+      "repo_path": "<repo_root>/claude/skills/gstack",
+      "live_path": "<claude_home>/skills/gstack",
+      "repo_version": "2.0.0",
+      "live_version": "2.0.0",
+      "backup_age_days": null
+    },
+    {
+      "id": "project-memory",
+      "label": "memory",
+      "host": "claude",
+      "scope": "backup-only",
+      "kind": "memory",
+      "status": "needs_pull",
+      "recommended_action": "pull",
+      "repo_path": "<repo_root>/claude/projects",
+      "live_path": "<claude_home>/projects",
+      "repo_version": null,
+      "live_version": null,
+      "backup_age_days": null
+    },
+    {
+      "id": "templates",
+      "label": "templates",
+      "host": "claude",
+      "scope": "repo-owned",
+      "kind": "directory",
+      "status": "live_missing",
+      "recommended_action": "push",
+      "repo_path": "<repo_root>/claude/templates",
+      "live_path": "<claude_home>/templates",
+      "repo_version": null,
+      "live_version": null,
+      "backup_age_days": null
+    }
+  ]
+}

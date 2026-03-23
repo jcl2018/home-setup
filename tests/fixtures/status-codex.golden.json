@@ -1,0 +1,49 @@
+{
+  "host": "codex",
+  "scope": "all",
+  "format": "json",
+  "items": [
+    {
+      "id": "config.toml",
+      "label": "config.toml",
+      "host": "codex",
+      "scope": "repo-owned",
+      "kind": "text",
+      "status": "in_sync",
+      "recommended_action": "none",
+      "repo_path": "<repo_root>/codex/config.toml",
+      "live_path": "<codex_home>/config.toml",
+      "repo_version": null,
+      "live_version": null,
+      "backup_age_days": null
+    },
+    {
+      "id": "AGENTS.md",
+      "label": "AGENTS.md",
+      "host": "codex",
+      "scope": "repo-owned",
+      "kind": "text",
+      "status": "needs_push",
+      "recommended_action": "push",
+      "repo_path": "<repo_root>/codex/AGENTS.md",
+      "live_path": "<home>/AGENTS.md",
+      "repo_version": null,
+      "live_version": null,
+      "backup_age_days": null
+    },
+    {
+      "id": "gstack",
+      "label": "gstack",
+      "host": "codex",
+      "scope": "backup-only",
+      "kind": "snapshot",
+      "status": "needs_pull",
+      "recommended_action": "pull",
+      "repo_path": "<repo_root>/codex/skills/gstack",
+      "live_path": "<codex_home>/skills/gstack",
+      "repo_version": "1.0.0",
+      "live_version": "1.1.0",
+      "backup_age_days": null
+    }
+  ]
+}

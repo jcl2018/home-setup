@@ -1,0 +1,123 @@
+{
+  "codex": {
+    "special_assets": [
+      {
+        "category": "skill",
+        "label": "repo-local home-retro wrapper",
+        "repo_path": ".agents/skills/home-retro/SKILL.md",
+        "summary": "Runs the upstream /retro, then appends Codex home-health for this repo."
+      }
+    ],
+    "tracked_upstreams": [
+      {
+        "id": "gstack",
+        "label": "gstack",
+        "kind": "directory",
+        "repo_path": "codex/skills/gstack",
+        "live_path": "~/.codex/skills/gstack",
+        "sync_scope": "backup-only",
+        "owner": "upstream",
+        "freshness": [
+          "snapshot",
+          "upstream"
+        ],
+        "version_file": "~/.codex/skills/gstack/VERSION",
+        "update_check_bin": "~/.codex/skills/gstack/bin/gstack-update-check"
+      }
+    ],
+    "customized_by_me": [
+      {
+        "id": "config.toml",
+        "label": "config.toml",
+        "kind": "file",
+        "repo_path": "codex/config.toml",
+        "live_path": "~/.codex/config.toml",
+        "sync_scope": "repo-owned",
+        "owner": "me",
+        "allow_create": true
+      },
+      {
+        "id": "AGENTS.md",
+        "label": "AGENTS.md",
+        "kind": "file",
+        "repo_path": "codex/AGENTS.md",
+        "live_path": "~/AGENTS.md",
+        "sync_scope": "repo-owned",
+        "owner": "me",
+        "allow_create": true
+      }
+    ],
+    "backup_only_personal_state": []
+  },
+  "claude": {
+    "special_assets": [
+      {
+        "category": "template",
+        "label": "python project template",
+        "repo_path": "claude/templates/python-project.md",
+        "summary": "Personal Claude bootstrap template for Python repos."
+      },
+      {
+        "category": "template",
+        "label": "terraform project template",
+        "repo_path": "claude/templates/terraform-project.md",
+        "summary": "Personal Claude bootstrap template for Terraform repos."
+      },
+      {
+        "category": "skill",
+        "label": "repo-local home-retro wrapper",
+        "repo_path": ".claude/skills/home-retro/SKILL.md",
+        "summary": "Runs the upstream /retro, then appends Claude home-health for this repo."
+      }
+    ],
+    "tracked_upstreams": [
+      {
+        "id": "gstack",
+        "label": "gstack",
+        "kind": "directory",
+        "repo_path": "claude/skills/gstack",
+        "live_path": "~/.claude/skills/gstack",
+        "sync_scope": "backup-only",
+        "owner": "upstream",
+        "freshness": [
+          "snapshot",
+          "upstream"
+        ],
+        "version_file": "~/.claude/skills/gstack/VERSION",
+        "update_check_bin": "~/.claude/skills/gstack/bin/gstack-update-check"
+      }
+    ],
+    "customized_by_me": [
+      {
+        "id": "templates",
+        "label": "templates",
+        "kind": "directory",
+        "repo_path": "claude/templates",
+        "live_path": "~/.claude/templates",
+        "sync_scope": "repo-owned",
+        "owner": "me",
+        "allow_create": true
+      }
+    ],
+    "backup_only_personal_state": [
+      {
+        "id": "settings.json",
+        "label": "settings.json",
+        "kind": "file",
+        "repo_path": "claude/settings.json",
+        "live_path": "~/.claude/settings.json",
+        "sync_scope": "backup-only",
+        "owner": "me"
+      },
+      {
+        "id": "project-memory",
+        "label": "memory",
+        "kind": "directory",
+        "repo_path": "claude/projects",
+        "live_path": "~/.claude/projects",
+        "sync_scope": "backup-only",
+        "owner": "me"
+      }
+    ]
+  }
+}
