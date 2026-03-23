@@ -2,24 +2,38 @@
 
 ## Purpose
 
-This repo is a skill catalog. It exists so that any machine — unrestricted or locked down — can browse the catalog on GitHub and know exactly which AI workflow skills are available, what they do, and what they require. The catalog is the product. Everything else is supporting context.
+This repo is a portable skill source. It ships the actual SKILL.md instruction files for 16 portable skills (standalone and adaptable) so any machine can install them without accessing gstack's GitHub repo or running a gstack install. A restricted machine clones this repo and copies skill files directly into its local skills directory. That is the core value proposition.
 
-## Catalog, Not Backup
+## Portable, Not Just Metadata
 
-Previous iterations of this repo tried to be a backup system: snapshotting upstream tools, syncing config files, running health checks. That approach created 1200+ files of drift-prone infrastructure around a goal that turned out to be wrong. The real value is simpler: a manifest of skills with enough metadata to reconstruct any setup from scratch. Git history preserves everything that was deleted. Nothing is lost; the goal just changed.
+The previous iteration of this repo shipped only a catalog — a JSON manifest describing skills by name, portability, and dependencies. That was useful for browsing but insufficient for setup. A restricted machine could read the catalog and know what existed, but still had to find the actual SKILL.md files somewhere else. Now we ship the files themselves. The catalog remains as metadata, but the `skills/` directory contains the real instruction files that AI agents read at runtime.
 
-## Reference, Not Snapshot
+## Upstream Skills Are Copies
 
-Upstream skills (gstack) are referenced in the catalog by name, description, and portability rating. Their source files live in the upstream repo and in the live home install — not here. This eliminates the drift problem entirely. When gstack upgrades, the catalog gets a version bump and a re-audit. No file sync, no stale snapshots, no reconciliation scripts.
+The 15 gstack-sourced skills in `skills/` are direct copies of SKILL.md files from the live gstack install at `~/.claude/skills/gstack/`. They should match the upstream source exactly. Do not edit them here. Do not fork them. Do not add local modifications. When gstack upgrades and skill files change, re-copy them into this repo and commit the update. The repo is a distribution mirror, not a fork.
 
-## Custom Skills Live Here
+## Custom Skills Are Ours
 
-The only skill source files in this repo are custom skills — things that do not exist upstream. The `/skill-status` skill is the primary example: it reads the catalog and reports status. Custom skills are project-local (in `.claude/skills/` and `.agents/skills/`) and are the repo's direct contribution to the workflow surface.
+The `skills/skill-status/` directory and the project-local skills in `.claude/skills/` and `.agents/skills/` are original work that lives in this repo. These are the skills we wrote ourselves — they do not exist upstream. `skill-status` reads the catalog, reports skill counts by portability level, checks the current machine's profile, and flags version mismatches between the catalog and the live gstack install. Custom skills are the repo's direct contribution to the workflow surface.
 
 ## Any Machine Can Reconstruct
 
-A person sitting at a restricted Windows machine with no git access can read this repo on GitHub, find their profile, read the catalog, and know exactly which skills to set up and which are unavailable. A person on an unrestricted Mac can do the same, plus install gstack and get everything. The profiles document what each machine looks like. The catalog documents what each skill requires. Together, they answer: "What can I use here?"
+The full portable setup requires three things: this repo, a home directory, and an AI host (Claude Code or Codex). The steps are:
+
+1. Clone this repo (or download from GitHub).
+2. Create the gstack directory structure: `mkdir -p ~/.gstack/{projects,analytics,sessions}`.
+3. Copy skills from `skills/` to the local skills directory (e.g., `~/.claude/skills/` or `~/.codex/skills/`).
+4. Invoke them: `/office-hours`, `/retro`, `/plan-eng-review`, `/careful`, etc.
+
+This covers 16 of the 28 cataloged skills — the standalone and adaptable ones that need no gstack infrastructure. The remaining 12 (needs-gstack and needs-browse) require a full gstack install with its browse daemon, config system, and review pipeline. Those are documented in the catalog for reference but cannot be distributed as standalone files.
 
 ## Maintenance
 
-After every gstack upgrade, re-audit the skills and update `skills-catalog.json` (including `gstack_version`). The `/skill-status` skill flags when the live gstack version does not match the catalog. That is the only ongoing maintenance this repo requires.
+After every gstack upgrade:
+
+1. Re-copy the 15 gstack SKILL.md files from `~/.claude/skills/gstack/` into `skills/`.
+2. Bump `gstack_version` in `skills-catalog.json`.
+3. Check whether gstack added new portable skills. If so, add them to `skills/` and the catalog.
+4. Commit the update.
+
+The `/skill-status` skill flags when the catalog version does not match the live install. That is the primary drift detection mechanism.

@@ -22,4 +22,4 @@ This is the reference machine. All skills in the catalog are available here.
 
 ## Maintenance
 
-After gstack upgrades, run `/skill-status` to check whether `gstack_version` in the catalog still matches the live install. If not, re-audit and update `skills-catalog.json`.
+After gstack upgrades, run `/skill-status` to check whether `gstack_version` in the catalog still matches the live install. If not, re-copy the 15 gstack SKILL.md files into `skills/`, bump the version in `skills-catalog.json`, and commit.

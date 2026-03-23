@@ -25,4 +25,4 @@ These require gstack infrastructure or the browse daemon, which cannot be instal
 
 ## How to Use
 
-Read the catalog on GitHub. For each standalone or adaptable skill you want, find its SKILL.md in the upstream gstack repo or live install on another machine, and copy it to your local Codex skills directory. The skill logic works without gstack.
+Clone this repo (or read it on GitHub). For each standalone or adaptable skill you want, copy its SKILL.md from the `skills/` directory to your local Codex skills directory. The skill logic works without gstack — no upstream repo access needed.

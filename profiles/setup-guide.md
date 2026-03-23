@@ -26,11 +26,11 @@ Based on your profile's available portability levels:
 
 ## Step 4: Install
 
-For upstream gstack skills: install gstack on your machine (if allowed) and the skills are automatically available. The skill source files live at `~/.claude/skills/gstack/` (Claude) or `~/.codex/skills/gstack/` (Codex).
+For portable skills (standalone + adaptable): copy the SKILL.md files from the `skills/` directory in this repo to your local skills directory (`~/.claude/skills/` for Claude Code, `~/.codex/skills/` for Codex). No gstack install needed.
+
+For non-portable skills (needs-gstack, needs-browse): install [gstack](https://github.com/garrytan/gstack) on your machine (if allowed). These skills require gstack infrastructure and cannot be used from standalone files alone.
 
 For custom skills from this repo: copy from `.claude/skills/` or `.agents/skills/` to the corresponding location in your home directory.
-
-For adaptable skills on machines without gstack: find the SKILL.md in the upstream repo (`https://github.com/garrytan/gstack`) and copy it to your local skills directory. The core logic works; the preamble silently fails.
 
 ## Step 5: Verify
 
