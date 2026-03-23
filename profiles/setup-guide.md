@@ -22,7 +22,7 @@ Based on your profile's available portability levels:
 - **standalone** skills work everywhere, no dependencies
 - **adaptable** skills work everywhere — the gstack preamble fails harmlessly and the AI agent continues
 
-All 20 cataloged skills are standalone or adaptable. UI/browse-dependent skills are not tracked here (install [gstack](https://github.com/garrytan/gstack) directly for those).
+All 21 cataloged skills are standalone or adaptable. UI/browse-dependent skills are not tracked here (install [gstack](https://github.com/garrytan/gstack) directly for those).
 
 ## Step 4: Install
 

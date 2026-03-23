@@ -13,9 +13,9 @@ This is the reference machine. All skills in the catalog are available here, plu
 
 ## Available Skills
 
-**All 20 skills** in `skills-catalog.json` are available on this machine:
+**All 21 skills** in `skills-catalog.json` are available on this machine:
 
-- **Standalone (5):** careful, freeze, guard, skill-status, unfreeze
+- **Standalone (6):** careful, freeze, guard, self-audit, skill-status, unfreeze
 - **Adaptable (15):** autoplan, codex, cso, design-consultation, document-release, investigate, land-and-deploy, office-hours, plan-ceo-review, plan-design-review, plan-eng-review, retro, review, setup-deploy, ship
 
 ## Additional gstack-only Skills

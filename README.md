@@ -2,7 +2,7 @@
 
 A portable skill source for Claude Code and Codex workflows.
 
-This repo ships the actual SKILL.md files for **19 portable upstream skills + 1 custom skill** (20 total) so any machine can install them without accessing upstream repos directly. Currently the primary upstream is [gstack](https://github.com/garrytan/gstack); the architecture supports multiple upstreams.
+This repo ships the actual SKILL.md files for **19 portable upstream skills + 2 custom skills** (21 total) so any machine can install them without accessing upstream repos directly. Currently the primary upstream is [gstack](https://github.com/garrytan/gstack); the architecture supports multiple upstreams.
 
 ## What's Here
 
@@ -10,7 +10,7 @@ This repo ships the actual SKILL.md files for **19 portable upstream skills + 1 
 - **`skills/bin/`** — shell helper scripts (gstack-config, gstack-diff-scope, etc.) that some skills depend on
 - **`skills-catalog.json`** — every skill (upstream + custom) with name, description, portability rating, and dependencies
 - **`profiles/`** — per-machine specs listing which skills are available based on OS, network, and installed tools
-- **`.claude/skills/` and `.agents/skills/`** — custom skills that live in this repo (currently just `/skill-status`)
+- **`.claude/skills/` and `.agents/skills/`** — custom skills that live in this repo (currently `/skill-status` and `/self-audit`)
 - **`PHILOSOPHY.md`** — why this repo ships portable skills and how maintenance works
 
 ## How to Use

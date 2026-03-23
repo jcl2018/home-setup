@@ -1,6 +1,6 @@
 # CLAUDE.md — home-setup
 
-Portable skill source for Claude Code and Codex workflows. Ships actual SKILL.md files for 19 portable upstream skills + 1 custom skill (20 total). Multi-upstream ready (currently gstack).
+Portable skill source for Claude Code and Codex workflows. Ships actual SKILL.md files for 19 portable upstream skills + 2 custom skills (21 total). Multi-upstream ready (currently gstack).
 
 ## Layout
 

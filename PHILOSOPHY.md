@@ -28,7 +28,7 @@ Currently all 19 upstream skills come from gstack. If a second upstream is added
 
 ## Custom Skills Are Ours
 
-`.claude/skills/` and `.agents/skills/` contain skills we authored — they don't exist upstream. `/skill-status` is the current custom skill: it reads the catalog, reports skill counts, checks the machine profile, and flags version mismatches between the catalog and live upstream installs.
+`.claude/skills/` and `.agents/skills/` contain skills we authored — they don't exist upstream. `/skill-status` reads the catalog, reports skill counts, checks the machine profile, and flags version mismatches between the catalog and live upstream installs. `/self-audit` performs a broader diagnostic sweep across the dual-host workflow surface.
 
 ## Any Machine Can Reconstruct
 
@@ -40,7 +40,7 @@ Setup requires three things: this repo, a home directory, and an AI host.
 4. Copy `skills/bin/` to your PATH (shell scripts that some skills depend on).
 5. Invoke them: `/office-hours`, `/retro`, `/plan-eng-review`, `/ship`, etc.
 
-All 20 cataloged skills (19 upstream + 1 custom) are portable. Skills that previously required gstack infrastructure (autoplan, land-and-deploy, review, ship) now ship with bundled shell scripts in `skills/bin/`. UI/browse-dependent skills (benchmark, browse, canary, design-review, qa, qa-only, setup-browser-cookies) and gstack-upgrade are excluded from the catalog — they require the gstack browse daemon or a live gstack install and cannot be made portable.
+All 21 cataloged skills (19 upstream + 2 custom) are portable. Skills that previously required gstack infrastructure (autoplan, land-and-deploy, review, ship) now ship with bundled shell scripts in `skills/bin/`. UI/browse-dependent skills (benchmark, browse, canary, design-review, qa, qa-only, setup-browser-cookies) and gstack-upgrade are excluded from the catalog — they require the gstack browse daemon or a live gstack install and cannot be made portable.
 
 ## Maintenance
 

@@ -9,9 +9,9 @@
 
 ## Available Skills
 
-**All 20 skills** in `skills-catalog.json` are available on this machine:
+**All 21 skills** in `skills-catalog.json` are available on this machine:
 
-- **Standalone (5):** careful, freeze, guard, skill-status, unfreeze
+- **Standalone (6):** careful, freeze, guard, self-audit, skill-status, unfreeze
 - **Adaptable (15):** autoplan, codex, cso, design-consultation, document-release, investigate, land-and-deploy, office-hours, plan-ceo-review, plan-design-review, plan-eng-review, retro, review, setup-deploy, ship
 
 Adaptable skills work because their gstack preamble fails harmlessly — the AI agent skips it and proceeds to the core skill logic. Skills that depend on shell scripts (autoplan, land-and-deploy, review, ship) use bundled scripts from `skills/bin/`.
@@ -41,4 +41,4 @@ export PATH="$HOME/.codex/skills/bin:$PATH"
 # 6. Verify — type /skill-status in Codex to confirm everything loaded
 ```
 
-All 20 skills work after this. No gstack, no bun, no upstream repo access needed.
+All 21 skills work after this. No gstack, no bun, no upstream repo access needed.
