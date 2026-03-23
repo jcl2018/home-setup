@@ -1,17 +1,17 @@
 # CLAUDE.md — home-setup
 
-Skill catalog and portable skill source for Claude Code and Codex workflows. Ships the actual SKILL.md files for all 16 portable skills so any machine can install them without accessing the upstream gstack repo.
+Portable skill source for Claude Code and Codex workflows. Ships actual SKILL.md files for 15 portable upstream skills + 1 custom skill. Multi-upstream ready (currently gstack).
 
 ## Layout
 
 ```
 home-setup/
 ├── skills-catalog.json          ← every skill with portability metadata
-├── skills/                      ← actual SKILL.md files for 16 portable skills
+├── skills/                      ← actual SKILL.md files for 15 portable upstream skills
 │   ├── office-hours/SKILL.md    ← YC-style brainstorming
 │   ├── plan-eng-review/SKILL.md ← architecture review
 │   ├── retro/SKILL.md           ← weekly retrospective
-│   └── ... (16 total)
+│   └── ... (15 upstream total)
 ├── PHILOSOPHY.md                ← why this repo exists
 ├── profiles/
 │   ├── personal-mac.md          ← reference machine
