@@ -1,11 +1,11 @@
 ---
-name: home-retro
+name: skill-status
 description: Reports on the skill catalog — counts by portability, checks profile match, verifies gstack version.
 ---
 
-# /home-retro — Skill Catalog Status Report
+# /skill-status — Skill Catalog Status Report
 
-When `/home-retro` is invoked, produce a status report by reading the repo files and checking the live environment.
+When `/skill-status` is invoked, produce a status report by reading the repo files and checking the live environment.
 
 ## Steps
 
@@ -26,7 +26,7 @@ When `/home-retro` is invoked, produce a status report by reading the repo files
 
 5. **Check gstack version alignment.** If gstack is installed locally:
    ```bash
-   cat ~/.codex/skills/gstack/VERSION 2>/dev/null || echo "not installed"
+   cat ~/.claude/skills/gstack/VERSION 2>/dev/null || echo "not installed"
    ```
    Compare the live version against `gstack_version` in the catalog. Report whether they match. If they do not match, note that the catalog needs updating.
 

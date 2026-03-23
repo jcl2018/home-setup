@@ -14,7 +14,7 @@ Upstream skills (gstack) are referenced in the catalog by name, description, and
 
 ## Custom Skills Live Here
 
-The only skill source files in this repo are custom skills — things that do not exist upstream. The `/home-retro` skill is the primary example: it reads the catalog and reports status. Custom skills are project-local (in `.claude/skills/` and `.agents/skills/`) and are the repo's direct contribution to the workflow surface.
+The only skill source files in this repo are custom skills — things that do not exist upstream. The `/skill-status` skill is the primary example: it reads the catalog and reports status. Custom skills are project-local (in `.claude/skills/` and `.agents/skills/`) and are the repo's direct contribution to the workflow surface.
 
 ## Any Machine Can Reconstruct
 
@@ -22,4 +22,4 @@ A person sitting at a restricted Windows machine with no git access can read thi
 
 ## Maintenance
 
-After every gstack upgrade, re-audit the skills and update `skills-catalog.json` (including `gstack_version`). The `/home-retro` skill flags when the live gstack version does not match the catalog. That is the only ongoing maintenance this repo requires.
+After every gstack upgrade, re-audit the skills and update `skills-catalog.json` (including `gstack_version`). The `/skill-status` skill flags when the live gstack version does not match the catalog. That is the only ongoing maintenance this repo requires.

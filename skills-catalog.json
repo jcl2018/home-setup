@@ -219,7 +219,7 @@
       "notes": "Pure utility skill. Removes the freeze state file. No gstack preamble."
     },
     {
-      "name": "home-retro",
+      "name": "skill-status",
       "description": "Reports on the skill catalog — counts by portability, checks profile match, verifies gstack version",
       "source": "custom",
       "portability": "standalone",

@@ -11,7 +11,7 @@
 
 **16 of 28 skills** in `skills-catalog.json` are available on this machine:
 
-- **Standalone (5):** careful, freeze, guard, home-retro, unfreeze
+- **Standalone (5):** careful, freeze, guard, skill-status, unfreeze
 - **Adaptable (11):** codex, cso, design-consultation, document-release, investigate, office-hours, plan-ceo-review, plan-design-review, plan-eng-review, retro, setup-deploy
 
 Adaptable skills work because their gstack preamble fails harmlessly — the AI agent skips it and proceeds to the core skill logic.

@@ -34,4 +34,4 @@ For adaptable skills on machines without gstack: find the SKILL.md in the upstre
 
 ## Step 5: Verify
 
-Run `/home-retro` from this repo to confirm the catalog matches your live install. It reports skill counts, profile match, and gstack version alignment.
+Run `/skill-status` from this repo to confirm the catalog matches your live install. It reports skill counts, profile match, and gstack version alignment.
