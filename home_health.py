@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import platform
 import subprocess
 import sys
 from pathlib import Path
@@ -377,6 +378,61 @@ def classify(section: dict, status_items: dict) -> dict:
     return groups
 
 
+def check_docs_health() -> dict:
+    """Check that philosophy doc and profile files exist and identify current machine profile."""
+    root = repo_root()
+    result = {}
+
+    # Check PHILOSOPHY.md
+    philosophy_path = root / "PHILOSOPHY.md"
+    if philosophy_path.exists():
+        content = philosophy_path.read_text().strip()
+        result["philosophy_exists"] = bool(content)
+    else:
+        result["philosophy_exists"] = False
+
+    # Check profiles/ directory
+    profiles_dir = root / "profiles"
+    if profiles_dir.is_dir():
+        profile_files = sorted(f.stem for f in profiles_dir.iterdir() if f.suffix == ".md" and f.is_file())
+        result["profiles_dir_exists"] = True
+        result["profile_count"] = len(profile_files)
+        result["profile_files"] = profile_files
+    else:
+        result["profiles_dir_exists"] = False
+        result["profile_count"] = 0
+        result["profile_files"] = []
+
+    # Check setup-guide.md
+    setup_guide_path = root / "profiles" / "setup-guide.md"
+    result["setup_guide_exists"] = setup_guide_path.exists()
+
+    # Detect current machine's profile
+    override = os.environ.get("HOME_PROFILE")
+    if override:
+        result["current_profile"] = override
+        result["profile_source"] = "HOME_PROFILE"
+    else:
+        inventory_path = root / "home-inventory.json"
+        profiles_map = {}
+        if inventory_path.exists():
+            try:
+                data = json.loads(inventory_path.read_text())
+                profiles_map = data.get("profiles", {})
+            except (json.JSONDecodeError, KeyError):
+                pass
+        os_name = platform.system()
+        matched = profiles_map.get(os_name)
+        if matched:
+            result["current_profile"] = matched
+            result["profile_source"] = f"os:{os_name}"
+        else:
+            result["current_profile"] = "unknown profile"
+            result["profile_source"] = "no match"
+
+    return result
+
+
 def reconcile(host: str, env) -> dict:
     section = load_inventory(host)
     current_status = status_by_id(host, env)
@@ -460,6 +516,7 @@ def reconcile(host: str, env) -> dict:
             )
 
     stale_candidates = detect_stale(host, section, env)
+    docs_health = check_docs_health()
 
     return {
         "host": host,
@@ -472,6 +529,7 @@ def reconcile(host: str, env) -> dict:
         "tracked_upstreams": tracked_upstreams,
         "special_assets": section.get("special_assets", []),
         "stale_candidates": stale_candidates,
+        "docs_health": docs_health,
     }
 
 
@@ -590,6 +648,22 @@ def print_text_report(result: dict) -> None:
             print(f"- {entry['location']}: {entry['path']} ({entry['kind']})")
     else:
         print("- none")
+
+    docs_health = result.get("docs_health", {})
+    if docs_health:
+        print("")
+        print("Docs Health")
+        phil = "present" if docs_health.get("philosophy_exists") else "missing"
+        print(f"- PHILOSOPHY.md: {phil}")
+        if docs_health.get("profiles_dir_exists"):
+            print(f"- profiles/: {docs_health.get('profile_count', 0)} profile(s)")
+        else:
+            print("- profiles/: missing")
+        guide = "present" if docs_health.get("setup_guide_exists") else "missing"
+        print(f"- setup-guide.md: {guide}")
+        profile = docs_health.get("current_profile", "unknown profile")
+        source = docs_health.get("profile_source", "no match")
+        print(f"- current profile: {profile} ({source})")
 
 
 def main() -> int:

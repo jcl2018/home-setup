@@ -421,5 +421,134 @@ class HomeSetupTestCase(unittest.TestCase):
         self.assertIn("leftover", output)
 
 
+    # --- Docs Health tests ---
+
+    def test_docs_health_philosophy_present(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+        write_file(self.repo_root / "PHILOSOPHY.md", "This is the philosophy.\n")
+        (self.repo_root / "profiles").mkdir(parents=True, exist_ok=True)
+        write_file(self.repo_root / "profiles" / "setup-guide.md", "guide\n")
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertTrue(payload["docs_health"]["philosophy_exists"])
+
+    def test_docs_health_philosophy_missing(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertFalse(payload["docs_health"]["philosophy_exists"])
+
+    def test_docs_health_philosophy_empty(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+        write_file(self.repo_root / "PHILOSOPHY.md", "")
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertFalse(payload["docs_health"]["philosophy_exists"])
+
+    def test_docs_health_profiles_present(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+        write_file(self.repo_root / "profiles" / "personal-mac.md", "profile\n")
+        write_file(self.repo_root / "profiles" / "work-windows.md", "profile\n")
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertTrue(payload["docs_health"]["profiles_dir_exists"])
+        self.assertEqual(payload["docs_health"]["profile_count"], 2)
+
+    def test_docs_health_profiles_missing(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertFalse(payload["docs_health"]["profiles_dir_exists"])
+        self.assertEqual(payload["docs_health"]["profile_count"], 0)
+
+    def test_docs_health_profiles_empty(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+        (self.repo_root / "profiles").mkdir(parents=True, exist_ok=True)
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertTrue(payload["docs_health"]["profiles_dir_exists"])
+        self.assertEqual(payload["docs_health"]["profile_count"], 0)
+
+    def test_docs_health_profile_match_via_os(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        # Running on macOS, so platform.system() returns "Darwin"
+        # The default inventory has profiles.Darwin = "personal-mac"
+        self.assertEqual(payload["docs_health"]["current_profile"], "personal-mac")
+        self.assertIn("os:", payload["docs_health"]["profile_source"])
+
+    def test_docs_health_profile_override_via_env(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+
+        payload = json.loads(self.run_home_health(
+            "--host", "codex", "--format", "json",
+            env={"HOME_PROFILE": "work-windows"},
+        ).stdout)
+
+        self.assertEqual(payload["docs_health"]["current_profile"], "work-windows")
+        self.assertEqual(payload["docs_health"]["profile_source"], "HOME_PROFILE")
+
+    def test_docs_health_no_profile_match_fallback(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+        # Remove the "profiles" key from inventory
+        inventory = default_inventory()
+        inventory.pop("profiles", None)
+        write_json(self.repo_root / "home-inventory.json", inventory)
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertEqual(payload["docs_health"]["current_profile"], "unknown profile")
+        self.assertEqual(payload["docs_health"]["profile_source"], "no match")
+
+    def test_docs_health_setup_guide_present(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+        write_file(self.repo_root / "profiles" / "setup-guide.md", "guide\n")
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertTrue(payload["docs_health"]["setup_guide_exists"])
+
+    def test_docs_health_setup_guide_missing(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+
+        payload = json.loads(self.run_home_health("--host", "codex", "--format", "json").stdout)
+
+        self.assertFalse(payload["docs_health"]["setup_guide_exists"])
+
+    def test_docs_health_in_text_report(self):
+        self.prepare_codex_surface()
+        self.init_git_repo()
+        write_file(self.repo_root / "PHILOSOPHY.md", "Philosophy content.\n")
+        write_file(self.repo_root / "profiles" / "personal-mac.md", "profile\n")
+        write_file(self.repo_root / "profiles" / "setup-guide.md", "guide\n")
+
+        output = self.run_home_health("--host", "codex").stdout
+
+        self.assertIn("Docs Health", output)
+        self.assertIn("PHILOSOPHY.md: present", output)
+        self.assertIn("profiles/:", output)
+        self.assertIn("setup-guide.md: present", output)
+        self.assertIn("current profile:", output)
+
+
 if __name__ == "__main__":
     unittest.main()

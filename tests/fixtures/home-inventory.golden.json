@@ -1,4 +1,8 @@
 {
+  "profiles": {
+    "Darwin": "personal-mac",
+    "Windows": "work-windows"
+  },
   "codex": {
     "special_assets": [
       {
