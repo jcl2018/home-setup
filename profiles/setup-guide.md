@@ -5,7 +5,7 @@
 Open `skills-catalog.json` at the repo root (on GitHub or locally). Each skill entry tells you:
 - **name** — the skill's slash command
 - **description** — what it does
-- **portability** — what it requires (standalone, adaptable, needs-gstack, needs-browse)
+- **portability** — what it requires (standalone or adaptable)
 - **dependencies** — specific runtime requirements
 
 ## Step 2: Find Your Profile
@@ -21,14 +21,14 @@ If no profile matches, create one. The key questions: What OS? Which AI hosts? I
 Based on your profile's available portability levels:
 - **standalone** skills work everywhere, no dependencies
 - **adaptable** skills work everywhere — the gstack preamble fails harmlessly and the AI agent continues
-- **needs-gstack** skills require a gstack install
-- **needs-browse** skills require the gstack browse daemon (a superset of needs-gstack)
+
+All 20 cataloged skills are standalone or adaptable. UI/browse-dependent skills are not tracked here (install [gstack](https://github.com/garrytan/gstack) directly for those).
 
 ## Step 4: Install
 
-For portable skills (standalone + adaptable): copy the SKILL.md files from the `skills/` directory in this repo to your local skills directory (`~/.claude/skills/` for Claude Code, `~/.codex/skills/` for Codex). No gstack install needed.
+Copy the SKILL.md files from the `skills/` directory in this repo to your local skills directory (`~/.claude/skills/` for Claude Code, `~/.codex/skills/` for Codex). No gstack install needed.
 
-For non-portable skills (needs-gstack, needs-browse): install [gstack](https://github.com/garrytan/gstack) on your machine (if allowed). These skills require gstack infrastructure and cannot be used from standalone files alone.
+`skills/bin/` contains shell scripts that some skills depend on (autoplan, land-and-deploy, review, ship). Copy `skills/bin/` to a location on your PATH or set your PATH to include it.
 
 For custom skills from this repo: copy from `.claude/skills/` or `.agents/skills/` to the corresponding location in your home directory.
 

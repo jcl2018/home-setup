@@ -13,39 +13,18 @@
   "skills": [
     {
       "name": "autoplan",
-      "description": "Auto-review pipeline — runs CEO, design, and eng reviews sequentially with auto-decisions",
+      "description": "Auto-review pipeline \u2014 runs CEO, design, and eng reviews sequentially with auto-decisions",
       "source": "gstack",
-      "portability": "needs-gstack",
-      "dependencies": ["gstack-config", "gstack-review-log"],
-      "notes": "Reads all three review skills from disk and chains them. Uses gstack-config for persistent settings and gstack-review-log for review dashboard."
-    },
-    {
-      "name": "benchmark",
-      "description": "Performance regression detection — baselines page load, Core Web Vitals, and resource sizes via browse daemon",
-      "source": "gstack",
-      "portability": "needs-browse",
-      "dependencies": ["gstack-browse", "bun"],
-      "notes": "Heavy browse usage for performance measurement. Cannot work without the browse daemon."
-    },
-    {
-      "name": "browse",
-      "description": "Headless browser for QA, screenshots, and site testing (~100ms per command)",
-      "source": "gstack",
-      "portability": "needs-browse",
-      "dependencies": ["gstack-browse", "bun"],
-      "notes": "The browse daemon itself. All browse-dependent skills require this."
-    },
-    {
-      "name": "canary",
-      "description": "Post-deploy canary monitoring — watches live app for console errors, perf regressions, and page failures",
-      "source": "gstack",
-      "portability": "needs-browse",
-      "dependencies": ["gstack-browse", "bun"],
-      "notes": "Takes periodic screenshots and compares against pre-deploy baselines via browse."
+      "portability": "adaptable",
+      "dependencies": [
+        "gstack-config",
+        "gstack-review-log"
+      ],
+      "notes": "Portable with bundled shell scripts in skills/bin/."
     },
     {
       "name": "careful",
-      "description": "Safety guardrails — warns before rm -rf, DROP TABLE, force-push, and other destructive commands",
+      "description": "Safety guardrails \u2014 warns before rm -rf, DROP TABLE, force-push, and other destructive commands",
       "source": "gstack",
       "portability": "standalone",
       "dependencies": [],
@@ -53,15 +32,17 @@
     },
     {
       "name": "codex",
-      "description": "OpenAI Codex CLI wrapper — code review, adversarial challenge, and consult modes",
+      "description": "OpenAI Codex CLI wrapper \u2014 code review, adversarial challenge, and consult modes",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": ["codex-cli"],
+      "dependencies": [
+        "codex-cli"
+      ],
       "notes": "Core logic shells out to the codex CLI. Gstack preamble fails harmlessly without gstack."
     },
     {
       "name": "cso",
-      "description": "Chief Security Officer mode — infrastructure-first security audit with OWASP, STRIDE, and supply chain scanning",
+      "description": "Chief Security Officer mode \u2014 infrastructure-first security audit with OWASP, STRIDE, and supply chain scanning",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
@@ -69,26 +50,20 @@
     },
     {
       "name": "design-consultation",
-      "description": "Design system creation — researches landscape, proposes typography/color/layout, generates preview pages",
+      "description": "Design system creation \u2014 researches landscape, proposes typography/color/layout, generates preview pages",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
       "notes": "Core logic is prompt-driven design thinking. Optional browse for research screenshots. Works without browse."
     },
     {
-      "name": "design-review",
-      "description": "Visual QA — finds spacing issues, hierarchy problems, AI slop, then iteratively fixes with before/after screenshots",
-      "source": "gstack",
-      "portability": "needs-browse",
-      "dependencies": ["gstack-browse", "bun"],
-      "notes": "Heavy browse usage for screenshots and visual comparison. Core workflow requires the browse daemon."
-    },
-    {
       "name": "document-release",
-      "description": "Post-ship documentation update — syncs README, ARCHITECTURE, CHANGELOG, and TODOS to match what shipped",
+      "description": "Post-ship documentation update \u2014 syncs README, ARCHITECTURE, CHANGELOG, and TODOS to match what shipped",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": ["git"],
+      "dependencies": [
+        "git"
+      ],
       "notes": "Core logic is reading docs and diffs, writing updated markdown. Gstack preamble fails harmlessly."
     },
     {
@@ -100,16 +75,8 @@
       "notes": "Pure hook skill. Blocks Edit and Write outside the allowed path. No gstack preamble."
     },
     {
-      "name": "gstack-upgrade",
-      "description": "Upgrade gstack to the latest version and show what changed",
-      "source": "gstack",
-      "portability": "needs-gstack",
-      "dependencies": ["gstack"],
-      "notes": "By definition requires gstack to be installed in order to upgrade it."
-    },
-    {
       "name": "guard",
-      "description": "Full safety mode — combines /careful (destructive command warnings) with /freeze (directory-scoped edits)",
+      "description": "Full safety mode \u2014 combines /careful (destructive command warnings) with /freeze (directory-scoped edits)",
       "source": "gstack",
       "portability": "standalone",
       "dependencies": [],
@@ -117,7 +84,7 @@
     },
     {
       "name": "investigate",
-      "description": "Systematic debugging with root cause investigation — investigate, analyze, hypothesize, implement",
+      "description": "Systematic debugging with root cause investigation \u2014 investigate, analyze, hypothesize, implement",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
@@ -125,15 +92,19 @@
     },
     {
       "name": "land-and-deploy",
-      "description": "Land and deploy workflow — merges PR, waits for CI, verifies production health via canary checks",
+      "description": "Land and deploy workflow \u2014 merges PR, waits for CI, verifies production health via canary checks",
       "source": "gstack",
-      "portability": "needs-gstack",
-      "dependencies": ["gstack-config", "gstack-diff-scope", "gh"],
-      "notes": "Uses gstack-config for deploy settings and gstack-diff-scope for change analysis. Browse for post-deploy verification."
+      "portability": "adaptable",
+      "dependencies": [
+        "gstack-config",
+        "gstack-diff-scope",
+        "gh"
+      ],
+      "notes": "Portable with bundled shell scripts in skills/bin/."
     },
     {
       "name": "office-hours",
-      "description": "YC-style brainstorming — problem diagnosis, premise challenge, design doc output",
+      "description": "YC-style brainstorming \u2014 problem diagnosis, premise challenge, design doc output",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
@@ -141,7 +112,7 @@
     },
     {
       "name": "plan-ceo-review",
-      "description": "CEO/founder-mode plan review — rethink the problem, find the 10-star product, challenge premises",
+      "description": "CEO/founder-mode plan review \u2014 rethink the problem, find the 10-star product, challenge premises",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
@@ -149,7 +120,7 @@
     },
     {
       "name": "plan-design-review",
-      "description": "Designer's eye plan review — rates each design dimension 0-10, explains what would make it a 10",
+      "description": "Designer's eye plan review \u2014 rates each design dimension 0-10, explains what would make it a 10",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
@@ -157,55 +128,37 @@
     },
     {
       "name": "plan-eng-review",
-      "description": "Eng manager-mode plan review — architecture, data flow, edge cases, test coverage, performance",
+      "description": "Eng manager-mode plan review \u2014 architecture, data flow, edge cases, test coverage, performance",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
       "notes": "Core logic is plan analysis and engineering critique. Uses gstack-review-log for dashboard but works without it."
     },
     {
-      "name": "qa",
-      "description": "Systematic QA testing with iterative bug fixing — three tiers from quick to exhaustive",
-      "source": "gstack",
-      "portability": "needs-browse",
-      "dependencies": ["gstack-browse", "bun"],
-      "notes": "Heavy browse usage for testing web applications. Core workflow requires the browse daemon."
-    },
-    {
-      "name": "qa-only",
-      "description": "Report-only QA testing — structured bug report with screenshots but no fixes",
-      "source": "gstack",
-      "portability": "needs-browse",
-      "dependencies": ["gstack-browse", "bun"],
-      "notes": "Heavy browse usage for testing and screenshots. Same browse dependency as /qa but read-only."
-    },
-    {
       "name": "retro",
       "description": "Weekly engineering retrospective with commit analysis, work patterns, and trend tracking",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": ["git"],
+      "dependencies": [
+        "git"
+      ],
       "notes": "Core logic is git log analysis and markdown reporting. Gstack preamble fails harmlessly."
     },
     {
       "name": "review",
-      "description": "Pre-landing PR review — analyzes diff for SQL safety, trust boundary violations, and structural issues",
+      "description": "Pre-landing PR review \u2014 analyzes diff for SQL safety, trust boundary violations, and structural issues",
       "source": "gstack",
-      "portability": "needs-gstack",
-      "dependencies": ["gstack-review-log", "gstack-diff-scope", "git"],
-      "notes": "Uses gstack-review-log for review dashboard and gstack-diff-scope for change analysis beyond preamble."
-    },
-    {
-      "name": "setup-browser-cookies",
-      "description": "Import cookies from real browser into headless browse session for authenticated testing",
-      "source": "gstack",
-      "portability": "needs-browse",
-      "dependencies": ["gstack-browse", "bun"],
-      "notes": "Requires browse daemon to import cookies into. Pure browse infrastructure skill."
+      "portability": "adaptable",
+      "dependencies": [
+        "gstack-review-log",
+        "gstack-diff-scope",
+        "git"
+      ],
+      "notes": "Portable with bundled shell scripts in skills/bin/."
     },
     {
       "name": "setup-deploy",
-      "description": "Configure deployment settings — detects platform, production URL, health checks, writes config to CLAUDE.md",
+      "description": "Configure deployment settings \u2014 detects platform, production URL, health checks, writes config to CLAUDE.md",
       "source": "gstack",
       "portability": "adaptable",
       "dependencies": [],
@@ -213,15 +166,21 @@
     },
     {
       "name": "ship",
-      "description": "Ship workflow — merge base, run tests, review diff, bump VERSION, update CHANGELOG, commit, push, create PR",
+      "description": "Ship workflow \u2014 merge base, run tests, review diff, bump VERSION, update CHANGELOG, commit, push, create PR",
       "source": "gstack",
-      "portability": "needs-gstack",
-      "dependencies": ["gstack-review-log", "gstack-diff-scope", "gstack-config", "git", "gh"],
-      "notes": "Uses gstack-review-read, gstack-diff-scope, and gstack-config extensively for the ship pipeline."
+      "portability": "adaptable",
+      "dependencies": [
+        "gstack-review-log",
+        "gstack-diff-scope",
+        "gstack-config",
+        "git",
+        "gh"
+      ],
+      "notes": "Portable with bundled shell scripts in skills/bin/."
     },
     {
       "name": "unfreeze",
-      "description": "Clear freeze boundary — allow edits to all directories again",
+      "description": "Clear freeze boundary \u2014 allow edits to all directories again",
       "source": "gstack",
       "portability": "standalone",
       "dependencies": [],
@@ -229,7 +188,7 @@
     },
     {
       "name": "skill-status",
-      "description": "Reports on the skill catalog — counts by portability, checks profile match, verifies upstream versions",
+      "description": "Reports on the skill catalog \u2014 counts by portability, checks profile match, verifies upstream versions",
       "source": "custom",
       "portability": "standalone",
       "dependencies": [],

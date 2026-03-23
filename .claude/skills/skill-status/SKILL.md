@@ -43,7 +43,7 @@ When `/skill-status` is invoked, produce a status report by reading the repo fil
    FILE MAP & DEPENDENCIES
    ========================
    skills-catalog.json
-     role: central manifest of all 28 skills with portability metadata
+     role: central manifest of all 20 skills with portability metadata
      read by: /skill-status, profiles/, README.md (referenced)
      reads: nothing (source of truth)
 
@@ -59,7 +59,7 @@ When `/skill-status` is invoked, produce a status report by reading the repo fil
      reads: skills-catalog.json, profiles/*.md, live upstream VERSION files
    ```
 
-   For upstream skills in `skills/`, group them rather than listing each one individually (e.g., "skills/{15 upstream skills}/SKILL.md" with a shared description). List each custom skill individually.
+   For upstream skills in `skills/`, group them rather than listing each one individually (e.g., "skills/{19 upstream skills}/SKILL.md" with a shared description). List each custom skill individually.
 
    For non-skill files (PHILOSOPHY.md, CLAUDE.md, README.md, profiles/), show what they reference and who references them.
 
