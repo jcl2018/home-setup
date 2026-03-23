@@ -12,7 +12,7 @@ Open `skills-catalog.json` at the repo root (on GitHub or locally). Each skill e
 
 Look in `profiles/` for your machine:
 - [personal-mac.md](personal-mac.md) — macOS, unrestricted, Claude Code + Codex, all skills available
-- [work-windows.md](work-windows.md) — Windows, restricted, Codex only, standalone + adaptable skills only
+- [work-windows.md](work-windows.md) — Windows, restricted, Claude Code and/or Codex, standalone + adaptable skills only
 
 If no profile matches, create one. The key questions: What OS? Which AI hosts? Is gstack installed? Is the browse daemon available?
 
