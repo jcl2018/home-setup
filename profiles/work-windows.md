@@ -2,7 +2,7 @@
 
 ## Environment
 - OS: Windows
-- Hosts: Claude Code only (no Codex)
+- Hosts: Codex only (no Claude Code)
 - Network: restricted (GitHub HTTPS read-only, no upstream git clones)
 
 ## Upstreams
@@ -11,7 +11,7 @@
 ## Custom Skills & Knowledge
 - Work-specific custom skills tailored to internal tooling
 - Domain knowledge for internal APIs and services
-- Work-specific CLAUDE.md with rules for internal codebases
+- Work-specific AGENTS.md with rules for internal codebases
 
 ## Sync Strategy
 - Manual reference from GitHub (no automated push/pull)
@@ -19,15 +19,14 @@
 - Apply configuration manually based on profile documentation
 
 ## Shared with Reference Machine
-- Claude Code as primary AI host
 - Same philosophy and principles (PHILOSOPHY.md)
 - Same repo as single source of truth (read from GitHub)
 
 ## Differences from Reference Machine
-- No Codex installed (Claude Code only)
+- Codex only (no Claude Code)
 - No gstack upstream (banned software policy)
 - No automated sync.sh workflow (restricted network)
-- Different CLAUDE.md with work-specific rules and domain knowledge
+- Different AGENTS.md with work-specific rules and domain knowledge
 - Windows OS instead of macOS
 - Domain-specific knowledge base not present in personal setup
 

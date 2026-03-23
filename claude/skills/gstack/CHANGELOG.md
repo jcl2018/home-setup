@@ -1,5 +1,43 @@
 # Changelog
 
+## [0.11.8.0] - 2026-03-23 — zsh Compatibility Fix
+
+### Fixed
+
+- **gstack skills now work in zsh without errors.** Every skill preamble used a `.pending-*` glob pattern that triggered zsh's "no matches found" error on every invocation (the common case where no pending telemetry files exist). Replaced shell glob with `find` to avoid zsh's NOMATCH behavior entirely. Thanks to @hnshah for the initial report and fix in PR #332. Fixes #313.
+
+### Added
+
+- **Regression test for zsh glob safety.** New test verifies all generated SKILL.md files use `find` instead of bare shell globs for `.pending-*` pattern matching.
+
+## [0.11.7.0] - 2026-03-23 — /review → /ship Handoff Fix
+
+### Fixed
+
+- **`/review` now satisfies the ship readiness gate.** Previously, running `/review` before `/ship` always showed "NOT CLEARED" because `/review` didn't log its result and `/ship` only looked for `/plan-eng-review`. Now `/review` persists its outcome to the review log, and all dashboards recognize both `/review` (diff-scoped) and `/plan-eng-review` (plan-stage) as valid Eng Review sources.
+- **Ship abort prompt now mentions both review options.** When Eng Review is missing, `/ship` suggests "run `/review` or `/plan-eng-review`" instead of only mentioning `/plan-eng-review`.
+
+### For contributors
+
+- Based on PR #338 by @malikrohail. DRY improvement per eng review: updated the shared `REVIEW_DASHBOARD` resolver instead of creating a duplicate ship-only resolver.
+- 4 new validation tests covering review-log persistence, dashboard propagation, and abort text.
+
+## [0.11.6.0] - 2026-03-23 — Infrastructure-First Security Audit
+
+### Added
+
+- **`/cso` v2 — start where the breaches actually happen.** The security audit now begins with your infrastructure attack surface (leaked secrets in git history, dependency CVEs, CI/CD pipeline misconfigurations, unverified webhooks, Dockerfile security) before touching application code. 15 phases covering secrets archaeology, supply chain, CI/CD, LLM/AI security, skill supply chain, OWASP Top 10, STRIDE, and active verification.
+- **Two audit modes.** `--daily` runs a zero-noise scan with an 8/10 confidence gate (only reports findings it's highly confident about). `--comprehensive` does a deep monthly scan with a 2/10 bar (surfaces everything worth investigating).
+- **Active verification.** Every finding gets independently verified by a subagent before reporting — no more grep-and-guess. Variant analysis: when one vulnerability is confirmed, the entire codebase is searched for the same pattern.
+- **Trend tracking.** Findings are fingerprinted and tracked across audit runs. You can see what's new, what's fixed, and what's been ignored.
+- **Diff-scoped auditing.** `--diff` mode scopes the audit to changes on your branch vs the base branch — perfect for pre-merge security checks.
+- **3 E2E tests** with planted vulnerabilities (hardcoded API keys, tracked `.env` files, unsigned webhooks, unpinned GitHub Actions, rootless Dockerfiles). All verified passing.
+
+### Changed
+
+- **Stack detection before scanning.** v1 ran Ruby/Java/PHP/C# patterns on every project without checking the stack. v2 detects your framework first and prioritizes relevant checks.
+- **Proper tool usage.** v1 used raw `grep` in Bash; v2 uses Claude Code's native `Grep` tool for reliable results without truncation.
+
 ## [0.11.5.2] - 2026-03-22 — Outside Voice
 
 ### Added
