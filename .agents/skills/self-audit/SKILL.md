@@ -26,7 +26,23 @@ This repo supports both Claude Code and Codex. You will see references to `~/.cl
      ```bash
      cat {install_path}/{version_file} 2>/dev/null || echo "not installed"
      ```
-   - If versions differ: "Catalog says {X}, live is {Y} — re-copy skills and bump version."
+   - If versions differ, report the mismatch AND print the exact commands to fix it. Use the appropriate install path for the current host (detect whether `~/.claude/skills/gstack/` or `~/.codex/skills/gstack/` exists):
+     ```
+     Catalog says X, live is Y. To update, run these on the source machine
+     (where gstack is installed), then re-copy to this repo:
+
+     # Re-copy upstream SKILL.md files
+     for s in autoplan careful codex cso design-consultation document-release freeze guard investigate land-and-deploy office-hours plan-ceo-review plan-design-review plan-eng-review retro review setup-deploy ship unfreeze; do
+       cp {install_path}/$s/SKILL.md skills/$s/SKILL.md
+     done
+
+     # Re-copy shell scripts
+     cp {install_path}/bin/gstack-{config,diff-scope,repo-mode,review-log,review-read,slug,telemetry-log,update-check} skills/bin/
+
+     # Then update skills-catalog.json upstreams.gstack.version to "Y"
+     # Commit and push
+     ```
+   - Also check if any upstream skills were added or removed by comparing the live skill list against the catalog. If new portable skills exist, suggest adding them.
    - Count skills in catalog vs SKILL.md files in `skills/` — do they match?
    - Check if any SKILL.md files exist in `skills/` that aren't in the catalog (orphans).
    - Check if any catalog entries point to SKILL.md files that don't exist (missing files).
