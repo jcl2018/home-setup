@@ -1,8 +1,20 @@
 # Philosophy
 
-## Purpose
+## Goal
 
-This repo is a portable skill source for AI-assisted development workflows. It ships the actual SKILL.md instruction files so any machine can install them directly — no upstream repo access required. Currently the primary upstream is [gstack](https://github.com/garrytan/gstack), but the architecture supports multiple upstreams.
+Ship a portable skill source that lets any machine — including a restricted work Windows box with Codex only and no bun — run 98% of my AI-assisted development workflow. Clone, copy, use. No upstream repo access, no runtime installs beyond bash.
+
+## Non-Goals
+
+- **Config backup or sync** — deleted. The repo tried to be a backup system with sync.sh, home_health.py, and 26 tests. Wrong goal. Git history preserves it.
+- **Health checks or drift detection** — deleted. Over-engineered for a personal workflow repo.
+- **UI/browse testing skills** — excluded. They require the gstack browse daemon (a bun-compiled binary). Not portable.
+- **Snapshotting entire upstream repos** — eliminated. Shipping 1000+ file snapshots created drift. Now we ship only the SKILL.md files + shell scripts that actually run.
+- **gstack-upgrade** — excluded. Only useful where gstack is already installed.
+
+## How It Works
+
+This repo is a portable skill source. It ships the actual SKILL.md instruction files so any machine can install them directly — no upstream repo access required. Currently the primary upstream is [gstack](https://github.com/garrytan/gstack), but the architecture supports multiple upstreams.
 
 ## Portable, Not Just Metadata
 
