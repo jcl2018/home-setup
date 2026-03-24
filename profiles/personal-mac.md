@@ -1,11 +1,27 @@
 # Profile: personal-mac
 
-## Environment
-- OS: macOS
-- Hosts: Claude Code, Codex
-- Network: unrestricted
+## Identity
+- machine_id: personal-mac
+- os: macOS
+- hosts: Claude Code
+- network: unrestricted
 - gstack: installed (git clone, auto-upgrade enabled)
-- Browse daemon: available
+- browse_daemon: available
+
+## Paths
+- repo_path: ~/home-setup
+- skills_install: ~/.claude/skills
+- knowledge_install: ~/.claude/knowledge
+- settings_path: ~/.claude/settings.json
+
+## Expected Local Content
+
+Content in `~/.claude/` that is NOT in the repo and is expected to differ.
+
+(None currently — this is the reference machine with no work-specific domains.)
+
+## Settings Override
+- override_file: settings/overrides/personal-mac.json
 
 ## Reference Machine
 
@@ -13,9 +29,9 @@ This is the reference machine. All skills in the catalog are available here, plu
 
 ## Available Skills
 
-**All 21 skills** in `skills-catalog.json` are available on this machine:
+**All 24 skills** in `skills-catalog.json` are available on this machine:
 
-- **Standalone (6):** careful, freeze, guard, self-audit, skill-status, unfreeze
+- **Standalone (9):** careful, domain-context, freeze, guard, project-contract, repo-bootstrap, skill-status, sync-audit, unfreeze
 - **Adaptable (15):** autoplan, codex, cso, design-consultation, document-release, investigate, land-and-deploy, office-hours, plan-ceo-review, plan-design-review, plan-eng-review, retro, review, setup-deploy, ship
 
 ## Additional gstack-only Skills

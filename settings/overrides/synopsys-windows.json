@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow_append": [
+      "WebFetch(domain:developers.openai.com)",
+      "WebFetch(domain:www.npmjs.com)",
+      "Edit(/.claude/skills/skill-status/**)"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\chjiang\\.claude",
+      "c:\\Users\\chjiang\\.gstack\\projects\\home-setup",
+      "c:\\Users\\chjiang\\.claude\\knowledge"
+    ]
+  }
+}

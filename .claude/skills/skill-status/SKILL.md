@@ -25,7 +25,7 @@ When `/skill-status` is invoked, produce a status report focused on **what skill
 
    **Source explanation:**
    - `gstack` → copied from the gstack upstream. SKILL.md lives in `skills/{name}/SKILL.md`. Must match the live gstack install.
-   - `custom` → authored in this repo. SKILL.md lives in `.claude/skills/{name}/SKILL.md` and `.agents/skills/{name}/SKILL.md`.
+   - `custom` → authored in this repo. SKILL.md lives in `.claude/skills/{name}/SKILL.md`.
 
 4. **Shell script inventory.** List every file in `skills/bin/` with a one-line description of what it does:
 
