@@ -8,9 +8,7 @@ Machine-local domains (like `aedt/`) are declared in the machine's profile under
 
 ## Notes
 
-- Use [code-best-practices.md](code-best-practices.md) for all code documentation conventions: commit messages, PR descriptions, inline comments, and function banners. Includes work item traceability (`S1432239:` format).
-- Use [repo-item-tracking.md](repo-item-tracking.md) for per-repo `.local-work/` tracking conventions.
-- Use [work-start-checklist.md](work-start-checklist.md) for the lightweight start-of-work checklist.
+- Use [code-best-practices.md](code-best-practices.md) for all code documentation conventions: commit messages, PR descriptions, inline comments, and function banners. Includes work item traceability (`S1432239:` format) for mapping commits/PRs/comments to tickets.
 - Prefer explicit named-boolean guard comparisons when that is the local review preference, for example `clear == false` instead of `!clear`.
 
 ## Boundaries

@@ -20,9 +20,7 @@ home-setup/
 │   ├── domain-context/          ← load/capture domain knowledge
 │   └── sync-audit/              ← repo consistency + install sync audit
 ├── knowledge/                   ← shared knowledge files (deployed to ~/.claude/knowledge/)
-│   ├── code-best-practices.md   ← commits, PRs, comments, function banners
-│   ├── repo-item-tracking.md
-│   ├── work-start-checklist.md
+│   ├── code-best-practices.md   ← commits, PRs, comments, ticket traceability
 │   └── INDEX.md
 ├── settings/                    ← settings templates
 │   ├── baseline.json            ← shared permission baseline
