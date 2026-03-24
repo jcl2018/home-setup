@@ -20,9 +20,10 @@ home-setup/
 │   ├── domain-context/          ← load/capture domain knowledge
 │   └── sync-audit/              ← repo consistency + install sync audit
 ├── knowledge/                   ← shared knowledge files (deployed to ~/.claude/knowledge/)
-│   ├── code-change-comment-style.md
-│   ├── commit-message-template.md
-│   └── ... (7 files)
+│   ├── code-best-practices.md   ← commits, PRs, comments, function banners
+│   ├── repo-item-tracking.md
+│   ├── work-start-checklist.md
+│   └── INDEX.md
 ├── settings/                    ← settings templates
 │   ├── baseline.json            ← shared permission baseline
 │   └── overrides/               ← per-machine settings deltas

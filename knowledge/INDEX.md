@@ -8,17 +8,10 @@ Machine-local domains (like `aedt/`) are declared in the machine's profile under
 
 ## Notes
 
-- Use [code-change-comment-style.md](code-change-comment-style.md) for explanatory comment patterns on non-trivial code changes involving lifecycle, cache, ownership, or non-obvious call flow.
-- Prefer explicit named-boolean guard comparisons in shared style guidance when that is the local review preference, for example `clear == false` instead of `!clear`.
-- Use [function-comment-style.md](function-comment-style.md) for function header or banner comment conventions in codebases that already expect them, with C++-first examples.
-- Use [commit-message-template.md](commit-message-template.md) for tracked commit-subject guidance that starts with the work item ID in `S1432239: ...` form.
-- Use [pr-description-template.md](pr-description-template.md) whenever a task mentions a PR, pull request, PR description, or PR template, and for reusable reviewer-focused PR body guidance.
-- Use [work-start-checklist.md](work-start-checklist.md) for the work-start checklist.
-
-## Templates
-
-- Use [pr-description-template.md](pr-description-template.md) for reusable PR body structure, including capped PR-form guidance.
-- Use [commit-message-template.md](commit-message-template.md) for tracked commit-subject structure with the work item ID prefix.
+- Use [code-best-practices.md](code-best-practices.md) for all code documentation conventions: commit messages, PR descriptions, inline comments, and function banners. Includes work item traceability (`S1432239:` format).
+- Use [repo-item-tracking.md](repo-item-tracking.md) for per-repo `.local-work/` tracking conventions.
+- Use [work-start-checklist.md](work-start-checklist.md) for the lightweight start-of-work checklist.
+- Prefer explicit named-boolean guard comparisons when that is the local review preference, for example `clear == false` instead of `!clear`.
 
 ## Boundaries
 
