@@ -1,7 +1,7 @@
 {
   "upstreams": {
     "gstack": {
-      "version": "0.11.10.0",
+      "version": "0.15.2.1",
       "repo": "https://github.com/garrytan/gstack",
       "version_file": "VERSION",
       "install_path": "~/.claude/skills/gstack",
@@ -9,7 +9,11 @@
         "gstack-update-check",
         "gstack-repo-mode",
         "gstack-review-read",
-        "gstack-telemetry-log"
+        "gstack-telemetry-log",
+        "gstack-timeline-log",
+        "gstack-learnings-log",
+        "gstack-learnings-search",
+        "gstack-slug"
       ]
     }
   },
@@ -19,228 +23,245 @@
       "description": "Auto-review pipeline — runs CEO, design, and eng reviews sequentially with auto-decisions",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-config",
-        "gstack-review-log",
-        "gstack-slug"
-      ],
-      "notes": "Portable with bundled shell scripts in skills/bin/."
+      "dependencies": ["gstack-config", "gstack-review-log", "gstack-slug"]
+    },
+    {
+      "name": "benchmark",
+      "description": "Performance regression detection — establishes baselines, compares before/after, tracks trends",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-slug"]
+    },
+    {
+      "name": "canary",
+      "description": "Post-deploy canary monitoring — watches for console errors, performance regressions, page failures",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-slug"]
     },
     {
       "name": "careful",
       "description": "Safety guardrails — warns before rm -rf, DROP TABLE, force-push, and other destructive commands",
       "source": "gstack",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Pure hook skill. Uses a shell script to check bash commands. No gstack preamble, no browse."
+      "dependencies": []
+    },
+    {
+      "name": "checkpoint",
+      "description": "Save and resume working state — captures git state, decisions, remaining work for cross-session continuity",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-slug"]
     },
     {
       "name": "codex",
       "description": "OpenAI Codex CLI wrapper — code review, adversarial challenge, and consult modes",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "codex-cli"
-      ],
-      "notes": "Core logic shells out to the codex CLI. Gstack preamble fails harmlessly without gstack."
+      "dependencies": ["codex-cli"]
+    },
+    {
+      "name": "connect-chrome",
+      "description": "Launch real Chrome controlled by gstack with Side Panel extension for live activity feed",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": []
     },
     {
       "name": "cso",
       "description": "Chief Security Officer mode — infrastructure-first security audit with OWASP, STRIDE, and supply chain scanning",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [],
-      "notes": "Core logic is codebase analysis and markdown reporting. Gstack preamble fails harmlessly."
+      "dependencies": []
     },
     {
       "name": "design-consultation",
       "description": "Design system creation — researches landscape, proposes typography/color/layout, generates preview pages",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-slug"
-      ],
-      "notes": "Core logic is prompt-driven design thinking. Optional browse for research screenshots. Works without browse."
+      "dependencies": ["gstack-slug"]
+    },
+    {
+      "name": "design-review",
+      "description": "Designer's eye QA — finds visual inconsistency, spacing issues, AI slop patterns, fixes iteratively",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-slug"]
     },
     {
       "name": "document-release",
       "description": "Post-ship documentation update — syncs README, ARCHITECTURE, CHANGELOG, and TODOS to match what shipped",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "git"
-      ],
-      "notes": "Core logic is reading docs and diffs, writing updated markdown. Gstack preamble fails harmlessly."
+      "dependencies": ["git"]
     },
     {
       "name": "freeze",
       "description": "Restrict file edits to a specific directory for the session",
       "source": "gstack",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Pure hook skill. Blocks Edit and Write outside the allowed path. No gstack preamble."
+      "dependencies": []
+    },
+    {
+      "name": "gstack-upgrade",
+      "description": "Upgrade gstack to the latest version — detects install type, upgrades, shows what's new",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-config"]
     },
     {
       "name": "guard",
       "description": "Full safety mode — combines /careful (destructive command warnings) with /freeze (directory-scoped edits)",
       "source": "gstack",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Pure hook skill combining careful and freeze. No gstack preamble."
+      "dependencies": []
+    },
+    {
+      "name": "health",
+      "description": "Code quality dashboard — wraps project tools (tsc, biome, knip, tests), computes 0-10 score, tracks trends",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-slug"]
     },
     {
       "name": "investigate",
       "description": "Systematic debugging with root cause investigation — investigate, analyze, hypothesize, implement",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [],
-      "notes": "Core logic is code exploration and structured debugging. Uses freeze hooks for safety. Gstack preamble fails harmlessly."
+      "dependencies": []
     },
     {
       "name": "land-and-deploy",
       "description": "Land and deploy workflow — merges PR, waits for CI, verifies production health via canary checks",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-config",
-        "gstack-diff-scope",
-        "gh",
-        "gstack-slug"
-      ],
-      "notes": "Portable with bundled shell scripts in skills/bin/."
+      "dependencies": ["gstack-config", "gstack-diff-scope", "gh", "gstack-slug"]
+    },
+    {
+      "name": "learn",
+      "description": "Manage project learnings — review, search, prune, and export what gstack learned across sessions",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-learnings-log", "gstack-learnings-search", "gstack-slug"]
     },
     {
       "name": "office-hours",
       "description": "YC-style brainstorming — problem diagnosis, premise challenge, design doc output",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-slug"
-      ],
-      "notes": "Core logic is prompt-driven brainstorming and markdown output. Optional browse for sketch preview. Works fully without browse."
+      "dependencies": ["gstack-slug"]
     },
     {
       "name": "plan-ceo-review",
       "description": "CEO/founder-mode plan review — rethink the problem, find the 10-star product, challenge premises",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-slug"
-      ],
-      "notes": "Core logic is plan analysis and structured critique. Uses gstack-review-log for dashboard but works without it."
+      "dependencies": ["gstack-slug"]
     },
     {
       "name": "plan-design-review",
       "description": "Designer's eye plan review — rates each design dimension 0-10, explains what would make it a 10",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [],
-      "notes": "Core logic is plan analysis and design critique. Uses gstack-review-log for dashboard but works without it."
+      "dependencies": []
     },
     {
       "name": "plan-eng-review",
       "description": "Eng manager-mode plan review — architecture, data flow, edge cases, test coverage, performance",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-slug"
-      ],
-      "notes": "Core logic is plan analysis and engineering critique. Uses gstack-review-log for dashboard but works without it."
+      "dependencies": ["gstack-slug"]
+    },
+    {
+      "name": "qa",
+      "description": "Systematically QA test a web application and fix bugs found — runs QA, fixes iteratively, commits atomically",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-slug"]
+    },
+    {
+      "name": "qa-only",
+      "description": "Report-only QA testing — structured report with health score, screenshots, repro steps, never fixes",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": ["gstack-slug"]
     },
     {
       "name": "retro",
       "description": "Weekly engineering retrospective with commit analysis, work patterns, and trend tracking",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "git"
-      ],
-      "notes": "Core logic is git log analysis and markdown reporting. Gstack preamble fails harmlessly."
+      "dependencies": ["git"]
     },
     {
       "name": "review",
       "description": "Pre-landing PR review — analyzes diff for SQL safety, trust boundary violations, and structural issues",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-review-log",
-        "gstack-diff-scope",
-        "git"
-      ],
-      "notes": "Portable with bundled shell scripts in skills/bin/."
+      "dependencies": ["gstack-review-log", "gstack-diff-scope", "git"]
+    },
+    {
+      "name": "setup-browser-cookies",
+      "description": "Import cookies from real Chromium browser into headless browse session for authenticated QA testing",
+      "source": "gstack",
+      "portability": "adaptable",
+      "dependencies": []
     },
     {
       "name": "setup-deploy",
       "description": "Configure deployment settings — detects platform, production URL, health checks, writes config to CLAUDE.md",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [],
-      "notes": "Core logic is detecting deploy platform and writing configuration. Gstack preamble fails harmlessly."
+      "dependencies": []
     },
     {
       "name": "ship",
       "description": "Ship workflow — merge base, run tests, review diff, bump VERSION, update CHANGELOG, commit, push, create PR",
       "source": "gstack",
       "portability": "adaptable",
-      "dependencies": [
-        "gstack-review-log",
-        "gstack-diff-scope",
-        "gstack-config",
-        "git",
-        "gh",
-        "gstack-slug"
-      ],
-      "notes": "Portable with bundled shell scripts in skills/bin/."
+      "dependencies": ["gstack-review-log", "gstack-diff-scope", "gstack-config", "git", "gh", "gstack-slug"]
     },
     {
       "name": "unfreeze",
       "description": "Clear freeze boundary — allow edits to all directories again",
       "source": "gstack",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Pure utility skill. Removes the freeze state file. No gstack preamble."
+      "dependencies": []
     },
     {
       "name": "skill-status",
       "description": "Reports on the skill catalog — counts by portability, checks profile match, verifies upstream versions",
       "source": "custom",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Project-local skill. Reads skills-catalog.json and profiles/. No external dependencies."
+      "dependencies": []
     },
     {
       "name": "project-contract",
       "description": "Write or tighten a CLAUDE.md for any repo — inspects the repo, generates a contract with build/test commands and architecture boundaries",
       "source": "custom",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Project-local skill. Includes references/claude-md-template.md. No external dependencies."
+      "dependencies": []
     },
     {
       "name": "repo-bootstrap",
       "description": "Onboard any repo for Claude Code work — maps the repo, creates CLAUDE.md, runs verification, checks domain knowledge",
       "source": "custom",
       "portability": "standalone",
-      "dependencies": [
-        "project-contract"
-      ],
-      "notes": "Project-local skill. Calls /project-contract as a sub-step. Includes references/bootstrap-checklist.md."
+      "dependencies": ["project-contract"]
     },
     {
       "name": "domain-context",
       "description": "Load or capture domain knowledge — reads from ~/.claude/knowledge/ for architecture notes, glossaries, and deep dives",
       "source": "custom",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Project-local skill. Creates and manages ~/.claude/knowledge/ directory convention. Two modes: read and capture."
+      "dependencies": []
     },
     {
       "name": "sync-audit",
-      "description": "Compares the home-setup repo (source of truth) against installed ~/.claude/ state — reports differences with explanations and suggested fix commands",
+      "description": "Compares the home-setup repo against installed ~/.claude/ state — reports differences with fix commands",
       "source": "custom",
       "portability": "standalone",
-      "dependencies": [],
-      "notes": "Project-local skill. Reads profiles/, knowledge/, settings/, skills-catalog.json and compares against ~/.claude/. No external dependencies."
+      "dependencies": []
     }
   ]
 }
