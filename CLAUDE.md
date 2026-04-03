@@ -1,6 +1,6 @@
 # CLAUDE.md — home-setup
 
-Self-governing Claude Code configuration repo. Principles, audit goals, automated deploy, and doc compilation. Reference implementation for governance-as-code. 35 skills total (30 upstream gstack + 5 custom).
+Self-governing Claude Code configuration repo. Principles, audit goals, automated deploy, and doc compilation. Reference implementation for governance-as-code. See `skills-catalog.json` for the current skill count.
 
 ## Layout
 

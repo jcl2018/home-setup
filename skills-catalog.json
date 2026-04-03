@@ -262,15 +262,6 @@
       "source": "custom",
       "portability": "standalone",
       "dependencies": []
-    },
-    {
-      "name": "sync-audit",
-      "description": "REMOVED: absorbed into /home-inspect and /governance-audit",
-      "source": "custom",
-      "portability": "standalone",
-      "dependencies": [],
-      "status": "removed"
     }
-
   ]
 }
