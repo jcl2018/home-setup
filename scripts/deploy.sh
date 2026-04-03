@@ -94,16 +94,12 @@ fi
 echo ""
 echo "--- Garbage collection ---"
 if command -v jq >/dev/null 2>&1; then
-  CATALOG_SKILLS=$(jq -r '.skills[].name' "$REPO_ROOT/skills-catalog.json" | sort)
-  # Also include gstack itself (the root skill) which isn't in our catalog
-  SKIP_DIRS="gstack"
+  CATALOG_SKILLS=$(jq -r '.skills[] | select(.status != "removed") | .name' "$REPO_ROOT/skills-catalog.json" | sort)
   for installed_dir in "$TARGET"/skills/*/; do
     [ -d "$installed_dir" ] || continue
     installed_name=$(basename "$installed_dir")
-    # Skip gstack root dir and any subdirs of gstack
-    if echo "$SKIP_DIRS" | grep -qw "$installed_name"; then
-      continue
-    fi
+    # Skip the gstack upstream directory entirely (it's managed by gstack, not us)
+    [ "$installed_name" = "gstack" ] && continue
     if ! echo "$CATALOG_SKILLS" | grep -qx "$installed_name"; then
       echo "  Removing unlisted: $installed_name"
       run rm -rf "$installed_dir"
