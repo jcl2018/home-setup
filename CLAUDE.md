@@ -1,64 +1,85 @@
 # CLAUDE.md — home-setup
 
-Single source of truth for Claude Code configuration across all machines. Ships skills, shared knowledge, and settings templates. 24 skills total (19 upstream gstack + 5 custom). Multi-upstream ready (currently gstack).
+Self-governing Claude Code configuration repo. Principles, audit goals, automated deploy, and doc compilation. Reference implementation for governance-as-code. 35 skills total (30 upstream gstack + 5 custom).
 
 ## Layout
 
 ```
 home-setup/
-├── skills-catalog.json          ← every skill with portability metadata
-├── skills/                      ← actual SKILL.md files for 19 portable upstream skills
-│   ├── office-hours/SKILL.md    ← YC-style brainstorming
-│   ├── plan-eng-review/SKILL.md ← architecture review
-│   ├── ship/SKILL.md            ← ship workflow
-│   ├── bin/                     ← shell scripts (gstack-config, gstack-diff-scope, etc.)
-│   └── ... (19 upstream total)
-├── .claude/skills/              ← 5 custom skills
-│   ├── skill-status/            ← catalog status report
-│   ├── project-contract/        ← write/tighten CLAUDE.md for any repo
-│   ├── repo-bootstrap/          ← onboard a repo for Claude Code
-│   ├── domain-context/          ← load/capture domain knowledge
-│   └── sync-audit/              ← repo consistency + install sync audit
-├── knowledge/                   ← shared knowledge files (deployed to ~/.claude/knowledge/)
-│   ├── code-best-practices.md   ← commits, PRs, comments, ticket traceability
+├── skills-catalog.json          <- every skill with metadata
+├── audit-spec.json              <- audit goals + check-to-goal mappings
+├── scripts/
+│   ├── deploy.sh                <- deploys repo -> ~/.claude/
+│   ├── validate-audit-spec.sh   <- validates audit-spec.json coverage closure
+│   └── gen-docs.sh              <- doc compiler: generates traceability + skills ref
+├── skills/                      <- upstream SKILL.md files (from gstack)
+│   ├── bin/                     <- shell scripts some skills depend on
+│   └── {name}/SKILL.md          <- one per upstream skill (30 total)
+├── .claude/
+│   ├── skills/                  <- custom skills (authored here)
+│   │   ├── home-inspect/        <- 5-room mechanical health check
+│   │   ├── governance-audit/    <- deterministic + AI content review
+│   │   ├── project-contract/    <- write/tighten CLAUDE.md for any repo
+│   │   ├── repo-bootstrap/      <- onboard a repo for Claude Code
+│   │   └── domain-context/      <- load/capture domain knowledge
+│   ├── hooks/                   <- Claude Code hooks
+│   │   └── post-commit-deploy.sh <- auto-deploys after git commit (P11)
+│   ├── rules/                   <- path-scoped rules (activate per file context)
+│   │   ├── upstream-skills.md   <- enforces P2 on skills/**
+│   │   ├── custom-skills.md     <- enforces P3 on .claude/skills/**
+│   │   ├── deployable-files.md  <- enforces P11 on knowledge/**, settings/**
+│   │   └── ...                  <- 8 rules total
+│   └── commands/                <- project slash commands
+│       ├── deploy.md            <- /project:deploy
+│       └── audit.md             <- /project:audit
+├── knowledge/                   <- shared knowledge (deployed to ~/.claude/knowledge/)
+│   ├── code-best-practices.md   <- commits, PRs, comments, ticket traceability
 │   └── INDEX.md
-├── settings/                    ← settings templates
-│   ├── baseline.json            ← shared permission baseline
-│   └── overrides/               ← per-machine settings deltas
-├── profiles/                    ← per-machine descriptions
-│   ├── synopsys-windows.md      ← Synopsys work machine
-│   ├── personal-mac.md          ← reference machine
-│   └── setup-guide.md           ← new machine setup
-├── PHILOSOPHY.md                ← why this repo exists
-├── CLAUDE.md                    ← this file
+├── settings/                    <- permission baselines and overrides
+│   ├── baseline.json
+│   └── overrides/
+├── profiles/                    <- per-machine descriptions (historical)
+├── docs/
+│   ├── design/                  <- "Understand why this exists"
+│   │   ├── PHILOSOPHY.md        <- 5 principles + 9 audit goals (AG1-AG9)
+│   │   ├── DECISIONS.md         <- decision journal (D1-D11)
+│   │   └── traceability.md      <- AUTO-GENERATED: principle->goal->check map
+│   ├── operations/              <- "Operate and extend the system"
+│   │   ├── SKILLS-CHEATSHEET.md <- quick skill command reference
+│   │   ├── COMMANDS-AND-RULES.md <- project commands and path-scoped rules
+│   │   ├── INSPECTION-BASELINE.md <- known-good state snapshot
+│   │   ├── skills-reference.md  <- AUTO-GENERATED: catalog-derived skill table
+│   │   └── getting-started.md   <- 5-minute onboarding guide
+│   └── inspections/             <- audit snapshots (auto-saved by /project:audit)
+├── CLAUDE.md                    <- this file
 └── README.md
 ```
 
+## Principles
+
+Five active design principles (see `docs/design/PHILOSOPHY.md` for full details):
+
+- **P1: Single Source of Truth.** This repo owns what's shared. `~/.claude/` is a deployment.
+- **P2: Upstream Skills Are Copies.** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
+- **P3: Custom Skills Are Ours.** `.claude/skills/` contains skills we authored. Add to catalog.
+- **P5: Always-On Over Invocation.** Knowledge files beat skills for enforcing standards.
+- **P11: Deploy or It Didn't Happen.** Committed-but-not-deployed is a bug. Post-commit hook auto-deploys.
+
 ## Rules
 
-- **Keep skills/ current.** After any upstream upgrade, re-copy portable SKILL.md files and `skills/bin/` scripts, then update `skills-catalog.json` (bump the version in `upstreams`). `/skill-status` flags version mismatches.
-- **skills/ are copies, not forks.** Don't edit upstream SKILL.md files in skills/. They should match the live upstream install exactly. Custom skills live in `.claude/skills/`.
-- **knowledge/ is shared.** Files in `knowledge/` should be deployed to `~/.claude/knowledge/` on every machine. Machine-local knowledge (like AEDT) is declared in the machine's profile.
-- **Profiles describe machines.** Each profile lists what skills are available and what machine-local content is expected. Update when constraints change.
-- **Use /sync-audit to verify.** After changes, run `/sync-audit` to compare the repo against the installed state.
+- **Deploy after changes.** After editing deployable files (knowledge/, skills/, settings/, .claude/skills/), run `bash scripts/deploy.sh`. A post-commit hook runs it automatically.
+- **Verify with /project:audit.** After any change, run `/project:audit` for unified health + governance check with snapshots.
+- **Upstream skills are copies, not forks (P2).** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
+- **Custom skills live in .claude/skills/ (P3).** Add to catalog and update the cheatsheet.
+- **Doc compiler.** After editing `audit-spec.json` or `skills-catalog.json`, run `bash scripts/gen-docs.sh` to regenerate traceability and skills reference docs.
 
-## Remote Machine Setup
+## Machine
 
-On a machine that can't install gstack:
-1. Clone this repo (or read on GitHub)
-2. `mkdir -p ~/.gstack/projects ~/.gstack/analytics ~/.gstack/sessions`
-3. Copy skills from `skills/` and `.claude/skills/` into `~/.claude/skills/`
-4. Copy knowledge files from `knowledge/` into `~/.claude/knowledge/`
-5. Copy `skills/bin/` to a location on your PATH (shell scripts some skills depend on)
-6. Run `/sync-audit` to verify everything is in sync
-
-## /sync-audit
-
-The primary verification skill. Compares the repo (source of truth) against installed `~/.claude/` state. Reports skills, knowledge, settings, and bin scripts as IN SYNC, MISSING, DRIFTED, LOCAL-EXPECTED, or LOCAL-UNDECLARED. Outputs exact shell commands to fix issues.
-
-## /skill-status
-
-Reports on each skill in the catalog: what it does, where it comes from, what files it needs. Checks upstream version alignment.
+- **machine_id:** personal-mac
+- **os:** macOS (Darwin)
+- **hosts:** Claude Code (VSCode extension, CLI)
+- **network:** unrestricted
+- **settings_override:** settings/overrides/personal-mac.json
 
 ## Skill routing
 
@@ -67,15 +88,15 @@ tool as your FIRST action. Do NOT answer directly, do NOT use other tools first.
 The skill has specialized workflows that produce better results than ad-hoc answers.
 
 Key routing rules:
-- Product ideas, "is this worth building", brainstorming → invoke office-hours
-- Bugs, errors, "why is this broken", 500 errors → invoke investigate
-- Ship, deploy, push, create PR → invoke ship
-- QA, test the site, find bugs → invoke qa
-- Code review, check my diff → invoke review
-- Update docs after shipping → invoke document-release
-- Weekly retro → invoke retro
-- Design system, brand → invoke design-consultation
-- Visual audit, design polish → invoke design-review
-- Architecture review → invoke plan-eng-review
-- Save progress, checkpoint, resume → invoke checkpoint
-- Code quality, health check → invoke health
+- Product ideas, "is this worth building", brainstorming -> invoke office-hours
+- Bugs, errors, "why is this broken", 500 errors -> invoke investigate
+- Ship, deploy, push, create PR -> invoke ship
+- QA, test the site, find bugs -> invoke qa
+- Code review, check my diff -> invoke review
+- Update docs after shipping -> invoke document-release
+- Weekly retro -> invoke retro
+- Design system, brand -> invoke design-consultation
+- Visual audit, design polish -> invoke design-review
+- Architecture review -> invoke plan-eng-review
+- Save progress, checkpoint, resume -> invoke checkpoint
+- Code quality, health check -> invoke health
