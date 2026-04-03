@@ -229,8 +229,15 @@
       "dependencies": []
     },
     {
-      "name": "skill-status",
-      "description": "Reports on the skill catalog — counts by portability, checks profile match, verifies upstream versions",
+      "name": "home-inspect",
+      "description": "5-room mechanical health check — skill sync, catalog health, archaeology, knowledge freshness, system vitals",
+      "source": "custom",
+      "portability": "standalone",
+      "dependencies": ["jq"]
+    },
+    {
+      "name": "governance-audit",
+      "description": "Content quality audit — deterministic pass (link targets, layout tree, rule frontmatter) + AI review pass",
       "source": "custom",
       "portability": "standalone",
       "dependencies": []
@@ -258,10 +265,12 @@
     },
     {
       "name": "sync-audit",
-      "description": "Compares the home-setup repo against installed ~/.claude/ state — reports differences with fix commands",
+      "description": "REMOVED: absorbed into /home-inspect and /governance-audit",
       "source": "custom",
       "portability": "standalone",
-      "dependencies": []
+      "dependencies": [],
+      "status": "removed"
     }
+
   ]
 }
