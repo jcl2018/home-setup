@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "goals": [
+    { "id": "AG1", "name": "Repo-Home Sync", "description": "Repo files are deployed to ~/.claude/ correctly", "informed_by": ["P1", "P11"], "type": "check-level" },
+    { "id": "AG2", "name": "Functional Correctness", "description": "Skills, commands, and rules are structurally valid and their dependencies resolve", "informed_by": ["P3"], "type": "check-level" },
+    { "id": "AG3", "name": "Principle Alignment", "description": "Skills, commands, rules, and docs don't drift from the 5 active principles", "informed_by": ["P1", "P2", "P3"], "type": "check-level" },
+    { "id": "AG4", "name": "Doc Currency", "description": "Docs reflect the current state of the system", "informed_by": ["P1"], "type": "check-level" },
+    { "id": "AG5", "name": "Doc Quality", "description": "Docs summarize correctly, stay in their lanes, follow writing standards", "informed_by": ["P5"], "type": "check-level" },
+    { "id": "AG6", "name": "Usefulness & No Overlap", "description": "Skills, rules, commands serve distinct purposes with no redundancy", "informed_by": ["P3"], "type": "check-level" },
+    { "id": "AG7", "name": "Proactive Improvement", "description": "The audit proactively surfaces what could be better", "informed_by": [], "type": "advisory" },
+    { "id": "AG8", "name": "Inspection Reporting", "description": "The audit produces a complete report saved as snapshot", "informed_by": [], "type": "meta" },
+    { "id": "AG9", "name": "Operational Hygiene", "description": "Home directories stay clean: no debris, no bloat", "informed_by": ["P1"], "type": "hygiene" }
+  ],
+  "checks": [
+    { "id": "1.1", "engine": "health", "room": 1, "title": "gstack VERSION", "goals": ["AG1"], "why": "P1: installed gstack version must match catalog. Mismatch = repo and home out of sync." },
+    { "id": "1.2", "engine": "health", "room": 1, "title": "Skill sync", "goals": ["AG1"], "why": "P1+P11: every skill in the catalog must be deployed to ~/.claude/skills/." },
+    { "id": "1.3", "engine": "health", "room": 1, "title": "Knowledge sync", "goals": ["AG1"], "why": "P5+P11: knowledge files must be deployed so Claude reads them at session start." },
+    { "id": "1.4", "engine": "health", "room": 1, "title": "Bin scripts", "goals": ["AG1"], "why": "Skills depend on shell scripts in skills/bin/. Missing = broken invocations." },
+    { "id": "1.5", "engine": "health", "room": 1, "title": "Settings", "goals": ["AG1"], "why": "P1: baseline + override must match installed settings.json." },
+    { "id": "1.6", "engine": "health", "room": 1, "title": "Stale artifacts", "goals": ["AG1"], "why": "Historical remnants confuse Claude and waste disk." },
+    { "id": "1.7", "engine": "health", "room": 1, "title": "Upstream latest", "goals": ["AG6", "AG7"], "why": "AG7: surfaces upgrade opportunities and new adoptable skills." },
+
+    { "id": "2.1", "engine": "health", "room": 2, "title": "SKILL.md count", "goals": ["AG2"], "why": "Catalog declares what should exist. Missing SKILL.md = broken skill." },
+    { "id": "2.2", "engine": "health", "room": 2, "title": "CLI deps", "goals": ["AG2"], "why": "Skills depend on CLI tools (git, gh, jq, codex). Missing = runtime failure." },
+    { "id": "2.3", "engine": "health", "room": 2, "title": "Rules frontmatter", "goals": ["AG2", "AG3"], "why": "AG2: rules need valid paths: globs. AG3: rule with no scope enforces nothing." },
+    { "id": "2.4", "engine": "health", "room": 2, "title": "Commands non-empty", "goals": ["AG2"], "why": "Empty command file = broken command." },
+    { "id": "2.5", "engine": "health", "room": 2, "title": "Per-skill table", "goals": ["AG4", "AG5"], "why": "AG4: cheatsheet must accurately reflect the catalog." },
+    { "id": "2.6", "engine": "health", "room": 2, "title": "Hardcoded counts", "goals": ["AG4", "AG5"], "why": "D9: hardcoded counts drift when skills are added/removed." },
+    { "id": "2.7", "engine": "health", "room": 2, "title": "Doc lanes", "goals": ["AG3", "AG5"], "why": "AG3: each doc has one job per lanes table. Content in wrong doc violates single responsibility." },
+
+    { "id": "3.1", "engine": "health", "room": 3, "title": "Orphan skills", "goals": ["AG6"], "why": "AG6: installed skill dirs not in catalog serve no purpose." },
+    { "id": "3.2", "engine": "health", "room": 3, "title": "Stale sessions", "goals": ["AG9"], "why": "AG9: session files older than 24h are debris." },
+    { "id": "3.3", "engine": "health", "room": 3, "title": "Temp files", "goals": ["AG9"], "why": "AG9: .tmp, .pending-*, .bak files accumulate from interrupted ops." },
+    { "id": "3.4", "engine": "health", "room": 3, "title": "Oversized files", "goals": ["AG9"], "why": "AG9: files >10MB may indicate runaway logs or forgotten downloads." },
+    { "id": "3.5", "engine": "health", "room": 3, "title": "Empty dirs", "goals": ["AG9"], "why": "AG9: empty directories indicate incomplete cleanup." },
+    { "id": "3.6", "engine": "health", "room": 3, "title": "Historical artifacts", "goals": ["AG9"], "why": "AG9: remnants from past repo iterations should not exist." },
+
+    { "id": "4.1", "engine": "health", "room": 4, "title": "INDEX.md", "goals": ["AG4"], "why": "P5: INDEX.md is the discovery mechanism for knowledge files." },
+    { "id": "4.2", "engine": "health", "room": 4, "title": "Repo knowledge deployed", "goals": ["AG1"], "why": "P1+P11: repo knowledge files must be deployed to ~/.claude/knowledge/." },
+    { "id": "4.3", "engine": "health", "room": 4, "title": "Empty files", "goals": ["AG5"], "why": "AG5: a .md file with zero bytes is a quality defect." },
+    { "id": "4.4", "engine": "health", "room": 4, "title": "INDEX cross-refs", "goals": ["AG4", "AG5"], "why": "AG4: every INDEX.md reference must point to an existing file." },
+
+    { "id": "5.1", "engine": "health", "room": 5, "title": "~/.claude/ size", "goals": ["AG9"], "why": "AG9: tracks disk usage to detect accumulation." },
+    { "id": "5.2", "engine": "health", "room": 5, "title": "~/.gstack/ size", "goals": ["AG9"], "why": "AG9: gstack working dirs grow over time." },
+    { "id": "5.3", "engine": "health", "room": 5, "title": "Analytics volume", "goals": ["AG9"], "why": "AG9: JSONL analytics files grow with every skill invocation." },
+    { "id": "5.4", "engine": "health", "room": 5, "title": "Active sessions", "goals": ["AG9"], "why": "AG9: many active sessions may indicate leaked processes." },
+    { "id": "5.5", "engine": "health", "room": 5, "title": "Memory files", "goals": ["AG9"], "why": "AG9: auto-memory files accumulate across projects." },
+    { "id": "5.6", "engine": "health", "room": 5, "title": "settings.json", "goals": ["AG1"], "why": "P1: ~/.claude/settings.json must exist for Claude Code to work." },
+    { "id": "5.7", "engine": "health", "room": 5, "title": "Repo status", "goals": ["AG1"], "why": "P11: uncommitted changes mean repo and install may be out of sync." },
+
+    { "id": "G1.1", "engine": "governance", "room": "pass1", "title": "Link targets", "goals": ["AG4", "AG5"], "why": "AG4: broken links mean docs reference deleted content." },
+    { "id": "G1.2", "engine": "governance", "room": "pass1", "title": "Layout tree paths", "goals": ["AG4"], "why": "AG4: CLAUDE.md layout tree must match actual repo structure." },
+    { "id": "G1.3", "engine": "governance", "room": "pass1", "title": "Rule frontmatter paths", "goals": ["AG2", "AG3"], "why": "AG2: rule paths: globs must match at least one file." },
+    { "id": "G1.4", "engine": "governance", "room": "pass1", "title": "Principle citations", "goals": ["AG3"], "why": "AG3: every rule must trace to a principle or decision." },
+    { "id": "G1.5", "engine": "governance", "room": "pass1", "title": "TODOS.md staleness", "goals": ["AG7"], "why": "AG7: TODOs older than 30 days with no progress may be abandoned." },
+
+    { "id": "G2.1", "engine": "governance", "room": "pass2", "title": "Still true?", "goals": ["AG4", "AG5"], "why": "AG4: factual claims must match current repo state." },
+    { "id": "G2.2", "engine": "governance", "room": "pass2", "title": "Still aligned?", "goals": ["AG3"], "why": "AG3: every directive must match the 5 active principles." },
+    { "id": "G2.3", "engine": "governance", "room": "pass2", "title": "Still useful?", "goals": ["AG5", "AG6", "AG7"], "why": "AG5: stale content degrades quality." },
+    { "id": "G2.4", "engine": "governance", "room": "pass2", "title": "Right place?", "goals": ["AG3", "AG5"], "why": "AG3: content must be in the correct doc per lanes table." },
+    { "id": "G2.5", "engine": "governance", "room": "pass2", "title": "Consistent?", "goals": ["AG5"], "why": "AG5: same concept described differently in two docs creates confusion." },
+    { "id": "G2.6", "engine": "governance", "room": "pass2", "title": "No overlapping scope?", "goals": ["AG6"], "why": "AG6: overlapping scope = wasted maintenance and user confusion." }
+  ]
+}
