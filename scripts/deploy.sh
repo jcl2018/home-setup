@@ -25,6 +25,42 @@ echo "Target: $TARGET"
 $DRY_RUN && echo "Mode:   DRY RUN" || echo "Mode:   LIVE"
 echo ""
 
+# --- Templates sync ---
+echo "--- Templates sync ---"
+if [ -d "$REPO_ROOT/templates" ]; then
+  run mkdir -p "$TARGET/templates"
+  for f in "$REPO_ROOT"/templates/*.md; do
+    [ -f "$f" ] || continue
+    name=$(basename "$f")
+    run cp "$f" "$TARGET/templates/$name"
+    echo "  Copied: templates/$name"
+  done
+  # Remove obsolete template files
+  if ! $DRY_RUN; then
+    for f in "$TARGET"/templates/*.md; do
+      [ -f "$f" ] || continue
+      name=$(basename "$f")
+      if [ ! -f "$REPO_ROOT/templates/$name" ]; then
+        rm "$f"
+        echo "  Removed obsolete: templates/$name"
+      fi
+    done
+  fi
+else
+  echo "  Skipped: templates/ not found"
+fi
+
+# --- Artifact manifests ---
+echo ""
+echo "--- Artifact manifests ---"
+if [ -f "$REPO_ROOT/artifact-manifests.json" ]; then
+  run cp "$REPO_ROOT/artifact-manifests.json" "$TARGET/artifact-manifests.json"
+  echo "  Deployed: artifact-manifests.json"
+else
+  echo "  Skipped: artifact-manifests.json not found"
+fi
+
+echo ""
 # --- Knowledge sync ---
 echo "--- Knowledge sync ---"
 run mkdir -p "$TARGET/knowledge"

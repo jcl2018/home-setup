@@ -1,0 +1,148 @@
+{
+  "version": "1.0.0",
+  "contracts": [
+    {
+      "skill": "work",
+      "source": "custom",
+      "job": "Route the user to the right phase skill for their current work item",
+      "must_produce": ["work item menu or phase skill invocation"],
+      "must_not_do": ["mutate code directly", "create work items (work-track's job)"],
+      "handoff": "User is in the correct phase skill or has selected a work item",
+      "inputs": ["current branch name"],
+      "allowed_side_effects": [],
+      "eval_mode": "structural"
+    },
+    {
+      "skill": "work-track",
+      "source": "custom",
+      "job": "Context-aware work item management: evidence synthesis, CRUD, and lifecycle",
+      "must_produce": ["work item document with structured updates", "journal entries from git evidence"],
+      "must_not_do": ["modify source code", "skip evidence scoping when synthesizing"],
+      "handoff": "Work item is updated with current evidence and proposed changes",
+      "inputs": ["work item slug or subcommand"],
+      "allowed_side_effects": ["writes to ./work-items/"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "work-implement",
+      "source": "custom",
+      "job": "Structured implementation with root-cause debugging, 4-phase lifecycle Phase 2",
+      "must_produce": ["implementation with root cause analysis where needed", "journal entries tracking progress"],
+      "must_not_do": ["fix without root cause investigation first (defects)", "skip hypothesis testing"],
+      "handoff": "Implementation complete, handoff block written with next suggested phase",
+      "inputs": ["work item slug"],
+      "allowed_side_effects": ["writes journal entries and handoff to work item file"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "work-review",
+      "source": "custom",
+      "job": "Code review wrapper that sets up work item context and delegates to /review",
+      "must_produce": ["work item context summary", "journal entry recording review phase", "handoff block with review status"],
+      "must_not_do": ["modify source code", "run the review itself (delegates to /review)"],
+      "handoff": "Context is set up, user is directed to run /review",
+      "inputs": ["work item slug"],
+      "allowed_side_effects": ["writes journal entry and handoff to work item file"],
+      "eval_mode": "structural"
+    },
+    {
+      "skill": "work-ship",
+      "source": "custom",
+      "job": "Ship wrapper that validates TEST-SPEC acceptance criteria and delegates to /ship",
+      "must_produce": ["spec validation result", "journal entry recording ship phase", "handoff block with ship status"],
+      "must_not_do": ["modify source code", "ship without validating specs (for items with TEST-SPEC)"],
+      "handoff": "Context is set up, user is directed to run /ship",
+      "inputs": ["work item slug"],
+      "allowed_side_effects": ["writes journal entry and handoff to work item file"],
+      "eval_mode": "structural"
+    },
+    {
+      "skill": "work-audit",
+      "source": "custom",
+      "job": "Unified doc quality check: tracking validation + /align-feature-contract + inline quality checks",
+      "must_produce": ["unified findings table in journal", "overall PASS/WARN/FAIL verdict"],
+      "must_not_do": ["modify code files", "auto-fix findings without user approval"],
+      "handoff": "User sees a scored report and knows what to fix",
+      "inputs": ["work item slug"],
+      "allowed_side_effects": ["writes findings to work item journal"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "advisor",
+      "source": "custom",
+      "job": "Two-layer review: L1 strategic (per-family triplet quality) + L2 operational (system hygiene)",
+      "must_produce": ["per-family quality scores", "operational health table", "actionable suggestions"],
+      "must_not_do": ["modify code without user approval", "overlap with /audit deterministic findings"],
+      "handoff": "User has a prioritized list of improvements to consider",
+      "inputs": [],
+      "allowed_side_effects": ["writes snapshot to docs/inspections/"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "align-feature-contract",
+      "source": "custom",
+      "job": "Compare a PRD + ARCHITECTURE + TEST-SPEC triplet against templates, check cross-doc traceability",
+      "must_produce": ["per-doc template alignment report with PASS/FAIL/WARN per check", "cross-doc traceability summary"],
+      "must_not_do": ["auto-fix without showing report first", "delete or rewrite user content during fixes"],
+      "handoff": "User sees a scored report and can choose to fix issues",
+      "inputs": ["doc directory path"],
+      "allowed_side_effects": ["modifies doc files only when user approves fix mode"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "test-align-contract",
+      "source": "custom",
+      "job": "Unified test harness for /align-feature-contract: Tier 1 smoke + Tier 2 E2E",
+      "must_produce": ["Tier 1 smoke test results per triplet family", "unified report with overall status"],
+      "must_not_do": ["modify any doc files", "skip incomplete triplets without reporting them"],
+      "handoff": "User sees test results for all triplet families",
+      "inputs": [],
+      "allowed_side_effects": [],
+      "eval_mode": "structural"
+    },
+    {
+      "skill": "migrate",
+      "source": "custom",
+      "job": "Convert gstack design docs into PRD + ARCHITECTURE + TEST-SPEC triplets with JSON gap reports",
+      "must_produce": ["triplet files (PRD.md, ARCHITECTURE.md, TEST-SPEC.md)", "gaps.json with structured gap report"],
+      "must_not_do": ["modify source design docs", "write output without user confirmation"],
+      "handoff": "User has migrated triplet with gap report showing what needs manual fill",
+      "inputs": ["design doc path or --all flag"],
+      "allowed_side_effects": ["writes triplet files and gaps.json to output directory"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "office-hours",
+      "source": "gstack",
+      "job": "Interactive brainstorming: premise challenges, forced alternatives, cross-model review, design doc",
+      "must_produce": ["design doc at ~/.gstack/projects/", "premise challenge with user confirmation", "2-3 alternatives comparison"],
+      "must_not_do": ["write code", "scaffold projects", "start implementation"],
+      "handoff": "User has an approved design doc ready for /plan-eng-review",
+      "inputs": ["user's problem statement or feature idea"],
+      "allowed_side_effects": ["writes design doc to ~/.gstack/projects/"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "ship",
+      "source": "gstack",
+      "job": "Ship workflow: merge base branch, run tests, review diff, bump VERSION, update CHANGELOG, create PR",
+      "must_produce": ["PR created on GitHub", "VERSION bumped", "CHANGELOG updated"],
+      "must_not_do": ["skip tests", "force-push", "merge without review"],
+      "handoff": "PR is open and ready for review or merge",
+      "inputs": ["committed code on a feature branch"],
+      "allowed_side_effects": ["git commits", "git push", "GitHub PR creation"],
+      "eval_mode": "behavioral"
+    },
+    {
+      "skill": "review",
+      "source": "gstack",
+      "job": "Pre-landing PR review: analyze diff for SQL safety, trust boundary violations, structural issues",
+      "must_produce": ["diff-scoped review findings with severity", "pass/fail verdict"],
+      "must_not_do": ["modify code directly", "merge the PR"],
+      "handoff": "User knows whether the PR is safe to merge and what to fix",
+      "inputs": ["diff against base branch"],
+      "allowed_side_effects": ["writes review log to ~/.gstack/"],
+      "eval_mode": "behavioral"
+    }
+  ]
+}

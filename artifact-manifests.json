@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "description": "Declarative artifact definitions per work item type. Read by /work-track during scaffolding.",
+  "types": {
+    "feature": {
+      "required": [
+        {"artifact": "tracker", "template": "TRACKER-TEMPLATE.md", "filename": "TRACKER.md"},
+        {"artifact": "prd", "template": "PRD-TEMPLATE.md", "filename": "PRD.md"},
+        {"artifact": "architecture", "template": "ARCHITECTURE-TEMPLATE.md", "filename": "ARCHITECTURE.md"},
+        {"artifact": "test-spec", "template": "TEST-SPEC-TEMPLATE.md", "filename": "TEST-SPEC.md"}
+      ],
+      "optional": [
+        {"artifact": "milestones", "filename": "milestones.md"}
+      ],
+      "lifecycle_overrides": {
+        "phase4_sub_gates": ["Tests pass", "Code review completed", "PR created", "Merged to target branch"]
+      }
+    },
+    "defect": {
+      "required": [
+        {"artifact": "tracker", "template": "TRACKER-TEMPLATE.md", "filename": "TRACKER.md"},
+        {"artifact": "rca", "template": "RCA-TEMPLATE.md", "filename": "RCA.md"}
+      ],
+      "optional": [],
+      "lifecycle_overrides": {
+        "phase2_sub_gates": ["Root cause identified", "Hypothesis tested", "Fix committed"]
+      }
+    },
+    "task": {
+      "required": [
+        {"artifact": "tracker", "template": "TRACKER-TEMPLATE.md", "filename": "TRACKER.md"}
+      ],
+      "optional": [],
+      "lifecycle_overrides": {
+        "phase4_sub_gates": ["Tests pass", "PR created", "Merged to target branch"]
+      }
+    },
+    "user-story": {
+      "required": [
+        {"artifact": "tracker", "template": "TRACKER-TEMPLATE.md", "filename": "TRACKER.md"},
+        {"artifact": "prd", "template": "PRD-TEMPLATE.md", "filename": "PRD.md"},
+        {"artifact": "architecture", "template": "ARCHITECTURE-TEMPLATE.md", "filename": "ARCHITECTURE.md"},
+        {"artifact": "test-spec", "template": "TEST-SPEC-TEMPLATE.md", "filename": "TEST-SPEC.md"}
+      ],
+      "optional": [
+        {"artifact": "milestones", "filename": "milestones.md"}
+      ],
+      "lifecycle_overrides": {}
+    }
+  },
+  "template_dir": "~/.claude/templates",
+  "work_items_dir": "./work-items"
+}
