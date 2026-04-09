@@ -101,17 +101,6 @@
       "eval_mode": "structural"
     },
     {
-      "skill": "migrate",
-      "source": "custom",
-      "job": "Convert gstack design docs into PRD + ARCHITECTURE + TEST-SPEC triplets with JSON gap reports",
-      "must_produce": ["triplet files (PRD.md, ARCHITECTURE.md, TEST-SPEC.md)", "gaps.json with structured gap report"],
-      "must_not_do": ["modify source design docs", "write output without user confirmation"],
-      "handoff": "User has migrated triplet with gap report showing what needs manual fill",
-      "inputs": ["design doc path or --all flag"],
-      "allowed_side_effects": ["writes triplet files and gaps.json to output directory"],
-      "eval_mode": "behavioral"
-    },
-    {
       "skill": "office-hours",
       "source": "gstack",
       "job": "Interactive brainstorming: premise challenges, forced alternatives, cross-model review, design doc",

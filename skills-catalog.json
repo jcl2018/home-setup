@@ -290,13 +290,6 @@
       "source": "custom",
       "portability": "standalone",
       "dependencies": ["align-feature-contract"]
-    },
-    {
-      "name": "migrate",
-      "description": "Brownfield migrator — converts gstack design docs into PRD + ARCHITECTURE + TEST-SPEC triplets with JSON gap reports",
-      "source": "custom",
-      "portability": "standalone",
-      "dependencies": []
     }
   ]
 }

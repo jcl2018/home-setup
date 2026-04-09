@@ -35,7 +35,6 @@ home-setup/
 │   │   ├── work-audit/          <- unified doc quality check
 │   │   ├── advisor/             <- L1 strategic + L2 operational quality review
 │   │   ├── test-align-contract/ <- test harness for /align-feature-contract
-│   │   ├── migrate/             <- brownfield design doc -> triplet converter
 │   │   └── align-feature-contract/ <- doc triplet contract enforcement
 │   ├── hooks/                   <- Claude Code hooks
 │   │   └── post-commit-deploy.sh <- auto-deploys after git commit (P11)
@@ -59,7 +58,6 @@ home-setup/
 │   ├── work-pipeline/
 │   ├── audit/
 │   ├── align-feature-contract/
-│   ├── brownfield-migrator/
 │   └── inspections/             <- audit snapshots (auto-saved by /project:audit)
 ├── CLAUDE.md                    <- this file
 ├── TODOS.md
@@ -127,5 +125,4 @@ Key routing rules:
 - Save progress, checkpoint, resume -> invoke checkpoint
 - Code quality, health check -> invoke health
 - Work items, features, defects -> invoke work
-- Migrate design docs to triplets -> invoke migrate
 - Doc quality review -> invoke advisor
