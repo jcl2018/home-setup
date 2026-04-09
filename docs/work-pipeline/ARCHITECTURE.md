@@ -59,3 +59,25 @@ PRD + ARCH + TEST  changes                findings             + shipped
 |----------|--------|---------------------|-----|
 | Separate skill per phase | Six discrete SKILL.md files | Single monolithic work skill | Each phase has distinct inputs/outputs; separation enables independent evolution |
 | Manifest-driven scaffolding | Templates in templates/ with variable substitution | Hardcoded file content in skill | Templates are editable without changing skill logic; P1 compliance |
+
+## API Changes
+
+No formal APIs. Skills are invoked by name (/work, /work-track, etc.). The artifact-manifests.json schema defines work item structure.
+
+## Dependencies
+
+| Dependency | Type | Description |
+|-----------|------|-------------|
+| Templates | Internal | PRD-TEMPLATE.md, ARCHITECTURE-TEMPLATE.md, TEST-SPEC-TEMPLATE.md for scaffolding |
+| artifact-manifests.json | Internal | Defines artifact types and their required files |
+| /review (gstack) | Skill | Delegated to by /work-review |
+| /ship (gstack) | Skill | Delegated to by /work-ship |
+| /align-feature-contract | Skill | Used by /work-audit for quality checks |
+
+## Risk Assessment
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| Manifest schema changes break existing work items | Low | High | Versioned manifests; backward-compatible changes only |
+| gstack /review or /ship API changes | Medium | Medium | work-review and work-ship are thin wrappers; easy to update |
+| Journal entries grow large | Low | Low | Journal is append-only text; can be summarized if needed |

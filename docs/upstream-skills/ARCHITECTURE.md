@@ -35,7 +35,7 @@ gstack repo (upstream)         home-setup repo              ~/.claude/
 |-----------|------|------------|-------------|
 | Skill catalog | skills-catalog.json | Core | Registry with upstream version, deps, portability per skill |
 | Upstream skills | skills/{name}/SKILL.md | Managed | Direct copies from gstack, never edited locally |
-| Bin scripts | skills/bin/*.sh | Managed | Shell helpers some skills depend on |
+| Bin scripts | skills/bin/* | Managed | Shell helpers some skills depend on (extensionless executables) |
 | Deploy script | scripts/deploy.sh | Integration | Copies skills/ to ~/.claude/skills/gstack/ |
 
 ### Data Flow
@@ -52,3 +52,23 @@ gstack repo (upstream)         home-setup repo              ~/.claude/
 |----------|--------|---------------------|-----|
 | Clean overwrite sync | Copy SKILL.md files wholesale | Git submodule or subtree | Simpler; no merge conflicts; P2 compliance by construction |
 | Catalog as registry | JSON with version + deps + portability | Directory listing only | Enables audit checks, dependency validation, and doc generation |
+
+## API Changes
+
+No API changes. Upstream skills are copied as-is; the catalog is an internal registry.
+
+## Dependencies
+
+| Dependency | Type | Description |
+|-----------|------|-------------|
+| gstack repo | External | Source of upstream SKILL.md files and VERSION |
+| deploy.sh | Internal | Copies skills/ to ~/.claude/skills/gstack/ |
+| jq | External | Used for catalog queries in validation scripts |
+
+## Risk Assessment
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| Upstream breaking changes | Medium | Medium | Version tracking in catalog enables diff review before upgrade |
+| Skill removed upstream | Low | Medium | Catalog entry persists; audit flags orphan skills |
+| Bin script compatibility | Low | Low | Scripts are extensionless executables, copied verbatim |

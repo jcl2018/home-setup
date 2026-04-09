@@ -26,6 +26,14 @@ The `/migrate` skill reads existing design docs, maps their content to triplet s
 | 2 | core | Does migration produce a gap report? | repo owner | get a JSON report listing which triplet sections could not be filled | I know exactly what needs manual attention |
 | 3 | usability | Can I migrate multiple families at once? | repo owner | run batch mode and have all legacy docs converted in one pass | bulk migration is efficient |
 
+### P1 (Important)
+
+None for v1.
+
+### P2 (Nice-to-Have)
+
+None for v1.
+
 ## Acceptance Criteria
 
 ### Story #1: Single doc migration [core]
@@ -38,6 +46,15 @@ THEN  PRD.md, ARCHITECTURE.md, and TEST-SPEC.md are created in docs/{family}/
   AND a gap-report.json is created listing unfilled sections
 ```
 
+### Story #2: Gap report [core]
+
+```
+GIVEN a legacy doc has content that maps to some but not all template sections
+WHEN  /migrate produces the triplet
+THEN  a gap-report.json is created listing each unfilled section
+  AND the gap report indicates which template section has no source content
+```
+
 ### Story #3: Batch mode [usability]
 
 ```
@@ -47,7 +64,21 @@ THEN  each family gets its triplet + gap report
   AND a summary reports total families processed and total gaps found
 ```
 
+## Success Metrics
+
+| Metric | Target | How Measured |
+|--------|--------|-------------|
+| Section mapping | >80% of source content maps to template sections | gap-report.json shows <20% unmapped |
+| Triplet completeness | All 3 files created for every migration | Output directory contains PRD.md, ARCHITECTURE.md, TEST-SPEC.md |
+| Gap report accuracy | All actual gaps are reported | /align-feature-contract findings match gap-report gaps |
+
 ## Out of Scope
 
 - Migrating non-markdown formats (PDF, Notion, Google Docs)
 - Auto-filling gaps with AI-generated content (gaps are reported, not filled)
+
+## Assumptions
+
+- Legacy docs use standard markdown heading format (## headings)
+- Templates define the canonical section list for mapping
+- The /align-feature-contract skill is available for post-migration validation

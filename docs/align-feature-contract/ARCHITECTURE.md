@@ -65,3 +65,22 @@ The align-feature-contract skill implements three-level doc triplet enforcement.
 |----------|--------|---------------------|-----|
 | Three discrete levels | L1/L2/L3 with independent pass/fail | Single combined check | Granular reporting; users can fix L1 issues before worrying about L2 |
 | Templates as section source of truth | Extract headings from template files | Hardcoded section list in skill | Templates evolve independently; skill stays in sync automatically |
+
+## API Changes
+
+No formal APIs. The skill is invoked as `/align-feature-contract` with an optional family path argument.
+
+## Dependencies
+
+| Dependency | Type | Description |
+|-----------|------|-------------|
+| Templates | Internal | PRD-TEMPLATE.md, ARCHITECTURE-TEMPLATE.md, TEST-SPEC-TEMPLATE.md define required sections |
+| /test-align-contract | Skill | Test harness that exercises this skill's checks |
+
+## Risk Assessment
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| Template section additions break existing families | Medium | Medium | Adding sections is additive; existing sections still pass |
+| False positives on optional sections | Low | Low | Template marks optional sections explicitly |
+| Frontmatter format changes | Low | Medium | YAML parsing is standard; field names are stable |

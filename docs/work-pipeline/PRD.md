@@ -14,7 +14,7 @@ Claude Code sessions are stateless: context about what you are working on, why, 
 
 ## Mental Model
 
-Four phases form the pipeline: Track (capture and scaffold) -> Implement (build or debug) -> Review (diff review with context) -> Ship (acceptance gate + PR). The `/work` router detects current phase from branch and manifest state. Each phase skill loads work item context automatically. Journal entries record decisions at each transition.
+Six skills form the pipeline: `/work` (router) detects current phase from branch and manifest state. Four phase skills handle the lifecycle: Track (capture and scaffold) -> Implement (build or debug) -> Review (diff review with context) -> Ship (acceptance gate + PR). `/work-audit` provides quality gates at any point. Each phase skill loads work item context automatically. Journal entries record decisions at each transition.
 
 ## User Stories
 
@@ -27,6 +27,14 @@ Four phases form the pipeline: Track (capture and scaffold) -> Implement (build 
 | 3 | core | Does /work-implement load work context? | developer | start implementing and have the skill auto-load my PRD, architecture, and journal | I have full context without manual file hunting |
 | 4 | integration | Does /work-ship validate acceptance criteria? | developer | have shipping blocked until TEST-SPEC acceptance criteria are met | nothing ships without passing its own spec |
 | 5 | observability | Does the journal track phase transitions? | developer | have each phase skill append a timestamped journal entry | I can trace the history of decisions on any work item |
+
+### P1 (Important)
+
+None for v1.
+
+### P2 (Nice-to-Have)
+
+None for v1.
 
 ## Acceptance Criteria
 
@@ -47,7 +55,48 @@ WHEN  I run /work
 THEN  it displays the current phase and suggests the appropriate phase skill
 ```
 
+### Story #3: Context loading [core]
+
+```
+GIVEN a work item exists with PRD.md, ARCHITECTURE.md, and a journal
+WHEN  /work-implement starts
+THEN  it loads the PRD, architecture, and journal into context automatically
+```
+
+### Story #4: Acceptance gate [integration]
+
+```
+GIVEN a work item has a TEST-SPEC.md with acceptance criteria
+WHEN  /work-ship runs
+THEN  it validates that acceptance criteria are met before proceeding
+  AND it blocks shipping if criteria are not satisfied
+```
+
+### Story #5: Journal tracking [observability]
+
+```
+GIVEN a work item is in any phase
+WHEN  a phase skill runs (track, implement, review, or ship)
+THEN  a timestamped journal entry is appended to the work item's journal
+  AND the entry records the phase, action taken, and key decisions
+```
+
+## Success Metrics
+
+| Metric | Target | How Measured |
+|--------|--------|-------------|
+| Work item completeness | Every work item has PRD + ARCH + TEST-SPEC | /work-audit validates structure |
+| Phase coverage | All 4 phases used for shipped items | Journal shows track -> implement -> review -> ship |
+| Acceptance gate hit rate | 100% of shipped items pass TEST-SPEC criteria | /work-ship validates before shipping |
+
 ## Out of Scope
 
 - Multi-user collaboration on the same work item
 - Integration with external issue trackers (GitHub Issues, Linear)
+
+## Assumptions
+
+- Work items live in the project repo at ./work-items/ (not in home-setup)
+- Branch naming follows conventions: feature-*, feat-*, defect-*, fix-*, task-*, chore-*
+- Templates are deployed to ~/.claude/templates/ and accessible during scaffolding
+- The /review and /ship gstack skills are available for delegation

@@ -31,7 +31,7 @@ architecture: ARCHITECTURE.md
 
 | # | Tag | Scenario | Steps (as a real user would) | Expected Outcome | Rubric |
 |---|-----|----------|----------------------------|-----------------|--------|
-| E1 | core | Migrate a real legacy doc | Point /migrate at docs/design/PHILOSOPHY.md as source | Triplet created with principles mapped to PRD, structure mapped to ARCH | Pass: all 3 files created, gap-report.json present |
+| E1 | core | Migrate a real legacy doc | Point /migrate at a legacy design doc as source | Triplet created with content mapped to PRD, structure mapped to ARCH | Pass: all 3 files created, gap-report.json present |
 | E2 | integration | Gap report feeds align-contract | Run /migrate then /align-feature-contract on same family | Align-contract findings match gap-report gaps | Pass: no surprise gaps beyond what gap-report listed |
 
 ## Coverage Gaps

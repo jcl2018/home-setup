@@ -57,3 +57,22 @@ Legacy docs                    /migrate skill                  Output
 |----------|--------|---------------------|-----|
 | JSON gap report | Structured JSON with section-level granularity | Inline TODO comments in generated files | Machine-readable; enables T1 bridge with align-feature-contract |
 | Section mapping over AI rewrite | Map existing content to new structure | AI rewrites content into new format | Preserves original author voice; avoids hallucinated content |
+
+## API Changes
+
+No formal APIs. The skill is invoked as `/migrate` with a source file path argument.
+
+## Dependencies
+
+| Dependency | Type | Description |
+|-----------|------|-------------|
+| Templates | Internal | PRD-TEMPLATE.md, ARCHITECTURE-TEMPLATE.md, TEST-SPEC-TEMPLATE.md define target structure |
+| /align-feature-contract | Skill | T1 bridge: validates migrated triplets post-conversion |
+
+## Risk Assessment
+
+| Risk | Likelihood | Impact | Mitigation |
+|------|-----------|--------|------------|
+| Malformed legacy docs produce poor mappings | Medium | Medium | Unmappable content goes to gap-report rather than being silently dropped |
+| Heading ambiguity in source docs | Medium | Low | Conservative mapping: ambiguous content flagged as gap |
+| gap-report.json schema mismatch with align-contract | Low | Medium | Schema validated when T1 bridge is first used |
