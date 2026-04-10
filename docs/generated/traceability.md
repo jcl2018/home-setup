@@ -8,12 +8,12 @@ Principle -> Goal -> Check mappings derived from `audit-spec.json`.
 
 | Goal | Type | Informed by | Checks |
 |------|------|-------------|--------|
-| AG1 | check-level | P1, P11 | 1.1, 1.2, 1.4, 1.5, 1.6, 5.6, 5.7 |
-| AG2 | check-level | P3 | 2.1, 2.2, 2.3, 2.4, G1.3 |
-| AG3 | check-level | P1, P2, P3 | 2.3, 2.7, G1.3, G1.4, G2.2, G2.4 |
+| AG1 | check-level | P1, P11 | 1.1, 1.2, 1.4, 1.5, 1.6, 1.8, 5.6, 5.7 |
+| AG2 | check-level | P3 | 6.2, 6.4, 6.5, 2.1, 2.2, 2.3, 2.4, G1.3 |
+| AG3 | check-level | P1, P2, P3 | 6.2, 2.3, 2.7, G1.3, G1.4, G2.2, G2.4 |
 | AG4 | check-level | P1 | 2.5, 2.6, G1.1, G1.2, G2.1 |
-| AG5 | check-level | P5 | 2.5, 2.6, 2.7, 4.3, G1.1, G2.1, G2.3, G2.4, G2.5 |
-| AG6 | check-level | P3 | 1.7, 3.1, G2.3, G2.6 |
+| AG5 | check-level | P5 | 6.1, 6.3, 2.5, 2.6, 2.7, 4.3, G1.1, G2.1, G2.3, G2.4, G2.5 |
+| AG6 | check-level | P3 | 1.7, 6.3, 3.1, G2.3, G2.6 |
 | AG7 | advisory |  | 1.7, G1.5, G2.3 |
 | AG8 | meta |  | (none) |
 | AG9 | hygiene | P1 | 3.2, 3.3, 3.4, 3.5, 3.6, 5.1, 5.2, 5.3, 5.4, 5.5 |
@@ -42,6 +42,12 @@ graph LR
   C_1_5[1.5: Settings]
   C_1_6[1.6: Stale artifacts]
   C_1_7[1.7: Upstream latest]
+  C_1_8[1.8: Waza upstream]
+  C_6_1[6.1: CLAUDE.md quality]
+  C_6_2[6.2: Rules structure]
+  C_6_3[6.3: Skill descriptions]
+  C_6_4[6.4: Hooks health]
+  C_6_5[6.5: Verifiers]
   C_2_1[2.1: SKILL.md count]
   C_2_2[2.2: CLI deps]
   C_2_3[2.3: Rules frontmatter]
@@ -91,6 +97,14 @@ AG1 --> C_1_5
 AG1 --> C_1_6
 AG6 --> C_1_7
 AG7 --> C_1_7
+AG1 --> C_1_8
+AG5 --> C_6_1
+AG2 --> C_6_2
+AG3 --> C_6_2
+AG5 --> C_6_3
+AG6 --> C_6_3
+AG2 --> C_6_4
+AG2 --> C_6_5
 AG2 --> C_2_1
 AG2 --> C_2_2
 AG2 --> C_2_3
