@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # gen-docs.sh — Doc compiler for home-setup governance framework
 # Reads audit-spec.json + skills-catalog.json, generates:
-#   - docs/design/traceability.md (principle->goal->check map + Mermaid)
-#   - docs/operations/skills-reference.md (catalog-derived skill table)
+#   - docs/generated/traceability.md (principle->goal->check map + Mermaid)
+#   - docs/generated/skills-reference.md (catalog-derived skill table)
 # Also validates markdown links in docs.
 # Usage: bash scripts/gen-docs.sh [--check]
 
@@ -147,7 +147,7 @@ validate_links() {
   done
 }
 
-for doc in "$REPO_ROOT"/docs/design/*.md "$REPO_ROOT"/docs/operations/*.md "$REPO_ROOT/README.md" "$REPO_ROOT/CLAUDE.md"; do
+for doc in "$REPO_ROOT"/docs/generated/*.md "$REPO_ROOT"/docs/*/PRD.md "$REPO_ROOT/README.md" "$REPO_ROOT/CLAUDE.md"; do
   [ -f "$doc" ] || continue
   validate_links "$doc"
 done
@@ -155,7 +155,7 @@ done
 # --- Check mode or write ---
 if $CHECK_MODE; then
   STALE=0
-  for pair in "docs/design/traceability.md:$TRACE_FILE" "docs/operations/skills-reference.md:$SKILLS_FILE"; do
+  for pair in "docs/generated/traceability.md:$TRACE_FILE" "docs/generated/skills-reference.md:$SKILLS_FILE"; do
     target="${pair%%:*}"
     generated="${pair##*:}"
     if [ ! -f "$REPO_ROOT/$target" ]; then
@@ -175,10 +175,10 @@ if $CHECK_MODE; then
 fi
 
 # --- Write output ---
-mkdir -p "$REPO_ROOT/docs/design" "$REPO_ROOT/docs/operations"
-cp "$TRACE_FILE" "$REPO_ROOT/docs/design/traceability.md"
-cp "$SKILLS_FILE" "$REPO_ROOT/docs/operations/skills-reference.md"
-echo "Generated: docs/design/traceability.md"
-echo "Generated: docs/operations/skills-reference.md"
+mkdir -p "$REPO_ROOT/docs/generated"
+cp "$TRACE_FILE" "$REPO_ROOT/docs/generated/traceability.md"
+cp "$SKILLS_FILE" "$REPO_ROOT/docs/generated/skills-reference.md"
+echo "Generated: docs/generated/traceability.md"
+echo "Generated: docs/generated/skills-reference.md"
 echo "Link errors: $LINK_ERRORS"
 echo "=== gen-docs.sh complete ==="
