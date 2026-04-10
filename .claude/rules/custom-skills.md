@@ -9,4 +9,4 @@ Skills in .claude/skills/ are authored in this repo. When creating or modifying:
 2. Update docs/operations/SKILLS-CHEATSHEET.md
 3. Run bash scripts/deploy.sh after changes
 
-See docs/design/PHILOSOPHY.md for the full rationale.
+See CLAUDE.md Principles section for the full rationale.

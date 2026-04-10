@@ -60,28 +60,6 @@ else
   echo "  Skipped: artifact-manifests.json not found"
 fi
 
-echo ""
-# --- Knowledge sync ---
-echo "--- Knowledge sync ---"
-run mkdir -p "$TARGET/knowledge"
-for f in "$REPO_ROOT"/knowledge/*.md; do
-  [ -f "$f" ] || continue
-  name=$(basename "$f")
-  run cp "$f" "$TARGET/knowledge/$name"
-  echo "  Copied: knowledge/$name"
-done
-# Remove obsolete knowledge files (files in target not in repo)
-if ! $DRY_RUN; then
-  for f in "$TARGET"/knowledge/*.md; do
-    [ -f "$f" ] || continue
-    name=$(basename "$f")
-    if [ ! -f "$REPO_ROOT/knowledge/$name" ]; then
-      rm "$f"
-      echo "  Removed obsolete: knowledge/$name"
-    fi
-  done
-fi
-
 # --- Skill sync (upstream) ---
 echo ""
 echo "--- Skill sync (upstream) ---"
@@ -94,6 +72,27 @@ for skill_dir in "$REPO_ROOT"/skills/*/; do
   run mkdir -p "$TARGET/skills/$skill_name"
   run cp "$src" "$TARGET/skills/$skill_name/SKILL.md"
   echo "  Copied: skills/$skill_name"
+done
+
+# --- Skill sync (nested upstreams: skills/waza/*/) ---
+echo ""
+echo "--- Skill sync (nested upstreams) ---"
+for upstream_dir in "$REPO_ROOT"/skills/*/; do
+  [ -d "$upstream_dir" ] || continue
+  upstream_name=$(basename "$upstream_dir")
+  # Skip flat upstream dirs (handled above) and bin/
+  [ "$upstream_name" = "bin" ] && continue
+  # Only process dirs that contain subdirectories with SKILL.md (nested pattern)
+  for nested_skill in "$upstream_dir"/*/; do
+    [ -d "$nested_skill" ] || continue
+    nested_name=$(basename "$nested_skill")
+    src="$nested_skill/SKILL.md"
+    [ -f "$src" ] || continue
+    run mkdir -p "$TARGET/skills/$upstream_name/$nested_name"
+    # Copy all files (SKILL.md + agents/ + scripts/ + references/)
+    run cp -R "$nested_skill"/* "$TARGET/skills/$upstream_name/$nested_name/" 2>/dev/null || true
+    echo "  Copied: skills/$upstream_name/$nested_name"
+  done
 done
 
 # --- Skill sync (custom) ---
@@ -126,6 +125,16 @@ if [ -d "$REPO_ROOT/skills/bin" ]; then
   fi
 fi
 
+# --- Legacy knowledge cleanup ---
+echo ""
+echo "--- Legacy knowledge cleanup ---"
+if [ -d "$TARGET/knowledge" ]; then
+  run rm -rf "$TARGET/knowledge"
+  echo "  Removed legacy: ~/.claude/knowledge/ (no longer deployed)"
+else
+  echo "  Clean: no legacy knowledge/ directory"
+fi
+
 # --- Garbage collection ---
 echo ""
 echo "--- Garbage collection ---"
@@ -134,8 +143,9 @@ if command -v jq >/dev/null 2>&1; then
   for installed_dir in "$TARGET"/skills/*/; do
     [ -d "$installed_dir" ] || continue
     installed_name=$(basename "$installed_dir")
-    # Skip the gstack upstream directory entirely (it's managed by gstack, not us)
+    # Skip upstream directories (managed by their respective upstreams, not us)
     [ "$installed_name" = "gstack" ] && continue
+    [ "$installed_name" = "waza" ] && continue
     if ! echo "$CATALOG_SKILLS" | grep -qx "$installed_name"; then
       echo "  Removing unlisted: $installed_name"
       run rm -rf "$installed_dir"
@@ -191,20 +201,6 @@ echo ""
 echo "--- Post-deploy validation ---"
 DRIFT=0
 if ! $DRY_RUN; then
-  # Check knowledge files
-  for f in "$REPO_ROOT"/knowledge/*.md; do
-    [ -f "$f" ] || continue
-    name=$(basename "$f")
-    if [ -f "$TARGET/knowledge/$name" ]; then
-      if ! diff -q "$f" "$TARGET/knowledge/$name" >/dev/null 2>&1; then
-        echo "  DRIFT: knowledge/$name differs"
-        DRIFT=$((DRIFT + 1))
-      fi
-    else
-      echo "  MISSING: knowledge/$name"
-      DRIFT=$((DRIFT + 1))
-    fi
-  done
   if [ $DRIFT -eq 0 ]; then
     echo "  All deployed files match repo. Zero drift."
   else

@@ -16,7 +16,7 @@ architecture: ARCHITECTURE.md
 |---|-----|-----------|-----|-------------|-------|-----------------|----------|------|
 | 1 | core | Deploy copies all skill dirs | AC-1 | Repo has skills/ and .claude/skills/ | Run `bash scripts/deploy.sh` | All skill SKILL.md files exist under ~/.claude/skills/ | P0 | E2E |
 | 2 | core | Deploy merges settings correctly | AC-1 | settings/baseline.json and override exist | Run deploy.sh | ~/.claude/settings.json contains merged result | P0 | E2E |
-| 3 | resilience | Post-commit hook triggers deploy | AC-3 | Hook installed in .claude/hooks/ | Commit a knowledge file change | ~/.claude/knowledge/ reflects the change | P0 | E2E |
+| 3 | resilience | Post-commit hook triggers deploy | AC-3 | Hook installed in .claude/hooks/ | Commit a change to a deployable file | ~/.claude/ reflects the change | P0 | E2E |
 
 ## Test Tiers
 

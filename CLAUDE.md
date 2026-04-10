@@ -12,6 +12,7 @@ home-setup/
 ├── audit-spec.json              <- audit goals + check-to-goal mappings
 ├── scripts/
 │   ├── deploy.sh                <- deploys repo -> ~/.claude/
+│   ├── health-checks.sh         <- deterministic checks for /health (layers 7, 9)
 │   ├── validate-audit-spec.sh   <- validates audit-spec.json coverage closure
 │   ├── validate-skill-contracts.sh <- validates skill-contracts.json schema + coverage
 │   └── gen-docs.sh              <- doc compiler: generates traceability + skills ref
@@ -22,9 +23,11 @@ home-setup/
 │   ├── TRACKER-TEMPLATE.md
 │   ├── RCA-TEMPLATE.md
 │   └── GENERATION-GUIDE.md
-├── skills/                      <- upstream SKILL.md files (from gstack)
+├── skills/                      <- upstream SKILL.md files
 │   ├── bin/                     <- shell scripts some skills depend on
-│   └── {name}/SKILL.md          <- one per upstream skill
+│   ├── {name}/SKILL.md          <- flat upstream skills (from gstack)
+│   └── waza/                    <- second upstream (from tw93/Waza)
+│       └── health/              <- Waza health audit (P2, read-only)
 ├── .claude/
 │   ├── skills/                  <- custom skills (authored here)
 │   │   ├── work/                <- work item router (branch auto-detect + menu)
@@ -32,8 +35,7 @@ home-setup/
 │   │   ├── work-implement/      <- build-forward or debug-backward implementation
 │   │   ├── work-review/         <- code review wrapper -> /review
 │   │   ├── work-ship/           <- ship wrapper -> /ship
-│   │   ├── work-audit/          <- unified doc quality check
-│   │   ├── advisor/             <- L1 strategic + L2 operational quality review
+│   │   ├── system-health/       <- unified 9-layer health dashboard
 │   │   ├── test-align-contract/ <- test harness for /align-feature-contract
 │   │   └── align-feature-contract/ <- doc triplet contract enforcement
 │   ├── hooks/                   <- Claude Code hooks
@@ -41,16 +43,12 @@ home-setup/
 │   ├── rules/                   <- path-scoped rules (activate per file context)
 │   │   ├── upstream-skills.md   <- enforces P2 on skills/**
 │   │   ├── custom-skills.md     <- enforces P3 on .claude/skills/**
-│   │   ├── deployable-files.md  <- enforces P11 on knowledge/**, settings/**
+│   │   ├── deployable-files.md  <- enforces P11 on settings/**
 │   │   ├── templates.md         <- enforces template read-only
 │   │   ├── work-items.md        <- rules for work item files
 │   │   └── ...
 │   └── commands/                <- project slash commands
-│       ├── deploy.md            <- /project:deploy
-│       └── audit.md             <- /project:audit
-├── knowledge/                   <- shared knowledge (deployed to ~/.claude/knowledge/)
-│   ├── code-best-practices.md
-│   └── INDEX.md
+│       └── deploy.md            <- /project:deploy
 ├── settings/                    <- permission baselines and overrides
 ├── docs/                        <- feature family doc triplets (PRD + ARCH + TEST-SPEC)
 │   ├── infrastructure/
@@ -69,12 +67,12 @@ home-setup/
 - **P1: Single Source of Truth.** This repo owns what's shared. `~/.claude/` is a deployment.
 - **P2: Upstream Skills Are Copies.** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
 - **P3: Custom Skills Are Ours.** `.claude/skills/` contains skills we authored. Add to catalog.
-- **P5: Always-On Over Invocation.** Knowledge files beat skills for enforcing standards.
+- **P5: Always-On Over Invocation.** Rules and CLAUDE.md beat skills for enforcing standards.
 - **P11: Deploy or It Didn't Happen.** Committed-but-not-deployed is a bug. Post-commit hook auto-deploys.
 
 ## Rules
 
-- **Deploy after changes.** After editing deployable files (knowledge/, skills/, settings/, .claude/skills/, templates/), run `bash scripts/deploy.sh`. A post-commit hook runs it automatically.
+- **Deploy after changes.** After editing deployable files (skills/, settings/, .claude/skills/, templates/), run `bash scripts/deploy.sh`. A post-commit hook runs it automatically.
 - **Verify with /project:audit.** After any change, run `/project:audit` for unified health + governance check.
 - **Upstream skills are copies, not forks (P2).** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
 - **Custom skills live in .claude/skills/ (P3).** Add to catalog, add contract, update cheatsheet.
@@ -123,6 +121,7 @@ Key routing rules:
 - Visual audit, design polish -> invoke design-review
 - Architecture review -> invoke plan-eng-review
 - Save progress, checkpoint, resume -> invoke checkpoint
+- System health, audit, governance -> invoke system-health
 - Code quality, health check -> invoke health
 - Work items, features, defects -> invoke work
-- Doc quality review -> invoke advisor
+- Doc quality review -> invoke system-health (with --layer docs)

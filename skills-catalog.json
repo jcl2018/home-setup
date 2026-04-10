@@ -15,6 +15,13 @@
         "gstack-learnings-search",
         "gstack-slug"
       ]
+    },
+    "waza": {
+      "version": "3.6.0",
+      "repo": "https://github.com/tw93/Waza",
+      "version_file": "skills/waza/health/SKILL.md",
+      "install_path": "skills/waza",
+      "skills_deployed": ["health"]
     }
   },
   "skills": [
@@ -271,22 +278,15 @@
       "dependencies": ["ship"]
     },
     {
-      "name": "work-audit",
-      "description": "Unified doc quality check — tracking validation + /align-feature-contract + inline quality checks",
+      "name": "test-align-contract",
+      "description": "Unified test harness for /align-feature-contract — Tier 1 smoke tests + Tier 2 end-to-end execution",
       "source": "custom",
       "portability": "standalone",
       "dependencies": ["align-feature-contract"]
     },
     {
-      "name": "advisor",
-      "description": "Non-critical outsider reviewer — L1 strategic (per-family triplet quality) + L2 operational (system hygiene)",
-      "source": "custom",
-      "portability": "standalone",
-      "dependencies": []
-    },
-    {
-      "name": "test-align-contract",
-      "description": "Unified test harness for /align-feature-contract — Tier 1 smoke tests + Tier 2 end-to-end execution",
+      "name": "system-health",
+      "description": "Unified health dashboard — 9-layer config, governance, doc quality, and deploy checks",
       "source": "custom",
       "portability": "standalone",
       "dependencies": ["align-feature-contract"]

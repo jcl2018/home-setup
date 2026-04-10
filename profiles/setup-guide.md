@@ -24,23 +24,13 @@ cp -r "$REPO/.claude/skills/"* ~/.claude/skills/
 
 Shell scripts that some skills depend on (autoplan, land-and-deploy, review, ship) are in `skills/bin/`. They get copied with the above command.
 
-## Step 4: Deploy Knowledge
-
-Copy shared knowledge files:
-
-```bash
-cp "$REPO/knowledge/"*.md ~/.claude/knowledge/
-```
-
-Machine-local knowledge (like AEDT domain corpus) stays in `~/.claude/knowledge/` — it's declared in your profile under "Expected Local Content."
-
-## Step 5: Create Persistence Dirs
+## Step 4: Create Persistence Dirs
 
 ```bash
 mkdir -p ~/.gstack/projects ~/.gstack/analytics ~/.gstack/sessions
 ```
 
-## Step 6: Verify
+## Step 5: Verify
 
 Run `/sync-audit` from this repo to compare the repo against your installed `~/.claude/`. It reports what's in sync, what's missing, and what's local-only (with explanations).
 

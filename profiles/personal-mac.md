@@ -11,7 +11,6 @@
 ## Paths
 - repo_path: ~/home-setup
 - skills_install: ~/.claude/skills
-- knowledge_install: ~/.claude/knowledge
 - settings_path: ~/.claude/settings.json
 
 ## Expected Local Content

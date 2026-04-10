@@ -19,7 +19,7 @@ Then run `/project:audit` in a Claude Code session for a full health + governanc
 | Tier | What | Where |
 |------|------|-------|
 | **Design** | Why this exists | [docs/design/](docs/design/) |
-| | Principles + audit goals | [PHILOSOPHY.md](docs/design/PHILOSOPHY.md) |
+| | Principles + audit goals | See CLAUDE.md |
 | | Decision journal | [DECISIONS.md](docs/design/DECISIONS.md) |
 | | Traceability map | [traceability.md](docs/design/traceability.md) (auto-generated) |
 | **Operations** | How to use it | [docs/operations/](docs/operations/) |

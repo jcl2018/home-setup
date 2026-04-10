@@ -41,3 +41,19 @@ Updated PRD Mental Model to describe 6 skills (router + 4 phases + audit).
 
 ### ~~T8: Commit and deploy~~ (done 2026-04-09)
 Committed and deployed. Post-commit hook confirmed zero drift.
+
+---
+
+## Advisor Review — 2026-04-09 (round 2)
+
+### T9: infrastructure — Fix AC numbering and add missing Test Matrix rows
+AC ordering (#1,#3,#2,#4) is confusing. AC-2 (principles enforcement) and AC-4 (drift detection) need dedicated test cases in TEST-SPEC. Effort: S. Priority: P2.
+
+### T10: work-pipeline — Add Test Matrix rows for AC-3 and AC-5
+Context loading (AC-3) and journal tracking (AC-5) are untested. Coverage Gaps section should acknowledge these. Effort: S. Priority: P2.
+
+### T11: align-feature-contract — Add Test Matrix row for AC-3
+L3 reference verification needs its own test case in the Test Matrix. Effort: S. Priority: P3.
+
+### T12: Cross-family — Standardize Dependencies table columns
+audit and upstream-skills ARCHITECTURE.md use 3-column Dependencies tables; template specifies 4 columns (with Status). Effort: S. Priority: P3.
