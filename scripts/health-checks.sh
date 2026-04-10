@@ -140,7 +140,7 @@ if command -v jq >/dev/null 2>&1 && [ -f "$REPO_ROOT/skills-catalog.json" ]; the
     # Search owned files only: docs/**/*.md, scripts/*.sh, .claude/skills/**/*.md, CLAUDE.md, README.md
     # Exclude: skills/ (upstream P2), CHANGELOG.md (history), docs/inspections/ (snapshots), skills-catalog.json (the replaces field itself)
     HITS=$(grep -rl "$replaced_name" \
-      "$REPO_ROOT"/docs/*/PRD.md "$REPO_ROOT"/docs/*/ARCHITECTURE.md "$REPO_ROOT"/docs/*/TEST-SPEC.md \
+      "$REPO_ROOT"/upstreams/claude-skills-templates/docs/*/PRD.md "$REPO_ROOT"/upstreams/claude-skills-templates/docs/*/ARCHITECTURE.md "$REPO_ROOT"/upstreams/claude-skills-templates/docs/*/TEST-SPEC.md \
       "$REPO_ROOT"/scripts/*.sh \
       "$REPO_ROOT"/upstreams/claude-skills-templates/skills/*/SKILL.md \
       "$REPO_ROOT/CLAUDE.md" "$REPO_ROOT/README.md" \

@@ -20,6 +20,7 @@ home-setup/
 ├── upstreams/
 │   └── claude-skills-templates/ <- git submodule (P6: version-pinned content you own)
 │       ├── skills/              <- custom skills (work pipeline + governance)
+│       ├── docs/                <- feature family doc triplets (PRD + ARCH + TEST-SPEC)
 │       ├── spec/templates/      <- type-specific templates
 │       └── templates/           <- legacy doc templates
 ├── skills/                      <- upstream SKILL.md files (P2: don't edit)
@@ -40,13 +41,7 @@ home-setup/
 │   └── commands/                <- project slash commands
 │       └── deploy.md            <- /project:deploy
 ├── settings/                    <- permission baselines and overrides
-├── docs/                        <- feature family doc triplets (PRD + ARCH + TEST-SPEC)
-│   ├── align-feature-contract/
-│   ├── infrastructure/
-│   ├── system-health/
-│   ├── test-align-contract/
-│   ├── upstream-skills/
-│   ├── work-pipeline/
+├── docs/                        <- governance artifacts (auto-generated, not feature docs)
 │   ├── generated/               <- auto-generated reference docs (gen-docs.sh output)
 │   └── inspections/             <- audit snapshots (auto-saved by /system-health)
 ├── CLAUDE.md                    <- this file
