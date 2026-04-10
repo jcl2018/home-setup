@@ -60,28 +60,6 @@ else
   echo "  Skipped: artifact-manifests.json not found"
 fi
 
-echo ""
-# --- Knowledge sync ---
-echo "--- Knowledge sync ---"
-run mkdir -p "$TARGET/knowledge"
-for f in "$REPO_ROOT"/knowledge/*.md; do
-  [ -f "$f" ] || continue
-  name=$(basename "$f")
-  run cp "$f" "$TARGET/knowledge/$name"
-  echo "  Copied: knowledge/$name"
-done
-# Remove obsolete knowledge files (files in target not in repo)
-if ! $DRY_RUN; then
-  for f in "$TARGET"/knowledge/*.md; do
-    [ -f "$f" ] || continue
-    name=$(basename "$f")
-    if [ ! -f "$REPO_ROOT/knowledge/$name" ]; then
-      rm "$f"
-      echo "  Removed obsolete: knowledge/$name"
-    fi
-  done
-fi
-
 # --- Skill sync (upstream) ---
 echo ""
 echo "--- Skill sync (upstream) ---"
@@ -124,6 +102,16 @@ if [ -d "$REPO_ROOT/skills/bin" ]; then
   else
     echo "  Skipped: $BIN_TARGET does not exist (gstack not installed as git clone)"
   fi
+fi
+
+# --- Legacy knowledge cleanup ---
+echo ""
+echo "--- Legacy knowledge cleanup ---"
+if [ -d "$TARGET/knowledge" ]; then
+  run rm -rf "$TARGET/knowledge"
+  echo "  Removed legacy: ~/.claude/knowledge/ (no longer deployed)"
+else
+  echo "  Clean: no legacy knowledge/ directory"
 fi
 
 # --- Garbage collection ---
@@ -191,20 +179,6 @@ echo ""
 echo "--- Post-deploy validation ---"
 DRIFT=0
 if ! $DRY_RUN; then
-  # Check knowledge files
-  for f in "$REPO_ROOT"/knowledge/*.md; do
-    [ -f "$f" ] || continue
-    name=$(basename "$f")
-    if [ -f "$TARGET/knowledge/$name" ]; then
-      if ! diff -q "$f" "$TARGET/knowledge/$name" >/dev/null 2>&1; then
-        echo "  DRIFT: knowledge/$name differs"
-        DRIFT=$((DRIFT + 1))
-      fi
-    else
-      echo "  MISSING: knowledge/$name"
-      DRIFT=$((DRIFT + 1))
-    fi
-  done
   if [ $DRIFT -eq 0 ]; then
     echo "  All deployed files match repo. Zero drift."
   else

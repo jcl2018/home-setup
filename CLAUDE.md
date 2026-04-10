@@ -41,16 +41,13 @@ home-setup/
 │   ├── rules/                   <- path-scoped rules (activate per file context)
 │   │   ├── upstream-skills.md   <- enforces P2 on skills/**
 │   │   ├── custom-skills.md     <- enforces P3 on .claude/skills/**
-│   │   ├── deployable-files.md  <- enforces P11 on knowledge/**, settings/**
+│   │   ├── deployable-files.md  <- enforces P11 on settings/**
 │   │   ├── templates.md         <- enforces template read-only
 │   │   ├── work-items.md        <- rules for work item files
 │   │   └── ...
 │   └── commands/                <- project slash commands
 │       ├── deploy.md            <- /project:deploy
 │       └── audit.md             <- /project:audit
-├── knowledge/                   <- shared knowledge (deployed to ~/.claude/knowledge/)
-│   ├── code-best-practices.md
-│   └── INDEX.md
 ├── settings/                    <- permission baselines and overrides
 ├── docs/                        <- feature family doc triplets (PRD + ARCH + TEST-SPEC)
 │   ├── infrastructure/
@@ -69,12 +66,12 @@ home-setup/
 - **P1: Single Source of Truth.** This repo owns what's shared. `~/.claude/` is a deployment.
 - **P2: Upstream Skills Are Copies.** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
 - **P3: Custom Skills Are Ours.** `.claude/skills/` contains skills we authored. Add to catalog.
-- **P5: Always-On Over Invocation.** Knowledge files beat skills for enforcing standards.
+- **P5: Always-On Over Invocation.** Rules and CLAUDE.md beat skills for enforcing standards.
 - **P11: Deploy or It Didn't Happen.** Committed-but-not-deployed is a bug. Post-commit hook auto-deploys.
 
 ## Rules
 
-- **Deploy after changes.** After editing deployable files (knowledge/, skills/, settings/, .claude/skills/, templates/), run `bash scripts/deploy.sh`. A post-commit hook runs it automatically.
+- **Deploy after changes.** After editing deployable files (skills/, settings/, .claude/skills/, templates/), run `bash scripts/deploy.sh`. A post-commit hook runs it automatically.
 - **Verify with /project:audit.** After any change, run `/project:audit` for unified health + governance check.
 - **Upstream skills are copies, not forks (P2).** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
 - **Custom skills live in .claude/skills/ (P3).** Add to catalog, add contract, update cheatsheet.

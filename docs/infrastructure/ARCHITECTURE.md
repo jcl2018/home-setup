@@ -20,7 +20,6 @@ home-setup repo                          ~/.claude/ (runtime)
 +-----------------------+                +------------------------+
 | skills/        (P2)   | --deploy.sh--> | skills/gstack/          |
 | .claude/skills/ (P3)  | --deploy.sh--> | skills/{custom}/        |
-| knowledge/     (P5)   | --deploy.sh--> | knowledge/              |
 | settings/             | --deploy.sh--> | settings.json           |
 +-----------------------+                +------------------------+
         |
@@ -39,7 +38,7 @@ home-setup repo                          ~/.claude/ (runtime)
 
 ### Data Flow
 
-1. User edits a deployable file (skills, knowledge, settings)
+1. User edits a deployable file (skills, settings, templates)
 2. Path-scoped rule activates and reminds Claude of the governing principle
 3. User commits; post-commit hook fires deploy.sh
 4. deploy.sh copies files to ~/.claude/, skipping upstream .git dirs

@@ -10,7 +10,7 @@ author: chjiang
 
 ## Problem Statement
 
-Claude Code sessions load configuration from `~/.claude/`, but that directory has no version control, no audit trail, and no way to reproduce its state. When skills, knowledge files, or settings are edited directly in `~/.claude/`, changes are invisible and irreproducible. A repo owner needs a single source of truth that deploys deterministically to the runtime directory.
+Claude Code sessions load configuration from `~/.claude/`, but that directory has no version control, no audit trail, and no way to reproduce its state. When skills, or settings are edited directly in `~/.claude/`, changes are invisible and irreproducible. A repo owner needs a single source of truth that deploys deterministically to the runtime directory.
 
 ## Mental Model
 
@@ -22,7 +22,7 @@ The repo is the authority (P1). `~/.claude/` is a deployment target. A deploy sc
 
 | # | Tag | What it asks | As a... | I want to... | So that... |
 |---|-----|-------------|---------|-------------|------------|
-| 1 | core | R-001: Does deploy.sh copy all deployable files to ~/.claude/? | repo owner | run `bash scripts/deploy.sh` and have skills, knowledge, settings land in ~/.claude/ | my runtime config matches the repo |
+| 1 | core | R-001: Does deploy.sh copy all deployable files to ~/.claude/? | repo owner | run `bash scripts/deploy.sh` and have skills, settings land in ~/.claude/ | my runtime config matches the repo |
 | 2 | core | R-002: Do principles P1-P11 have enforceable directives? | repo owner | have each principle translate to a Claude directive and a path-scoped rule | principles are enforced by construction, not memory |
 | 3 | resilience | R-003: Does the post-commit hook auto-deploy? | repo owner | have changes deploy automatically after every commit | committed-but-not-deployed is impossible (P11) |
 | 4 | observability | R-004: Can I detect repo-vs-home drift? | repo owner | run an audit that diffs repo state against ~/.claude/ | I know immediately when drift exists |
@@ -40,7 +40,7 @@ None for v1.
 ### Story #1: Deploy pipeline [core]
 
 ```
-GIVEN the repo contains skills/, knowledge/, settings/, and .claude/skills/
+GIVEN the repo contains skills/, settings/, and .claude/skills/
 WHEN  I run bash scripts/deploy.sh
 THEN  every file is copied to its ~/.claude/ counterpart and exit code is 0
 ```
@@ -57,7 +57,7 @@ THEN  deploy.sh runs automatically and ~/.claude/ reflects the commit
 
 ```
 GIVEN principles P1, P2, P3, P5, and P11 are defined in CLAUDE.md
-WHEN  a user edits a file in skills/, knowledge/, settings/, or .claude/skills/
+WHEN  a user edits a file in skills/, settings/, or .claude/skills/
 THEN  the corresponding path-scoped rule activates and enforces the governing principle
 ```
 
@@ -74,7 +74,7 @@ THEN  it reports any files that differ between the repo and ~/.claude/ without m
 | Metric | Target | How Measured |
 |--------|--------|-------------|
 | Deploy drift | Zero drift after every commit | Post-commit hook auto-deploys; `deploy.sh --dry-run` confirms |
-| Rule coverage | Every deployable path has a governing rule | Path-scoped rules exist for skills/, knowledge/, settings/, templates/ |
+| Rule coverage | Every deployable path has a governing rule | Path-scoped rules exist for skills/, settings/, templates/ |
 
 ## Out of Scope
 
