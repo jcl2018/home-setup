@@ -86,7 +86,7 @@ Options based on current phase:
 - If Review is next → "A) /work-review — code review"
 - If Ship is next → "A) /work-ship — ship it"
 - Always include: "B) /work-track — update journal, milestones, or close"
-- Always include: "C) /work-audit — check doc quality"
+- Always include: "C) /system-health --scope — check doc quality"
 
 When the user selects an option, invoke the corresponding skill using the Skill tool.
 
