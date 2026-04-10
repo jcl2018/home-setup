@@ -74,6 +74,27 @@ for skill_dir in "$REPO_ROOT"/skills/*/; do
   echo "  Copied: skills/$skill_name"
 done
 
+# --- Skill sync (nested upstreams: skills/waza/*/) ---
+echo ""
+echo "--- Skill sync (nested upstreams) ---"
+for upstream_dir in "$REPO_ROOT"/skills/*/; do
+  [ -d "$upstream_dir" ] || continue
+  upstream_name=$(basename "$upstream_dir")
+  # Skip flat upstream dirs (handled above) and bin/
+  [ "$upstream_name" = "bin" ] && continue
+  # Only process dirs that contain subdirectories with SKILL.md (nested pattern)
+  for nested_skill in "$upstream_dir"/*/; do
+    [ -d "$nested_skill" ] || continue
+    nested_name=$(basename "$nested_skill")
+    src="$nested_skill/SKILL.md"
+    [ -f "$src" ] || continue
+    run mkdir -p "$TARGET/skills/$upstream_name/$nested_name"
+    # Copy all files (SKILL.md + agents/ + scripts/ + references/)
+    run cp -R "$nested_skill"/* "$TARGET/skills/$upstream_name/$nested_name/" 2>/dev/null || true
+    echo "  Copied: skills/$upstream_name/$nested_name"
+  done
+done
+
 # --- Skill sync (custom) ---
 echo ""
 echo "--- Skill sync (custom) ---"
@@ -122,8 +143,9 @@ if command -v jq >/dev/null 2>&1; then
   for installed_dir in "$TARGET"/skills/*/; do
     [ -d "$installed_dir" ] || continue
     installed_name=$(basename "$installed_dir")
-    # Skip the gstack upstream directory entirely (it's managed by gstack, not us)
+    # Skip upstream directories (managed by their respective upstreams, not us)
     [ "$installed_name" = "gstack" ] && continue
+    [ "$installed_name" = "waza" ] && continue
     if ! echo "$CATALOG_SKILLS" | grep -qx "$installed_name"; then
       echo "  Removing unlisted: $installed_name"
       run rm -rf "$installed_dir"

@@ -18,6 +18,13 @@
     { "id": "1.5", "engine": "health", "room": 1, "title": "Settings", "goals": ["AG1"], "why": "P1: baseline + override must match installed settings.json." },
     { "id": "1.6", "engine": "health", "room": 1, "title": "Stale artifacts", "goals": ["AG1"], "why": "Historical remnants confuse Claude and waste disk." },
     { "id": "1.7", "engine": "health", "room": 1, "title": "Upstream latest", "goals": ["AG6", "AG7"], "why": "AG7: surfaces upgrade opportunities and new adoptable skills." },
+    { "id": "1.8", "engine": "health", "room": 1, "title": "Waza upstream", "goals": ["AG1"], "why": "P2: Waza upstream files must be present in skills/waza/health/." },
+
+    { "id": "6.1", "engine": "health", "room": 6, "title": "CLAUDE.md quality", "goals": ["AG5"], "why": "Waza L1: CLAUDE.md should be short, executable, not prose-heavy." },
+    { "id": "6.2", "engine": "health", "room": 6, "title": "Rules structure", "goals": ["AG2", "AG3"], "why": "Waza L2: rules should be split by concern with valid path globs." },
+    { "id": "6.3", "engine": "health", "room": 6, "title": "Skill descriptions", "goals": ["AG5", "AG6"], "why": "Waza L3: skill descriptions should be concise and trigger-specific." },
+    { "id": "6.4", "engine": "health", "room": 6, "title": "Hooks health", "goals": ["AG2"], "why": "Waza L4: hooks should reference scripts that exist." },
+    { "id": "6.5", "engine": "health", "room": 6, "title": "Verifiers", "goals": ["AG2"], "why": "Waza L6: MCP servers and settings validation." },
 
     { "id": "2.1", "engine": "health", "room": 2, "title": "SKILL.md count", "goals": ["AG2"], "why": "Catalog declares what should exist. Missing SKILL.md = broken skill." },
     { "id": "2.2", "engine": "health", "room": 2, "title": "CLI deps", "goals": ["AG2"], "why": "Skills depend on CLI tools (git, gh, jq, codex). Missing = runtime failure." },

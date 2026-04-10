@@ -12,6 +12,7 @@ home-setup/
 ├── audit-spec.json              <- audit goals + check-to-goal mappings
 ├── scripts/
 │   ├── deploy.sh                <- deploys repo -> ~/.claude/
+│   ├── health-checks.sh         <- deterministic checks for /health (layers 7, 9)
 │   ├── validate-audit-spec.sh   <- validates audit-spec.json coverage closure
 │   ├── validate-skill-contracts.sh <- validates skill-contracts.json schema + coverage
 │   └── gen-docs.sh              <- doc compiler: generates traceability + skills ref
@@ -22,9 +23,11 @@ home-setup/
 │   ├── TRACKER-TEMPLATE.md
 │   ├── RCA-TEMPLATE.md
 │   └── GENERATION-GUIDE.md
-├── skills/                      <- upstream SKILL.md files (from gstack)
+├── skills/                      <- upstream SKILL.md files
 │   ├── bin/                     <- shell scripts some skills depend on
-│   └── {name}/SKILL.md          <- one per upstream skill
+│   ├── {name}/SKILL.md          <- flat upstream skills (from gstack)
+│   └── waza/                    <- second upstream (from tw93/Waza)
+│       └── health/              <- Waza health audit (P2, read-only)
 ├── .claude/
 │   ├── skills/                  <- custom skills (authored here)
 │   │   ├── work/                <- work item router (branch auto-detect + menu)
@@ -34,6 +37,7 @@ home-setup/
 │   │   ├── work-ship/           <- ship wrapper -> /ship
 │   │   ├── work-audit/          <- unified doc quality check
 │   │   ├── advisor/             <- L1 strategic + L2 operational quality review
+│   │   ├── system-health/       <- unified 9-layer health dashboard
 │   │   ├── test-align-contract/ <- test harness for /align-feature-contract
 │   │   └── align-feature-contract/ <- doc triplet contract enforcement
 │   ├── hooks/                   <- Claude Code hooks
@@ -120,6 +124,7 @@ Key routing rules:
 - Visual audit, design polish -> invoke design-review
 - Architecture review -> invoke plan-eng-review
 - Save progress, checkpoint, resume -> invoke checkpoint
+- System health, audit, governance -> invoke system-health
 - Code quality, health check -> invoke health
 - Work items, features, defects -> invoke work
-- Doc quality review -> invoke advisor
+- Doc quality review -> invoke system-health (with --layer docs)
