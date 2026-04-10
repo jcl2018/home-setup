@@ -12,7 +12,6 @@
 ## Paths
 - repo_path: "C:\Users\chjiang\OneDrive - Synopsys, Inc\Documents\agent-backup\home-setup"
 - skills_install: ~/.claude/skills
-- knowledge_install: ~/.claude/knowledge
 - settings_path: ~/.claude/settings.json
 
 ## Expected Local Content
@@ -20,7 +19,7 @@
 Content in `~/.claude/` that is NOT in the repo and is expected to differ.
 The `/sync-audit` skill uses this list to suppress false-positive warnings.
 
-- knowledge/aedt/          # AEDT domain corpus (65MB, work-specific, proprietary)
+(None currently.)
 
 ## Settings Override
 - override_file: settings/overrides/synopsys-windows.json
@@ -42,13 +41,10 @@ REPO="c:/Users/chjiang/OneDrive - Synopsys, Inc/Documents/agent-backup/home-setu
 cp -r "$REPO/skills/"* ~/.claude/skills/
 cp -r "$REPO/.claude/skills/"* ~/.claude/skills/
 
-# 2. Copy shared knowledge files
-cp "$REPO/knowledge/"*.md ~/.claude/knowledge/
-
-# 3. Create gstack persistence dirs (used by some skills for analytics)
+# 2. Create gstack persistence dirs (used by some skills for analytics)
 mkdir -p ~/.gstack/projects ~/.gstack/analytics ~/.gstack/sessions
 
-# 4. Verify — run /sync-audit to confirm everything is in sync
+# 3. Verify — run /sync-audit to confirm everything is in sync
 ```
 
 ## Notes
