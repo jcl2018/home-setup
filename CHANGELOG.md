@@ -2,6 +2,29 @@
 
 All notable changes to home-setup will be documented in this file.
 
+## [0.0.2.0] - 2026-04-10
+
+### Added
+- docs/system-health/ triplet (PRD + ARCHITECTURE + TEST-SPEC) for the unified health dashboard
+- docs/test-align-contract/ triplet for the doc triplet test harness
+- docs/generated/ namespace for auto-built reference docs (traceability.md, skills-reference.md)
+- Replaced skill detection in health-checks.sh via `replaces` field in skills-catalog.json
+- docs/generated/README.md explaining what auto-generated docs are
+
+### Changed
+- docs/ restructured: 7 feature families + generated/ + inspections/ (was 6 dirs + 2 orphans)
+- gen-docs.sh outputs to docs/generated/ instead of docs/design/ and docs/operations/
+- test-gen-docs.sh and test-deploy.sh updated for new paths and live skills
+- README.md documentation table updated, 5 broken links removed
+- CLAUDE.md layout tree reflects new docs/ structure
+- /work-audit references replaced with /system-health --scope across work-pipeline docs
+
+### Removed
+- docs/design/ and docs/operations/ (single-file orphan directories)
+- docs/audit/ triplet (superseded by docs/system-health/)
+- /advisor and /work-audit references from all owned files
+- Dead advisor permissions from settings.local.json
+
 ## [0.0.1.0] - 2026-04-09
 
 ### Changed
