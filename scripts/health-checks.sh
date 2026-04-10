@@ -72,7 +72,32 @@ else
   check WARN "Audit spec validation" "validate-audit-spec.sh not found"
 fi
 
-# 7.5 CLI dependencies
+# 7.5 Template coverage
+if [ -f "$REPO_ROOT/artifact-manifests.json" ] && command -v jq >/dev/null 2>&1; then
+  ARTIFACT_TYPES=$(jq -r '.types[].required[]?.template // empty' "$REPO_ROOT/artifact-manifests.json" 2>/dev/null | sort -u | wc -l | tr -d ' ')
+  TEMPLATE_COUNT=$(find "$REPO_ROOT/templates" -name '*.md' -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
+  check PASS "Template coverage" "$TEMPLATE_COUNT templates for $ARTIFACT_TYPES artifact types"
+else
+  echo "[INFO] Template coverage: skipped (no artifact-manifests.json or jq)"
+fi
+
+# 7.5b Skill usage (from analytics)
+if [ -f ~/.gstack/analytics/skill-usage.jsonl ]; then
+  USAGE_COUNT=$(wc -l < ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null | tr -d ' ')
+  echo "[INFO] Skill usage: $USAGE_COUNT invocations recorded"
+else
+  echo "[INFO] Skill usage: no analytics file found"
+fi
+
+# 7.6 Empty dirs
+EMPTY_DIRS=$(find "$REPO_ROOT" -type d -empty -not -path '*/.git/*' -not -path '*/node_modules/*' 2>/dev/null | wc -l | tr -d ' ')
+if [ "$EMPTY_DIRS" -gt 0 ]; then
+  check WARN "Empty dirs" "$EMPTY_DIRS empty directories found"
+else
+  check PASS "Empty dirs" "none"
+fi
+
+# 7.7 CLI dependencies
 for cmd in git gh jq; do
   if command -v "$cmd" >/dev/null 2>&1; then
     check PASS "CLI dep: $cmd" "available"
