@@ -1,6 +1,6 @@
 ---
 name: system-health
-description: "Unified health dashboard: Waza config hygiene (layers 1-6) + governance checks (layer 7) + doc quality (layer 8) + deploy state (layer 9). Replaces /project:audit and /advisor."
+description: "Unified health dashboard: Waza config hygiene (layers 1-6) + governance checks (layer 7) + doc quality (layer 8) + deploy state (layer 9). Replaces /project:audit."
 allowed-tools:
   - Bash
   - Read
@@ -16,7 +16,7 @@ allowed-tools:
 9-layer health check for home-setup. Layers 1-6 come from Waza's config hygiene
 checks (inlined). Layers 7-9 are custom governance, doc quality, and deploy state.
 
-Replaces: /project:audit, /advisor. Calls /align-feature-contract for doc triplet checks.
+Replaces: /project:audit. Calls /align-feature-contract for doc triplet checks.
 
 ## Usage
 
@@ -122,7 +122,7 @@ for dir in "$REPO_ROOT"/docs/*/; do
 done
 ```
 
-For each family, evaluate 5 dimensions (from former /advisor L1):
+For each family, evaluate 5 dimensions:
 - **Readability (1-5):** Clear, concise, jargon-free
 - **Completeness (1-5):** All sections filled, no placeholders
 - **Consistency (1-5):** Docs agree with each other

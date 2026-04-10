@@ -132,6 +132,27 @@ if [ -d "$REPO_ROOT/.claude/rules" ]; then
   done
 fi
 
+# 7.8 Replaced skill detection — check for stale references to replaced skills
+if command -v jq >/dev/null 2>&1 && [ -f "$REPO_ROOT/skills-catalog.json" ]; then
+  STALE_REFS=0
+  while IFS= read -r replaced_name; do
+    [ -z "$replaced_name" ] && continue
+    # Search owned files only: docs/**/*.md, scripts/*.sh, .claude/skills/**/*.md, CLAUDE.md, README.md
+    # Exclude: skills/ (upstream P2), CHANGELOG.md (history), docs/inspections/ (snapshots), skills-catalog.json (the replaces field itself)
+    HITS=$(grep -rl "$replaced_name" \
+      "$REPO_ROOT"/docs/*/PRD.md "$REPO_ROOT"/docs/*/ARCHITECTURE.md "$REPO_ROOT"/docs/*/TEST-SPEC.md \
+      "$REPO_ROOT"/scripts/*.sh \
+      "$REPO_ROOT"/.claude/skills/*/SKILL.md \
+      "$REPO_ROOT/CLAUDE.md" "$REPO_ROOT/README.md" \
+      2>/dev/null | grep -v "skills-catalog.json" | grep -v "docs/inspections/" | head -5)
+    if [ -n "$HITS" ]; then
+      STALE_REFS=$((STALE_REFS + 1))
+      check WARN "Stale ref: $replaced_name" "found in: $(echo "$HITS" | tr '\n' ', ')"
+    fi
+  done < <(jq -r '.skills[] | select(.replaces != null) | .replaces[]' "$REPO_ROOT/skills-catalog.json" 2>/dev/null)
+  [ "$STALE_REFS" -eq 0 ] && check PASS "Replaced skill refs" "no stale references found"
+fi
+
 echo ""
 
 # ============================================================

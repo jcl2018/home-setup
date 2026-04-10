@@ -51,12 +51,14 @@ home-setup/
 │       └── deploy.md            <- /project:deploy
 ├── settings/                    <- permission baselines and overrides
 ├── docs/                        <- feature family doc triplets (PRD + ARCH + TEST-SPEC)
+│   ├── align-feature-contract/
 │   ├── infrastructure/
+│   ├── system-health/
+│   ├── test-align-contract/
 │   ├── upstream-skills/
 │   ├── work-pipeline/
-│   ├── audit/
-│   ├── align-feature-contract/
-│   └── inspections/             <- audit snapshots (auto-saved by /project:audit)
+│   ├── generated/               <- auto-generated reference docs (gen-docs.sh output)
+│   └── inspections/             <- audit snapshots (auto-saved by /system-health)
 ├── CLAUDE.md                    <- this file
 ├── TODOS.md
 └── README.md
@@ -90,7 +92,6 @@ Four-phase lifecycle for every work item: **Track -> Implement -> Review -> Ship
 - `/work-implement` — Build (features) or debug (defects) with journal tracking
 - `/work-review` — Code review with spec validation, delegates to gstack `/review`
 - `/work-ship` — Ship with TEST-SPEC gates, delegates to gstack `/ship`
-- `/work-audit` — Quality gate: tracking validation + /align-feature-contract + inline checks
 - `/work-track close` — Close a completed work item
 
 Branch naming: `feature-*`, `feat-*`, `defect-*`, `fix-*`, `task-*`, `chore-*`, `story-*`, `review-*`

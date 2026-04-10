@@ -24,9 +24,9 @@ architecture: ARCHITECTURE.md
 
 | # | Tag | Check | What It Validates | Script/Command |
 |---|-----|-------|-------------------|---------------|
-| S1 | core | All 6 work skills have SKILL.md | Pipeline skills exist | `for s in work work-track work-implement work-review work-ship work-audit; do test -f ".claude/skills/$s/SKILL.md"; done` |
+| S1 | core | All 5 work skills have SKILL.md | Pipeline skills exist | `for s in work work-track work-implement work-review work-ship; do test -f ".claude/skills/$s/SKILL.md"; done` |
 | S2 | core | Templates exist for scaffolding | Scaffolding inputs are present | `test -f templates/PRD-TEMPLATE.md && test -f templates/ARCHITECTURE-TEMPLATE.md && test -f templates/TEST-SPEC-TEMPLATE.md` |
-| S3 | core | All work skills are in catalog | Catalog completeness | `for s in work work-track work-implement work-review work-ship work-audit; do jq -e ".skills[] | select(.name==\"$s\")" skills-catalog.json > /dev/null; done` |
+| S3 | core | All work skills are in catalog | Catalog completeness | `for s in work work-track work-implement work-review work-ship; do jq -e ".skills[] | select(.name==\"$s\")" skills-catalog.json > /dev/null; done` |
 
 ### Tier 2: E2E Tests (real end-to-end execution)
 

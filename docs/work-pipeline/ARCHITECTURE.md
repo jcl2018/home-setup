@@ -11,7 +11,7 @@ prd: PRD.md
 
 ## Overview
 
-The work pipeline implements a 4-phase lifecycle through six skills: a router (`/work`), four phase skills (`/work-track`, `/work-implement`, `/work-review`, `/work-ship`), and an audit skill (`/work-audit`). Each skill reads a manifest file to understand current state and appends journal entries to maintain a decision trail.
+The work pipeline implements a 4-phase lifecycle through five skills: a router (`/work`) and four phase skills (`/work-track`, `/work-implement`, `/work-review`, `/work-ship`). Quality gates are provided by `/system-health --scope`. Each skill reads a manifest file to understand current state and appends journal entries to maintain a decision trail.
 
 ## Architecture
 
@@ -42,8 +42,8 @@ PRD + ARCH + TEST  changes                findings             + shipped
 | Implement | .claude/skills/work-implement/SKILL.md | Core | Build-forward or debug-backward with context loading |
 | Review | .claude/skills/work-review/SKILL.md | Core | Loads work context, delegates to gstack /review |
 | Ship | .claude/skills/work-ship/SKILL.md | Core | Validates TEST-SPEC AC, delegates to gstack /ship |
-| Audit | .claude/skills/work-audit/SKILL.md | Core | Doc quality: tracking + align-contract + inline checks |
 | Templates | templates/*.md | Reference | PRD, ARCH, TEST-SPEC templates used by scaffolding |
+| Quality gate | .claude/skills/system-health/SKILL.md | External | /system-health --scope provides work item quality checks |
 
 ### Data Flow
 
@@ -72,7 +72,7 @@ No formal APIs. Skills are invoked by name (/work, /work-track, etc.). The artif
 | artifact-manifests.json | Internal | Defines artifact types and their required files |
 | /review (gstack) | Skill | Delegated to by /work-review |
 | /ship (gstack) | Skill | Delegated to by /work-ship |
-| /align-feature-contract | Skill | Used by /work-audit for quality checks |
+| /system-health | Skill | Quality gates via --scope flag |
 
 ## Risk Assessment
 

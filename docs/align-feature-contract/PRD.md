@@ -83,7 +83,7 @@ THEN  missing sections are added from templates and frontmatter refs are correct
 
 ## Out of Scope
 
-- Content quality assessment (that is /advisor's job)
+- Content quality assessment (handled by /system-health layer 8)
 - Enforcing specific content within sections (only checks section existence)
 
 ## Assumptions

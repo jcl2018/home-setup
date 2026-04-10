@@ -14,7 +14,7 @@ Claude Code sessions are stateless: context about what you are working on, why, 
 
 ## Mental Model
 
-Six skills form the pipeline: `/work` (router) detects current phase from branch and manifest state. Four phase skills handle the lifecycle: Track (capture and scaffold) -> Implement (build or debug) -> Review (diff review with context) -> Ship (acceptance gate + PR). `/work-audit` provides quality gates at any point. Each phase skill loads work item context automatically. Journal entries record decisions at each transition.
+Five skills form the pipeline: `/work` (router) detects current phase from branch and manifest state. Four phase skills handle the lifecycle: Track (capture and scaffold) -> Implement (build or debug) -> Review (diff review with context) -> Ship (acceptance gate + PR). Quality gates are provided by `/system-health --scope`. Each phase skill loads work item context automatically. Journal entries record decisions at each transition.
 
 ## User Stories
 
@@ -85,7 +85,7 @@ THEN  a timestamped journal entry is appended to the work item's journal
 
 | Metric | Target | How Measured |
 |--------|--------|-------------|
-| Work item completeness | Every work item has PRD + ARCH + TEST-SPEC | /work-audit validates structure |
+| Work item completeness | Every work item has PRD + ARCH + TEST-SPEC | /system-health --scope validates structure |
 | Phase coverage | All 4 phases used for shipped items | Journal shows track -> implement -> review -> ship |
 | Acceptance gate hit rate | 100% of shipped items pass TEST-SPEC criteria | /work-ship validates before shipping |
 

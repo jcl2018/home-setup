@@ -12,22 +12,18 @@ bash scripts/validate-audit-spec.sh  # verify audit spec
 bash scripts/gen-docs.sh         # regenerate auto-docs
 ```
 
-Then run `/project:audit` in a Claude Code session for a full health + governance check.
+Then run `/system-health` in a Claude Code session for a full health + governance check.
 
 ## Documentation
 
-| Tier | What | Where |
-|------|------|-------|
-| **Design** | Why this exists | [docs/design/](docs/design/) |
-| | Principles + audit goals | See CLAUDE.md |
-| | Decision journal | [DECISIONS.md](docs/design/DECISIONS.md) |
-| | Traceability map | [traceability.md](docs/design/traceability.md) (auto-generated) |
-| **Operations** | How to use it | [docs/operations/](docs/operations/) |
-| | Skills cheatsheet | [SKILLS-CHEATSHEET.md](docs/operations/SKILLS-CHEATSHEET.md) |
-| | Commands & rules | [COMMANDS-AND-RULES.md](docs/operations/COMMANDS-AND-RULES.md) |
-| | Getting started | [getting-started.md](docs/operations/getting-started.md) |
-| | Skills reference | [skills-reference.md](docs/operations/skills-reference.md) (auto-generated) |
-| | Inspection baseline | [INSPECTION-BASELINE.md](docs/operations/INSPECTION-BASELINE.md) |
+| Category | What | Where |
+|----------|------|-------|
+| **Feature docs** | PRD + Architecture + Test Spec per feature | `docs/{family}/` |
+| **Generated** | Auto-built reference docs | [docs/generated/](docs/generated/) |
+| | Traceability map | [traceability.md](docs/generated/traceability.md) (auto-generated) |
+| | Skills reference | [skills-reference.md](docs/generated/skills-reference.md) (auto-generated) |
+| **Inspections** | Point-in-time audit snapshots | [docs/inspections/](docs/inspections/) |
+| **Principles** | Principles + audit goals | See CLAUDE.md |
 
 ## Upstream
 
