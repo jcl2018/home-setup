@@ -1,0 +1,3 @@
+[submodule "upstreams/claude-skills-templates"]
+	path = upstreams/claude-skills-templates
+	url = https://github.com/jcl2018/claude-skills-templates.git

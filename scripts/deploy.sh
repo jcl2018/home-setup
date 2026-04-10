@@ -25,11 +25,19 @@ echo "Target: $TARGET"
 $DRY_RUN && echo "Mode:   DRY RUN" || echo "Mode:   LIVE"
 echo ""
 
-# --- Templates sync ---
+# --- Submodule guard (P6: version-pinned content) ---
+UPSTREAM_CST="$REPO_ROOT/upstreams/claude-skills-templates"
+if [ ! -f "$UPSTREAM_CST/skills/work/SKILL.md" ]; then
+  echo "ERROR: submodule upstreams/claude-skills-templates is not initialized."
+  echo "Run: git submodule update --init --recursive"
+  exit 1
+fi
+
+# --- Templates sync (from version-pinned content repo) ---
 echo "--- Templates sync ---"
-if [ -d "$REPO_ROOT/templates" ]; then
+if [ -d "$UPSTREAM_CST/templates" ]; then
   run mkdir -p "$TARGET/templates"
-  for f in "$REPO_ROOT"/templates/*.md; do
+  for f in "$UPSTREAM_CST"/templates/*.md; do
     [ -f "$f" ] || continue
     name=$(basename "$f")
     run cp "$f" "$TARGET/templates/$name"
@@ -40,14 +48,40 @@ if [ -d "$REPO_ROOT/templates" ]; then
     for f in "$TARGET"/templates/*.md; do
       [ -f "$f" ] || continue
       name=$(basename "$f")
-      if [ ! -f "$REPO_ROOT/templates/$name" ]; then
+      if [ ! -f "$UPSTREAM_CST/templates/$name" ]; then
         rm "$f"
         echo "  Removed obsolete: templates/$name"
       fi
     done
   fi
 else
-  echo "  Skipped: templates/ not found"
+  echo "  Skipped: templates/ not found in submodule"
+fi
+
+# --- Spec templates sync (from version-pinned content repo) ---
+echo ""
+echo "--- Spec templates sync ---"
+if [ -d "$UPSTREAM_CST/spec/templates" ]; then
+  run mkdir -p "$TARGET/spec/templates"
+  for f in "$UPSTREAM_CST"/spec/templates/*.md; do
+    [ -f "$f" ] || continue
+    name=$(basename "$f")
+    run cp "$f" "$TARGET/spec/templates/$name"
+    echo "  Copied: spec/templates/$name"
+  done
+  # Remove obsolete spec template files
+  if ! $DRY_RUN; then
+    for f in "$TARGET"/spec/templates/*.md; do
+      [ -f "$f" ] || continue
+      name=$(basename "$f")
+      if [ ! -f "$UPSTREAM_CST/spec/templates/$name" ]; then
+        rm "$f"
+        echo "  Removed obsolete: spec/templates/$name"
+      fi
+    done
+  fi
+else
+  echo "  Skipped: spec/templates/ not found in submodule"
 fi
 
 # --- Artifact manifests ---
@@ -95,16 +129,16 @@ for upstream_dir in "$REPO_ROOT"/skills/*/; do
   done
 done
 
-# --- Skill sync (custom) ---
+# --- Skill sync (version-pinned content: claude-skills-templates) ---
 echo ""
-echo "--- Skill sync (custom) ---"
-for skill_dir in "$REPO_ROOT"/.claude/skills/*/; do
+echo "--- Skill sync (version-pinned content) ---"
+for skill_dir in "$UPSTREAM_CST"/skills/*/; do
   [ -d "$skill_dir" ] || continue
   skill_name=$(basename "$skill_dir")
   run mkdir -p "$TARGET/skills/$skill_name"
   # Copy all files in the skill dir (SKILL.md + any references/)
   run cp -R "$skill_dir"/* "$TARGET/skills/$skill_name/" 2>/dev/null || true
-  echo "  Copied: .claude/skills/$skill_name"
+  echo "  Copied: upstreams/claude-skills-templates/skills/$skill_name"
 done
 
 # --- Bin script sync ---

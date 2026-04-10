@@ -3,7 +3,7 @@
   "contracts": [
     {
       "skill": "work",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Route the user to the right phase skill for their current work item",
       "must_produce": ["work item menu or phase skill invocation"],
       "must_not_do": ["mutate code directly", "create work items (work-track's job)"],
@@ -14,7 +14,7 @@
     },
     {
       "skill": "work-track",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Context-aware work item management: evidence synthesis, CRUD, and lifecycle",
       "must_produce": ["work item document with structured updates", "journal entries from git evidence"],
       "must_not_do": ["modify source code", "skip evidence scoping when synthesizing"],
@@ -25,7 +25,7 @@
     },
     {
       "skill": "work-implement",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Structured implementation with root-cause debugging, 4-phase lifecycle Phase 2",
       "must_produce": ["implementation with root cause analysis where needed", "journal entries tracking progress"],
       "must_not_do": ["fix without root cause investigation first (defects)", "skip hypothesis testing"],
@@ -36,7 +36,7 @@
     },
     {
       "skill": "work-review",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Code review wrapper that sets up work item context and delegates to /review",
       "must_produce": ["work item context summary", "journal entry recording review phase", "handoff block with review status"],
       "must_not_do": ["modify source code", "run the review itself (delegates to /review)"],
@@ -47,7 +47,7 @@
     },
     {
       "skill": "work-ship",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Ship wrapper that validates TEST-SPEC acceptance criteria and delegates to /ship",
       "must_produce": ["spec validation result", "journal entry recording ship phase", "handoff block with ship status"],
       "must_not_do": ["modify source code", "ship without validating specs (for items with TEST-SPEC)"],
@@ -58,7 +58,7 @@
     },
     {
       "skill": "align-feature-contract",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Compare a PRD + ARCHITECTURE + TEST-SPEC triplet against templates, check cross-doc traceability",
       "must_produce": ["per-doc template alignment report with PASS/FAIL/WARN per check", "cross-doc traceability summary"],
       "must_not_do": ["auto-fix without showing report first", "delete or rewrite user content during fixes"],
@@ -69,7 +69,7 @@
     },
     {
       "skill": "test-align-contract",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Unified test harness for /align-feature-contract: Tier 1 smoke + Tier 2 E2E",
       "must_produce": ["Tier 1 smoke test results per triplet family", "unified report with overall status"],
       "must_not_do": ["modify any doc files", "skip incomplete triplets without reporting them"],
@@ -113,7 +113,7 @@
     },
     {
       "skill": "system-health",
-      "source": "custom",
+      "source": "claude-skills-templates",
       "job": "Unified 9-layer health dashboard: config hygiene, governance, doc quality, deploy state",
       "must_produce": ["scored dashboard with per-layer results", "composite health score", "recommendations sorted by impact"],
       "must_not_do": ["auto-fix issues without confirmation", "skip deterministic checks", "replace /align-feature-contract logic"],

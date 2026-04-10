@@ -101,7 +101,7 @@ SKILLS_FILE="$TMPDIR/skills-reference.md"
   echo ""
 
   UPSTREAM_COUNT=$(jq '[.skills[] | select(.source == "gstack")] | length' "$CATALOG")
-  CUSTOM_COUNT=$(jq '[.skills[] | select(.source == "custom") | select(.status != "removed")] | length' "$CATALOG")
+  CUSTOM_COUNT=$(jq '[.skills[] | select(.source != "gstack" and .source != "waza") | select(.status != "removed")] | length' "$CATALOG")
   echo "**Total:** $((UPSTREAM_COUNT + CUSTOM_COUNT)) skills ($UPSTREAM_COUNT upstream, $CUSTOM_COUNT custom)"
   echo ""
 
@@ -116,7 +116,7 @@ SKILLS_FILE="$TMPDIR/skills-reference.md"
   echo ""
   echo "| Skill | Description | Dependencies |"
   echo "|-------|-------------|--------------|"
-  jq -r '.skills[] | select(.source == "custom") | select(.status != "removed") | "| /\(.name) | \(.description) | \(.dependencies | join(", ") // "none") |"' "$CATALOG"
+  jq -r '.skills[] | select(.source != "gstack" and .source != "waza") | select(.status != "removed") | "| /\(.name) | \(.description) | \(.dependencies | join(", ") // "none") |"' "$CATALOG"
 } > "$SKILLS_FILE"
 
 # --- Validate markdown links ---

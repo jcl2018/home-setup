@@ -75,7 +75,7 @@ fi
 # 7.5 Template coverage
 if [ -f "$REPO_ROOT/artifact-manifests.json" ] && command -v jq >/dev/null 2>&1; then
   ARTIFACT_TYPES=$(jq -r '.types[].required[]?.template // empty' "$REPO_ROOT/artifact-manifests.json" 2>/dev/null | sort -u | wc -l | tr -d ' ')
-  TEMPLATE_COUNT=$(find "$REPO_ROOT/templates" -name '*.md' -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
+  TEMPLATE_COUNT=$(find "$REPO_ROOT/upstreams/claude-skills-templates/templates" -name '*.md' -maxdepth 1 2>/dev/null | wc -l | tr -d ' ')
   check PASS "Template coverage" "$TEMPLATE_COUNT templates for $ARTIFACT_TYPES artifact types"
 else
   echo "[INFO] Template coverage: skipped (no artifact-manifests.json or jq)"
@@ -142,7 +142,7 @@ if command -v jq >/dev/null 2>&1 && [ -f "$REPO_ROOT/skills-catalog.json" ]; the
     HITS=$(grep -rl "$replaced_name" \
       "$REPO_ROOT"/docs/*/PRD.md "$REPO_ROOT"/docs/*/ARCHITECTURE.md "$REPO_ROOT"/docs/*/TEST-SPEC.md \
       "$REPO_ROOT"/scripts/*.sh \
-      "$REPO_ROOT"/.claude/skills/*/SKILL.md \
+      "$REPO_ROOT"/upstreams/claude-skills-templates/skills/*/SKILL.md \
       "$REPO_ROOT/CLAUDE.md" "$REPO_ROOT/README.md" \
       2>/dev/null | grep -v "skills-catalog.json" | grep -v "docs/inspections/" | head -5)
     if [ -n "$HITS" ]; then

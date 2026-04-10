@@ -12,39 +12,29 @@ home-setup/
 ├── audit-spec.json              <- audit goals + check-to-goal mappings
 ├── scripts/
 │   ├── deploy.sh                <- deploys repo -> ~/.claude/
+│   ├── skills-pull.sh           <- one-command submodule update for claude-skills-templates
 │   ├── health-checks.sh         <- deterministic checks for /health (layers 7, 9)
 │   ├── validate-audit-spec.sh   <- validates audit-spec.json coverage closure
 │   ├── validate-skill-contracts.sh <- validates skill-contracts.json schema + coverage
 │   └── gen-docs.sh              <- doc compiler: generates traceability + skills ref
-├── templates/                   <- doc templates (deployed to ~/.claude/templates/)
-│   ├── PRD-TEMPLATE.md
-│   ├── ARCHITECTURE-TEMPLATE.md
-│   ├── TEST-SPEC-TEMPLATE.md
-│   ├── TRACKER-TEMPLATE.md
-│   ├── RCA-TEMPLATE.md
-│   └── GENERATION-GUIDE.md
-├── skills/                      <- upstream SKILL.md files
+├── upstreams/
+│   └── claude-skills-templates/ <- git submodule (P6: version-pinned content you own)
+│       ├── skills/              <- custom skills (work pipeline + governance)
+│       ├── spec/templates/      <- type-specific templates
+│       └── templates/           <- legacy doc templates
+├── skills/                      <- upstream SKILL.md files (P2: don't edit)
 │   ├── bin/                     <- shell scripts some skills depend on
 │   ├── {name}/SKILL.md          <- flat upstream skills (from gstack)
 │   └── waza/                    <- second upstream (from tw93/Waza)
 │       └── health/              <- Waza health audit (P2, read-only)
 ├── .claude/
-│   ├── skills/                  <- custom skills (authored here)
-│   │   ├── work/                <- work item router (branch auto-detect + menu)
-│   │   ├── work-track/          <- evidence synthesis, CRUD, lifecycle, scaffolding
-│   │   ├── work-implement/      <- build-forward or debug-backward implementation
-│   │   ├── work-review/         <- code review wrapper -> /review
-│   │   ├── work-ship/           <- ship wrapper -> /ship
-│   │   ├── system-health/       <- unified 9-layer health dashboard
-│   │   ├── test-align-contract/ <- test harness for /align-feature-contract
-│   │   └── align-feature-contract/ <- doc triplet contract enforcement
 │   ├── hooks/                   <- Claude Code hooks
 │   │   └── post-commit-deploy.sh <- auto-deploys after git commit (P11)
 │   ├── rules/                   <- path-scoped rules (activate per file context)
 │   │   ├── upstream-skills.md   <- enforces P2 on skills/**
-│   │   ├── custom-skills.md     <- enforces P3 on .claude/skills/**
+│   │   ├── upstreams.md         <- enforces P6 on upstreams/**
+│   │   ├── custom-skills.md     <- P3 superseded, points to P6
 │   │   ├── deployable-files.md  <- enforces P11 on settings/**
-│   │   ├── templates.md         <- enforces template read-only
 │   │   ├── work-items.md        <- rules for work item files
 │   │   └── ...
 │   └── commands/                <- project slash commands
@@ -61,26 +51,30 @@ home-setup/
 │   └── inspections/             <- audit snapshots (auto-saved by /system-health)
 ├── CLAUDE.md                    <- this file
 ├── TODOS.md
-└── README.md
+├── README.md
+└── .gitmodules                  <- submodule references
 ```
 
 ## Principles
 
 - **P1: Single Source of Truth.** This repo owns what's shared. `~/.claude/` is a deployment.
 - **P2: Upstream Skills Are Copies.** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
-- **P3: Custom Skills Are Ours.** `.claude/skills/` contains skills we authored. Add to catalog.
+- **P3: Custom Skills Are Ours (SUPERSEDED).** Custom skills now live in claude-skills-templates repo, pinned via submodule at `upstreams/claude-skills-templates`. See P6.
 - **P5: Always-On Over Invocation.** Rules and CLAUDE.md beat skills for enforcing standards.
+- **P6: Version-Pinned Content.** `upstreams/` contains repos you own, pinned by submodule. Edit the source repo, then pull with `bash scripts/skills-pull.sh`. Unlike P2 (external upstreams), these are your own repos.
 - **P11: Deploy or It Didn't Happen.** Committed-but-not-deployed is a bug. Post-commit hook auto-deploys.
 
 ## Rules
 
-- **Deploy after changes.** After editing deployable files (skills/, settings/, .claude/skills/, templates/), run `bash scripts/deploy.sh`. A post-commit hook runs it automatically.
+- **New machine setup:** `git clone --recurse-submodules <url>` then `bash scripts/deploy.sh`. Or if already cloned: `git submodule update --init && bash scripts/deploy.sh`.
+- **Deploy after changes.** After editing deployable files (skills/, settings/, upstreams/), run `bash scripts/deploy.sh`. A post-commit hook runs it automatically.
+- **Pull skill updates.** After editing skills in claude-skills-templates, run `bash scripts/skills-pull.sh` in home-setup to bump the submodule and auto-deploy.
 - **Verify with /project:audit.** After any change, run `/project:audit` for unified health + governance check.
 - **Upstream skills are copies, not forks (P2).** Don't edit files in `skills/`. Re-copy from upstream on upgrade.
-- **Custom skills live in .claude/skills/ (P3).** Add to catalog, add contract, update cheatsheet.
+- **Custom skills live in claude-skills-templates (P6).** Edit in the source repo, pull with `bash scripts/skills-pull.sh`. Add to catalog + contracts when adding new skills.
 - **Doc compiler.** After editing `audit-spec.json`, `skills-catalog.json`, or `skill-contracts.json`, run `bash scripts/gen-docs.sh`.
 - **Contract validator.** After editing `skill-contracts.json`, run `bash scripts/validate-skill-contracts.sh`.
-- **Templates are source of truth.** Templates in `templates/` are deployed to `~/.claude/templates/`. After editing, run `bash scripts/deploy.sh`.
+- **Templates are source of truth.** Current templates in `spec/templates/` are deployed to `~/.claude/spec/templates/`. Legacy templates in `templates/` still deploy to `~/.claude/templates/` for backward compat. After editing, run `bash scripts/deploy.sh`.
 - **Work items are per-repo.** Work items live at `./work-items/` in each project repo, managed by the work-* skill family.
 
 ## Work Pipeline

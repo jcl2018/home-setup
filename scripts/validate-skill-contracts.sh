@@ -61,10 +61,10 @@ fi
 
 echo ""
 
-# --- Coverage check: active custom skills should have contracts ---
+# --- Coverage check: non-upstream skills should have contracts ---
 echo "--- Coverage Checks ---"
-custom_skills=$(jq -r '.skills[] | select(.source == "custom") | .name' "$CATALOG" | sort)
-contracted_skills=$(jq -r '.contracts[] | select(.source == "custom") | .skill' "$CONTRACTS" | sort)
+custom_skills=$(jq -r '.skills[] | select(.source != "gstack" and .source != "waza") | select(.status != "removed") | .name' "$CATALOG" | sort)
+contracted_skills=$(jq -r '.contracts[] | select(.source != "gstack" and .source != "waza") | .skill' "$CONTRACTS" | sort)
 
 missing=0
 while IFS= read -r skill; do
