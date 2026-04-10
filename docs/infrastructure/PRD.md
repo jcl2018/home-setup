@@ -10,7 +10,7 @@ author: chjiang
 
 ## Problem Statement
 
-Claude Code sessions load configuration from `~/.claude/`, but that directory has no version control, no audit trail, and no way to reproduce its state. When skills, or settings are edited directly in `~/.claude/`, changes are invisible and irreproducible. A repo owner needs a single source of truth that deploys deterministically to the runtime directory.
+Claude Code sessions load configuration from `~/.claude/`, but that directory has no version control, no audit trail, and no way to reproduce its state. When skills or settings are edited directly in `~/.claude/`, changes are invisible and irreproducible. A repo owner needs a single source of truth that deploys deterministically to the runtime directory.
 
 ## Mental Model
 

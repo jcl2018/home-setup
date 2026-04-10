@@ -6,11 +6,9 @@ paths:
 ---
 # D10: Docs Have Clear Lanes
 
-Each documentation file has one job. Check the lanes table in
-docs/design/PHILOSOPHY.md before adding content.
+Each documentation file has one job.
 
 Key assignments:
-- PHILOSOPHY.md: principles, audit goals, doc lanes
 - DECISIONS.md: decision journal entries
 - CLAUDE.md: layout tree, rules, machine config
 - README.md: orientation, links to doc tiers

@@ -47,7 +47,7 @@ HOME="$FAKE_HOME" bash "$DEPLOY" >/dev/null 2>&1 || true
 echo ""
 echo "--- Test 3: Skill sync ---"
 check "upstream skill deployed" "[ -f '$FAKE_HOME/.claude/skills/office-hours/SKILL.md' ]"
-check "custom skill deployed" "[ -d '$FAKE_HOME/.claude/skills/home-inspect' ]"
+check "custom skill deployed" "[ -d '$FAKE_HOME/.claude/skills/advisor' ]"
 
 # --- Test 4: Garbage collection ---
 echo ""
