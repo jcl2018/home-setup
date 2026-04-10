@@ -57,28 +57,6 @@
       "eval_mode": "structural"
     },
     {
-      "skill": "work-audit",
-      "source": "custom",
-      "job": "Unified doc quality check: tracking validation + /align-feature-contract + inline quality checks",
-      "must_produce": ["unified findings table in journal", "overall PASS/WARN/FAIL verdict"],
-      "must_not_do": ["modify code files", "auto-fix findings without user approval"],
-      "handoff": "User sees a scored report and knows what to fix",
-      "inputs": ["work item slug"],
-      "allowed_side_effects": ["writes findings to work item journal"],
-      "eval_mode": "behavioral"
-    },
-    {
-      "skill": "advisor",
-      "source": "custom",
-      "job": "Two-layer review: L1 strategic (per-family triplet quality) + L2 operational (system hygiene)",
-      "must_produce": ["per-family quality scores", "operational health table", "actionable suggestions"],
-      "must_not_do": ["modify code without user approval", "overlap with /audit deterministic findings"],
-      "handoff": "User has a prioritized list of improvements to consider",
-      "inputs": [],
-      "allowed_side_effects": ["writes snapshot to docs/inspections/"],
-      "eval_mode": "behavioral"
-    },
-    {
       "skill": "align-feature-contract",
       "source": "custom",
       "job": "Compare a PRD + ARCHITECTURE + TEST-SPEC triplet against templates, check cross-doc traceability",

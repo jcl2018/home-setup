@@ -35,8 +35,6 @@ home-setup/
 │   │   ├── work-implement/      <- build-forward or debug-backward implementation
 │   │   ├── work-review/         <- code review wrapper -> /review
 │   │   ├── work-ship/           <- ship wrapper -> /ship
-│   │   ├── work-audit/          <- unified doc quality check
-│   │   ├── advisor/             <- L1 strategic + L2 operational quality review
 │   │   ├── system-health/       <- unified 9-layer health dashboard
 │   │   ├── test-align-contract/ <- test harness for /align-feature-contract
 │   │   └── align-feature-contract/ <- doc triplet contract enforcement
@@ -50,8 +48,7 @@ home-setup/
 │   │   ├── work-items.md        <- rules for work item files
 │   │   └── ...
 │   └── commands/                <- project slash commands
-│       ├── deploy.md            <- /project:deploy
-│       └── audit.md             <- /project:audit
+│       └── deploy.md            <- /project:deploy
 ├── settings/                    <- permission baselines and overrides
 ├── docs/                        <- feature family doc triplets (PRD + ARCH + TEST-SPEC)
 │   ├── infrastructure/
